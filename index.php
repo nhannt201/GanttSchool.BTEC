@@ -7,10 +7,47 @@
 	
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>StudyNet App</title>
+    <title>Gantt School</title>
+	<style>
+
+	</style>
   </head>
   <body>
-    <h1>Hello, world!</h1>
+     <div class="container">
+    
+      
+		 <div class="col-12">
+          <!--<div class="col-4 pt-1">
+           aaa
+          </div>
+          <div class="col-4 text-center">
+          aaa
+          </div>
+          <div class="col-4 d-flex justify-content-end align-items-center">
+            aaaa
+          </div>-->
+		<!--<div class="card">
+		  <div class="card-header">SkyNet App</div>-->
+		  <div class="card-body">
+		  <div class="text-center">
+			<h1>Gantt School</h1><label>Work according to schedule</label>
+			<hr>
+			<div class="row">
+			<div class="col-12">
+			<h3>Sign in</h3><br>
+				<div class="text-center">
+					<button type="button" class="btn btn-danger btn-block btn-lg">Teacher</button><br>
+					<button type="button" class="btn btn-success btn-block btn-lg">Student</button><br>
+					<button type="button" class="btn btn-warning btn-block btn-lg">Parents</button>
+				</div>
+			</div>
+			</div>
+		  </div><hr>
+		  <div class=" text-center">© 2020 Gantt School</div>
+		
+
+      
+	  </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
