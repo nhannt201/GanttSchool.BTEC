@@ -11,7 +11,8 @@ $init = new Login();
 	
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Gantt School</title>
+    <link rel="stylesheet" href="css/theme.css">
+	<title>Gantt School</title>
 	<script type="text/javascript" src="js/login.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
@@ -57,7 +58,7 @@ $init = new Login();
 			<h1>Gantt School</h1><label>Work according to schedule</label>
 			<hr>
 			<div class="row">
-			<div class="col-12">
+			<div class="col-12 chieucao_tudong">	
 			<h3>Sign in</h3><br>
 				<div id="login_home">
 				<div class="text-center">
