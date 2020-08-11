@@ -6,10 +6,10 @@ class Init { //Khoi tao
     private $database = "gantt_school";
 	public function __construct() {
 		//Cau hinh connect SQL
-		//if(!isset($_SESSION)) {
-			//session_set_cookie_params(31536000,"/");
-		//	 session_start();
-		//}
+		if(!isset($_SESSION)) {
+			session_set_cookie_params(31536000,"/");
+			session_start();
+		}
 		if(!isset($this->db)){
 			$t=time();
 			$conn = mysqli_connect($this->hostname, $this->username, $this->password,$this->database);
@@ -31,3 +31,4 @@ class Init { //Khoi tao
 }
 
 require_once("post/login.php"); //Import function login
+require_once("get/get.php"); //Import function login

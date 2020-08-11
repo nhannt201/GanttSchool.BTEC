@@ -1,4 +1,5 @@
 <?php
+//File post nay de danh cho JS
 require_once("../inc/config.php");
 $login = new Login();
 if (isset($_POST['teacher_log'])) {
