@@ -1,21 +1,5 @@
 <?php
-require_once("inc/config.php");
-$login = new Login();
-if (isset($_POST['teacher_log'])) {
-	$user = isset($_POST['user']) ? $_POST['user'] : '';
-	$pass = isset($_POST['pass']) ? $_POST['pass'] : '';
-	$login->checklog(1, $user, $pass);
-}
-if (isset($_POST['student_log'])) {
-	$user = isset($_POST['user']) ? $_POST['user'] : '';
-	$pass = isset($_POST['pass']) ? $_POST['pass'] : '';
-	$login->checklog(2, $user, $pass);
-}
-if (isset($_POST['parent_log'])) {
-	$user = isset($_POST['user']) ? $_POST['user'] : '';
-	$pass = isset($_POST['pass']) ? $_POST['pass'] : '';
-	$login->checklog(3, $user, $pass);
-}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -72,8 +56,10 @@ if (isset($_POST['parent_log'])) {
 		  <div class="text-center">
 			<h1>Gantt School</h1><label>Work according to schedule</label>
 			<hr>
-			<div class="row">
+			<div id="main_app">
+			<div class="row">		
 			<div class="col-12 chieucao_tudong">	
+			
 			<h3>Sign in</h3><br>
 				<div id="login_home">
 				<div class="text-center">
@@ -82,6 +68,7 @@ if (isset($_POST['parent_log'])) {
 					<button type="button" class="btn btn-warning btn-block btn-lg" onClick="logClick(3)">Parents</button>
 				</div>
 				</div>
+			</div>
 			</div>
 			</div>
 		  </div><hr>

@@ -14,10 +14,13 @@ class Login extends Init {
 		if($check_log->num_rows == 1) {
 			//Login success, do something...
 			$row = $check_log->fetch_assoc();	
-			echo '<script> alert("Login with '.$row['name'].'!");</script>';
+			//echo '<script> alert("Login with '.$row['name'].'!");</script>';
+			//echo '<script>document.getElementById("main_app").innerHTML =  "Hello";</script>';
+			echo 1;
+			//Khuc nay se echo Javascript
 		} else {
 			//Can't login, do something...
-			echo '<script> alert("Fail!");</script>';
+			echo 0;
 		}
 	}
 }
