@@ -12,7 +12,7 @@
   var form_bt1 = '<button onClick="waitLog(1)" name="teacher_log" class="btn btn-primary">Login</button>'; // type="submit"
   var form_bt2 = '<button onClick="waitLog(2)" name="student_log" class="btn btn-primary">Login</button>';
   var form_bt3 = '<button onClick="waitLog(3)" name="parent_log" class="btn btn-primary">Login</button>';
-  var form_end = '<button class="btn btn-warning" onClick="logClick(4)">Change</button>\
+  var form_end = '&nbsp;<button class="btn btn-warning" onClick="logClick(4)">Change</button>\
 </div>';
 	var log_section = '<div class="text-center">\
 					<button type="button" class="btn btn-danger btn-block btn-lg" onClick="logClick(1)">Teacher</button><br>\
