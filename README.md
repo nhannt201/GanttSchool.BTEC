@@ -1,7 +1,8 @@
 # GanttSchool.BTEC
-Dự án nghiên cứu tham gia ResFes FPT Edu 2020 
+Project research for ResFes FPT Edu 2020 
 Members: 
-- Nguyen Trung Nhan
+- Nguyen Trung Nhan (nhanntbsaf190011@fpt.edu.vn)
 - Phan Vinh Hai
 - Tran Van Tai
 - Bui Duc Minh
+- Ha Thi Kieu Anh
