@@ -47,7 +47,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 	  <h2>Gantt School</h2>
 	  <div id="welcome_to">Welcome, '.$name.'!
 	  </div>
-	  <br><div id="warming" class="text-center"></div>
+	  <br>
 	  <ul class="nav nav-tabs">
 		<li class="nav-item">
 		  <a class="nav-link active" data-toggle="tab" href="#home">New Job</a>
@@ -71,6 +71,26 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  '.getHome::getMyUser().'
 		</div>
 		</div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="msgbox" tabindex="-1" role="dialog" aria-labelledby="thongbaone"
+	  aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="thongbaone">Notification</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div class="modal-body" id="warming">
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		  </div>
+		</div>
+	  </div>
 	</div>';
 	}
 	
@@ -83,7 +103,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			  <div class="form-group mx-sm-3 mb-2">
 				<input type="text" class="form-control" id="nameNewJob" placeholder="Job 1">
 			  </div>&nbsp;
-			  <button onClick="addNameJobToList()" class="btn btn-primary mb-2">Add</button>
+			  <button onClick="addNameJobToList()" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2">Add</button>
 			</div>
 		  '.getHome::getListAdd();
 	}
