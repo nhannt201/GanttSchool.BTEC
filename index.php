@@ -38,31 +38,32 @@
 			<?php
 		session_start();
 		if (isset($_SESSION['teacher_log'])) {
-			echo '<script type="text/javascript">
-			document.getElementById("full_page").innerHTML =  main_teacher_tab + tab_t1 + tab_t2 + tab_t3 + close_t_tab;
+			echo '<script type="text/javascript" src="js/action.js"></script>
+			<script type="text/javascript">
+			document.getElementById("full_page").innerHTML = "Loading...";	
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				
 			  if (this.readyState == 4 && this.status == 200) {
-				document.getElementById("welcome_to").innerHTML = "Welcome, " + this.responseText + "!";
+				document.getElementById("full_page").innerHTML = this.responseText;
 			  }
 			};
-			xhttp.open("GET", "get/getName.php", true);
+			xhttp.open("GET", "get/getHTML.php?teacher=true", true);
 			xhttp.send();
 			</script>';
 		}
 		
 		if (isset($_SESSION['student_log'])) {
 			echo '<script type="text/javascript">
-			document.getElementById("full_page").innerHTML =  main_student_tab + tab_s1 + tab_s2 + tab_s3 + close_s_tab;
+			document.getElementById("full_page").innerHTML = "Loading...";	
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				
 			  if (this.readyState == 4 && this.status == 200) {
-				document.getElementById("welcome_to").innerHTML = "Welcome, " + this.responseText + "!";
+				document.getElementById("full_page").innerHTML = this.responseText;
 			  }
 			};
-			xhttp.open("GET", "get/getName.php", true);
+			xhttp.open("GET", "get/getHTML.php?student=true", true);
 			xhttp.send();
 			</script>';
 		}

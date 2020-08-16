@@ -26,13 +26,13 @@ class Login extends Init {
 				case 2:
 					if (!isset($_SESSION['student_log'])) {
 						$_SESSION['student_log'] = $row['name'];
-						$_SESSION['student_log'] = $row['username'];
+						$_SESSION['student_user'] = $row['username'];
 					}
 					break;
 				case 3:
 					if (!isset($_SESSION['parent_log'])) {
 						$_SESSION['parent_log'] = $row['name'];
-						$_SESSION['parent_log'] = $row['username'];
+						$_SESSION['parent_user'] = $row['username'];
 					}
 					break;
 			}
