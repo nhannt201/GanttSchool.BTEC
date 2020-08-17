@@ -13,10 +13,10 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			  <a class="nav-link active" data-toggle="tab" href="#home">My Job</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link" data-toggle="tab" href="#menu1">Manager</a>
+			  <a class="nav-link" data-toggle="tab" href="#menu1">Manage</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link" data-toggle="tab" href="#menu2">My User</a>
+			  <a class="nav-link" data-toggle="tab" href="#menu2">Account</a>
 			</li>
 		  </ul>
 		  <div class="tab-content">
@@ -53,10 +53,10 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  <a class="nav-link active" data-toggle="tab" href="#home">New Job</a>
 		</li>
 		<li class="nav-item">
-		  <a class="nav-link" data-toggle="tab" href="#menu1">Manager</a>
+		  <a class="nav-link" data-toggle="tab" href="#menu1">Manage</a>
 		</li>
 		<li class="nav-item">
-		  <a class="nav-link" data-toggle="tab" href="#menu2">My User</a>
+		  <a class="nav-link" data-toggle="tab" href="#menu2">Account</a>
 		</li>
 	  </ul>
 	  
@@ -71,9 +71,57 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  '.getHome::getMyUser().'
 		</div>
 		</div>
-	</div>
-
-	<!-- Modal -->
+	</div>'.getHome::getMsgbox();
+	}
+	
+	private function getNewJob() {
+		return '<h3>Create a new job</h3>
+			  <div class="form-group mx-sm-3 mb-2">
+				<label>New job name</label>
+				<input type="text" class="form-control" id="nameNewJob" placeholder="Job 1" required>
+			  </div>
+			  <div class="form-group mx-sm-3 mb-2">
+				<label>Job start day</label>
+				<input type="date" class="form-control" id="startNewJob" required>
+			  </div>
+			  <div class="form-group mx-sm-3 mb-2">
+				<label>Job end day</label>
+				<input type="date" class="form-control" id="endNewJob" placeholder="" required>
+			  </div>
+			  <div class="form-group mx-sm-3 mb-2">
+				<button onClick="addNameJobToList()" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2 float-right">Add</button>
+			   </div>
+		  '.getHome::getListAdd();
+	}
+	
+	private function getListAdd(){
+		$get = new Teacher();
+		return '<br><h3>Add job child</h3> <div class="form-group mx-sm-3 mb-2">
+				<label for="jobLSAD">Jobs list (Choose a job)</label>
+				<select class="form-control" id="jobLSAD"> <!--onClick="clickSelectJob()"-->
+					'.$get->getNewJob(0).'
+				</select>
+			  </div>
+			  <!--<div id="chosening"></div>-->
+			  <div class="form-group mx-sm-3 mb-2">
+			  <button onClick="clickSelectJob_AddChildJob()" data-toggle="modal" data-target="#addjobchild" class="btn btn-primary mb-2 float-right">Add job child</button>
+			  </div>';
+	}
+	
+	
+	private function getManagerJob() {
+		$get = new Teacher();
+		return '<div class="list-group" id="lsJobManage">'.$get->getNewJob(1).'</div>'; //<span class="badge badge-primary badge-pill">14</span>
+	}
+	
+	//Phan chung, general
+	
+	public function getMyUser() {
+		return '<div class="float-right"><button onClick="logout()" class="btn btn-danger">Logout</button></div>';
+	}
+	
+	public function getMsgbox() {
+		return '<!-- Modal Msgbox-->
 	<div class="modal fade" id="msgbox" tabindex="-1" role="dialog" aria-labelledby="thongbaone"
 	  aria-hidden="true">
 	  <div class="modal-dialog" role="document">
@@ -91,50 +139,35 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  </div>
 		</div>
 	  </div>
-	</div>';
-	}
-	
-	private function getNewJob() {
-		return '<h3>Create a new job</h3>
-			<div class="form-inline">
-			  <div class="form-group mb-2">
-				<label>New job name</label>
-			  </div>
-			  <div class="form-group mx-sm-3 mb-2">
-				<input type="text" class="form-control" id="nameNewJob" placeholder="Job 1">
-			  </div>&nbsp;
-			  <button onClick="addNameJobToList()" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2">Add</button>
-			</div>
-		  '.getHome::getListAdd();
-	}
-	
-	private function getListAdd(){
-		return ' <div class="form-group">
-				<label for="jobLSAD">Jobs list</label>
-				<select class="form-control" id="jobLSAD">
-				  <option>1</option>
-				  <option>2</option>
+	</div>
+	<!-- Modal Add job child-->
+	<div class="modal fade" id="addjobchild" tabindex="-1" role="dialog" aria-labelledby="inoutnhap"
+	  aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="inoutnhap">Add job child</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div class="modal-body">
+				<!--Content-->
+					<div class="form-group mx-sm-3 mb-2">
+				<div id="select_name"></div>
+				<input type="text" class="form-control" id="nameNewJobChild" placeholder="Do something...more than 4 characters" required>
+				<br><label for="jobLSAD">Jobs child list</label>
+				<select class="form-control" id="jobChildLS">
 				</select>
-			  </div>';
-	}
-	
-	
-	private function getManagerJob() {
-		return '<div class="list-group">
-		  <button type="button" class="list-group-item list-group-item-action">
-			Cras justo odio
-			<span class="badge badge-primary badge-pill">14</span>
-		  </button>
-		  <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in <span class="badge badge-primary badge-pill">14</span></button>
-		  <button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
-		  <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
-		  <button type="button" class="list-group-item list-group-item-action" disabled>Vestibulum at eros</button>
-		</div>';
-	}
-	
-	//Phan chung, general
-	
-	public function getMyUser() {
-		return '<div class="float-right"><button onClick="logout()" class="btn btn-danger">Logout</button></div>';
+			  </div>
+				<!--End content-->
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary" onClick="clickAddChildJob()">Add</button>
+		  </div>
+		</div>
+	  </div>
+	</div>';
 	}
 }
