@@ -8,15 +8,19 @@ function addNameJobToList() { //Them ten cong viec moi vao danh sach
 	//So sanh date
 	var xx = new Date(jobStart.value);
 	var y = new Date(jobEnd.value);
+	var emptydate = new Date('0000-00-00');
 	//Ket thuc ss
 	var x = document.getElementById("jobLSAD");
 	var option = document.createElement("option");
 	var getWarming = document.getElementById("warming");
 	if (jobName.value.length < 4) {
 		getWarming.innerHTML = 'The job name is too short!';
-	} else if (y < xx) { //neu ngay end > start
+	} else if (y < xx) { //neu ngay end > start //
 		getWarming.innerHTML = 'The end date must be greater than the start date!';
+	}  else if ((y || xx) == "Invalid Date") { //neu bo trong ngay 
+		getWarming.innerHTML = 'Not be empty date!';
 	} else {
+		//alert(xx);
 		//getWarming.style.display = "block"; //Hide thi warming div
 		getWarming.innerHTML = 'New jobs added to the list!.'; 
 		//<button onClick="hiddenWarming()" class="btn-sm btn-danger text-center">Close alert</button>
