@@ -47,6 +47,11 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 	  <h2>Gantt School</h2>
 	  <div id="welcome_to">Welcome, '.$name.'!
 	  </div>
+	  <div id="status_get" style="display: none;">
+		   <div class="progress">
+			  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+			</div>
+	  </div>
 	  <br>
 	  <ul class="nav nav-tabs">
 		<li class="nav-item">
@@ -133,6 +138,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			</button>
 		  </div>
 		  <div class="modal-body" id="warming">
+			Loading...
 		  </div>
 		  <div class="modal-footer">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -146,15 +152,15 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 	  <div class="modal-dialog" role="document">
 		<div class="modal-content">
 		  <div class="modal-header">
-			<h5 class="modal-title" id="xoacv">Warning!</h5>
+			<h5 class="modal-title" id="xoacv"><div id="title_warming_del">Warning!</div></h5>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			  <span aria-hidden="true">&times;</span>
 			</button>
 		  </div>
 		  <div class="modal-body" id="warming_del">
-		  
+			Loading...
 		  </div>
-		  <div class="modal-footer">
+		  <div class="modal-footer" id="change_bt_del">
 			<button type="button" onClick="delJobName()" class="btn btn-danger" data-dismiss="modal">Sure</button>
 		  </div>
 		</div>
@@ -182,7 +188,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			  </div>
 				<!--End content-->
 		  </div>
-		  <div class="modal-footer">
+		  <div class="modal-footer" id="change_bt_addJobChild">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			<button type="button" class="btn btn-primary" onClick="clickAddChildJob()">Add</button>
 		  </div>

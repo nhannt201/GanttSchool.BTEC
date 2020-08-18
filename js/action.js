@@ -66,6 +66,8 @@ function addButtonManagerLS(xxxx, id) {
 	 
 }
 
+
+
 //https://mdbootstrap.com/docs/jquery/modals/basic/ references
 function clickSelectJob_AddChildJob() {
 	const text_selct_name = document.getElementById("jobLSAD").selectedOptions[0].text; //get Text
@@ -82,8 +84,28 @@ function clickSelectJob_AddChildJob() {
 	xhttp.send();
 }
 
-function clickAddChildJob() {
-	var value_selct_name =  document.getElementById("jobLSAD").value; //job ID
+function Manage_AddChildJob(jobID) {
+	document.getElementById("change_bt_addJobChild").innerHTML = '<button type="button" onClick="getReturn(\'get/getChildJob.php?jobIDD='+jobID+'\', \'listChildJobClick\',\'\',\'<br>\');" class="btn btn-secondary" data-dismiss="modal">Close</button>\
+			<button type="button" class="btn btn-primary" onClick="clickAddChildJob('+jobID+')">Add</button>';
+	var value_selct_name =  jobID; //job ID
+	document.getElementById("select_name").innerHTML = "<label>New job name</label>";
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		
+	  if (this.readyState == 4 && this.status == 200) {
+		document.getElementById("jobChildLS").innerHTML =  this.responseText;
+	  }
+	};
+	xhttp.open("GET", "get/getChildJob.php?jobID=" + value_selct_name, true);
+	xhttp.send();
+}
+
+function clickAddChildJob(jobID="") {
+	if (jobID.length == 0) {
+		var value_selct_name =  document.getElementById("jobLSAD").value; //job ID
+	} else {
+		var value_selct_name =  jobID;
+	}
 	var jobChildName = document.getElementById("nameNewJobChild");
 	var x = document.getElementById("jobChildLS");
 	var option = document.createElement("option");
@@ -100,7 +122,6 @@ function clickAddChildJob() {
 		  if (this.readyState == 4 && this.status == 200) {
 			option.value = this.responseText;
 			x.value = this.responseText;
-
 		  }
 		};
 		xhttp.open("POST", "post/teacher.php", true);
@@ -111,31 +132,83 @@ function clickAddChildJob() {
 
 }
 
+
 function showJobDetaild(jobID) {
 	document.getElementById("lsJobManage").innerHTML = '<div id="jobNameClick"></div>\
 	<div id="listChildJobClick"></div><input type="text" style="display:none;" id="idJob" value="'+jobID+'"/>\
-	<div class="form-group mx-sm-3 mb-2"><button class="btn btn-warning" onClick="getReturn(\'get/getListJob.php\', \'lsJobManage\')">Change Job</button>\
-	<button class="btn btn-danger" onClick="getWMD('+jobID+')" data-toggle="modal" data-target="#deleteWM" >Delete this job</button></div>';	
-	 getReturn("get/getJobName.php?jobID=" + jobID, "jobNameClick", "<h3>", "</h3><hr>");
+	<div class="form-group mx-sm-3 mb-2"><button class="btn btn-warning py-2" onClick="getReturn(\'get/getListJob.php\', \'lsJobManage\')">Change Job</button>\
+	<button class="btn btn-danger py-2" onClick="getWMD('+jobID+')" data-toggle="modal" data-target="#deleteWM" >Delete this job</button>\
+	<button onClick="Manage_AddChildJob('+jobID+')" data-toggle="modal" data-target="#addjobchild" class="btn btn-primary py-2">Add job child</button></div>';
+	document.getElementById("listChildJobClick").innerHTML = "<p>Loading, please wait ...</p>";
+	 getReturn("get/getJobName.php?jobIDD=" + jobID, "jobNameClick", "<h3>", "</h3><hr>");
 	 getReturn("get/getChildJob.php?jobIDD=" + jobID, "listChildJobClick", '<div class="list-group" id="lsJobManage">', "</div><br>");
 }
 
 function getWMD(jobID) {
+	document.getElementById("title_warming_del").innerHTML = "Waring!";
 	 getReturn("get/getJobName.php?jobID=" + jobID, "warming_del", "Are you sure delete '<b>", "</b>'?");
 }
 function getReturn(url_get, idget, start="", end="") {
+	loading(1);
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		
 	  if (this.readyState == 4 && this.status == 200) {	
 			document.getElementById(idget).innerHTML =  start + this.responseText + end;
+			loading(0);
 	  }
 	};
 	xhttp.open("GET", url_get, true);
 	xhttp.send();
 }
+function clickChildLS(id_child) {
+	//Thay the button xoa childName
+	document.getElementById("title_warming_del").innerHTML = "Details";
+	document.getElementById("change_bt_del").innerHTML ='<button type="button" onClick="delChildJobName('+id_child+')" class="btn btn-danger" data-dismiss="modal">Delete</button>\
+	<button type="button" onClick="changeNamejobChild('+id_child+')" class="btn btn-primary" data-dismiss="modal">Change</button>';
+	getReturn("get/getChildJob.php?childName=" + id_child, "warming_del", '<label>Change child job name</label><br><input type=\"text\" class=\"form-control\" id=\"changeNameChildJob\" placeholder=\"Change name child job\" value=\"',
+	'" required/>');
+} 
+function changeNamejobChild(id_jobchild) {
+	loading(1);
+	var getContent =  document.getElementById("changeNameChildJob").value;
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		
+	  if (this.readyState == 4 && this.status == 200) {	
+			document.getElementById("ls_childnum_" +id_jobchild).innerHTML = getContent;
+			loading(0);
+	  }
+	};
+	xhttp.open("GET", "post/postwhere.php?num=3&childjobID=" + id_jobchild + "&content=" + getContent, true);
+	xhttp.send();
+}
+function delChildJobName(id_child) {
+	loading(1);
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		
+	  if (this.readyState == 4 && this.status == 200) {	
+			document.getElementById("ls_childnum_" +id_child).style.display = "none";
+			loading(0);
+	  }
+	};
+	xhttp.open("GET", "post/postwhere.php?num=2&childjobID=" + id_child, true);
+	xhttp.send();
+}
+function loading(num) {
+	switch (num) {
+		case 0:
+			document.getElementById("status_get").style.display = "none";
+		break;
+		case 1:
+			document.getElementById("status_get").style.display = "block";
+		break;	
+	}
+}
 
 function delJobName() {
+	loading(1);
 	var jobID = document.getElementById("idJob").value;
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {

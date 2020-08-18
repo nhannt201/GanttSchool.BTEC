@@ -39,7 +39,7 @@
 		if (isset($_SESSION['teacher_log'])) {
 			echo '<script type="text/javascript" src="js/action.js"></script>
 			<script type="text/javascript">
-			document.getElementById("full_page").innerHTML = "Loading...";	
+			document.getElementById("full_page").innerHTML = \'<div class="text-center"><br><br><span class="spinner-border spinner-border-sm"></span><label>Loading...</label></div>\';	
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				
@@ -54,7 +54,7 @@
 		
 		if (isset($_SESSION['student_log'])) {
 			echo '<script type="text/javascript">
-			document.getElementById("full_page").innerHTML = "Loading...";	
+			document.getElementById("full_page").innerHTML = \'<div class="text-center"><br><br><span class="spinner-border spinner-border-sm"></span><label>Loading...</label></div>\';	
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				

@@ -54,6 +54,7 @@ function logout() {
 	xhttp.send();
 }
 function waitLog(type) {
+
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -64,6 +65,7 @@ function waitLog(type) {
 			break;
 		case '1':
 			//document.getElementById("full_page").innerHTML =  main_student;//"Login success full!";
+			document.getElementById("main_app").innerHTML =  "<h4>Signing in...</h3>";
 			reload();
 			break;
 	 }

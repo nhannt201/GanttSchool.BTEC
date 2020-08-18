@@ -27,9 +27,14 @@ class Teacher extends Init {
 					$congdon .= '<option value="'.$row['jobID'].'">'.$row['jobName'].'</option>';
 				}
 				if ($type == 1) {
-					//Bo sung them cong viec con sau.
-					$congdon .= ' <button onClick="showJobDetaild('.$row['jobID'].')" class="list-group-item list-group-item-action">'.$row['jobName'].'
-					<span class="badge badge-primary badge-pill">'.Teacher::getNumChildJob($row['jobID']).'</span></button>';
+					$datecheck = ($row['jobEnd']);
+					if (($datecheck == date("Y-m-d")) || ($datecheck < date("Y-m-d"))) { //disabled
+						$congdon .= ' <button onClick="showJobDetaild('.$row['jobID'].')" class="list-group-item list-group-item-action ">'.$row['jobName'].' <mark>Deadline</mark>
+						<span class="badge badge-primary badge-pill">'.Teacher::getNumChildJob($row['jobID']).'</span></button>';
+					} else {
+						$congdon .= ' <button onClick="showJobDetaild('.$row['jobID'].')" class="list-group-item list-group-item-action">'.$row['jobName'].'
+						<span class="badge badge-primary badge-pill">'.Teacher::getNumChildJob($row['jobID']).'</span></button>';
+					}
 				}
 			}
 			if ($inko == 3) {
@@ -54,12 +59,27 @@ class Teacher extends Init {
 			echo $row['jobName'];				
 		}
 	}
+	function getJobNameDate($id) {
+		$query_it = "SELECT * FROM jobs WHERE jobID='$id'";
+		$check = $this->db->query($query_it);
+		if ($check->num_rows > 0) { 
+			$row = $check->fetch_assoc();
+			$date1 = date("d/m/Y", strtotime($row['jobStart']));
+			$date2 = date("d/m/Y", strtotime($row['jobEnd']));
+			echo $row['jobName']."<h6>Start: ".$date1."<br>End: ".$date2."</h6>";				
+		}
+	}
 	
 	function delJob($id) {
 		$query_it = "DELETE FROM jobs WHERE jobID='$id'";
 		$query_it2 = "DELETE FROM jobs_details WHERE jobID='$id'";
 		$this->db->query($query_it);
 		$this->db->query($query_it2);
+	}
+	
+	function delChildJob($id) {
+		$query_it = "DELETE FROM jobs_details WHERE details_id='$id'";
+		$this->db->query($query_it);
 	}
 	
 	function getChildJob($type, $jobID) {
@@ -72,10 +92,24 @@ class Teacher extends Init {
 					$congdon .= '<option value="'.$row['details_id'].'">'.$row['jobChildName'].'</option>';
 				}
 				if ($type == 1) {
-					$congdon .= ' <button type="button" onClick="'.$row['details_id'].'" class="list-group-item list-group-item-action">'.$row['jobChildName'].'</button>';
+					$congdon .= ' <button type="button" id="ls_childnum_'.$row['details_id'].'" onClick="clickChildLS('.$row['details_id'].')" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#deleteWM">'.$row['jobChildName'].'</button>';
 				}
 			}
 			echo $congdon;
 		}	
+	}
+	
+	function getChildName($jobchildID) {
+		$query_it = "SELECT * FROM jobs_details WHERE details_id='$jobchildID'";
+		$check = $this->db->query($query_it);
+		if ($check->num_rows > 0) { 
+			$row = $check->fetch_assoc();
+					echo $row['jobChildName'];
+		}	
+	}
+	
+	function updateChildName($jobchildID, $content) {
+		$query_it = "UPDATE jobs_details SET jobChildName='$content' WHERE details_id='$jobchildID'";
+		$this->db->query($query_it);		
 	}
 }
