@@ -50,11 +50,12 @@ function addNameJobToList() { //Them ten cong viec moi vao danh sach
 
 function addButtonManagerLS(xxxx, id) {
   //Create an button type dynamically.   
+   getReturn("get/getListJob.php" , "lsJobManage");
   var btn = document.createElement("BUTTON");
     var t = document.createTextNode(xxxx);
 
     btn.setAttribute("class","list-group-item list-group-item-action");
-	btn.setAttribute("onclick", id);
+	btn.setAttribute("onclick", "showJobDetaild(" + id + ")");
     btn.appendChild(t);
 
 	document.getElementById("lsJobManage").appendChild(btn);
@@ -103,4 +104,44 @@ function clickAddChildJob() {
 		xhttp.send("namejob=" + jobChildName.value + "&jobID=" + value_selct_name + "&submit_child=true");
 		jobChildName.value= "";
 	}
+
 }
+
+function showJobDetaild(jobID) {
+	document.getElementById("lsJobManage").innerHTML = '<div id="jobNameClick"></div>\
+	<div id="listChildJobClick"></div><input type="text" style="display:none;" id="idJob" value="'+jobID+'"/>\
+	<div class="form-group mx-sm-3 mb-2"><button class="btn btn-warning" onClick="getReturn(\'get/getListJob.php\', \'lsJobManage\')">Change Job</button>\
+	<button class="btn btn-danger" onClick="getWMD('+jobID+')" data-toggle="modal" data-target="#deleteWM" >Delete this job</button></div>';	
+	 getReturn("get/getJobName.php?jobID=" + jobID, "jobNameClick", "<h3>", "</h3><hr>");
+	 getReturn("get/getChildJob.php?jobIDD=" + jobID, "listChildJobClick", '<div class="list-group" id="lsJobManage">', "</div><br>");
+}
+
+function getWMD(jobID) {
+	 getReturn("get/getJobName.php?jobID=" + jobID, "warming_del", "Are you sure delete '<b>", "</b>'?");
+}
+function getReturn(url_get, idget, start="", end="") {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		
+	  if (this.readyState == 4 && this.status == 200) {	
+			document.getElementById(idget).innerHTML =  start + this.responseText + end;
+	  }
+	};
+	xhttp.open("GET", url_get, true);
+	xhttp.send();
+}
+
+function delJobName() {
+	var jobID = document.getElementById("idJob").value;
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		
+	  if (this.readyState == 4 && this.status == 200) {	
+			 getReturn("get/getListJob.php", "lsJobManage");
+			 getReturn("post/postwhere.php?num=1", "jobLSAD");
+	  }
+	};
+	xhttp.open("GET", "post/postwhere.php?num=0&jobID=" + jobID, true);
+	xhttp.send();
+}
+

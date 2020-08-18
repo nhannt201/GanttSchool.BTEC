@@ -1,6 +1,6 @@
 <?php //Dung lay ten da luu trong Session
 require_once("../inc/config.php");
-$login = new Get();
+$init = new Init();
 if (isset($_SESSION['teacher_log'])) {
 	$name = $_SESSION['teacher_log'];
 }

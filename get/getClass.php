@@ -140,6 +140,26 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		</div>
 	  </div>
 	</div>
+	<!-- Modal Delete Job-->
+	<div class="modal fade" id="deleteWM" tabindex="-1" role="dialog" aria-labelledby="xoacv"
+	  aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="xoacv">Warming!</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div class="modal-body" id="warming_del">
+		  
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" onClick="delJobName()" class="btn btn-danger" data-dismiss="modal">Sure</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
 	<!-- Modal Add job child-->
 	<div class="modal fade" id="addjobchild" tabindex="-1" role="dialog" aria-labelledby="inoutnhap"
 	  aria-hidden="true">
