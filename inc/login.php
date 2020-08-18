@@ -26,6 +26,7 @@ class Login extends Init {
 				case 2:
 					if (!isset($_SESSION['student_log'])) {
 						$_SESSION['student_log'] = $row['name'];
+						$_SESSION['student_id'] = $row['studentID']; //Phan nay lay ID hoc sinh.
 						$_SESSION['student_user'] = $row['username'];
 					}
 					break;

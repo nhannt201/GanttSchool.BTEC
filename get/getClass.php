@@ -3,14 +3,23 @@ require_once("../get/getName.php"); //Co ket noi CSDL
 class getHome extends Init{ //Thua ke ket noi CSDL
 	
 	public function getStudent($name_student) {
+		$student = new Student();
+		if (isset($_SESSION['student_id'])) {
+			$studentID = $_SESSION['student_id'];
+		}
 		echo '<div class="container mt-3">
 		  <h2>Gantt School</h2>
 		  <div id="welcome_to">Welcome, '.$name_student.'!
 		  </div>
+		  <div id="status_get" style="display: none;">
+		   <div class="progress">
+			  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+			</div>
+		  </div>
 		  <br>
 		  <ul class="nav nav-tabs">
 			<li class="nav-item">
-			  <a class="nav-link active" data-toggle="tab" href="#home">My Job</a>
+			  <a class="nav-link active" data-toggle="tab" href="#home">Course</a>
 			</li>
 			<li class="nav-item">
 			  <a class="nav-link" data-toggle="tab" href="#menu1">Manage</a>
@@ -21,6 +30,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  </ul>
 		  <div class="tab-content">
 			<div id="home" class="container tab-pane active"><br>
+			=>'.$student->getSubjectExist($studentID).'
 			 <div class="list-group">
 			  <button type="button" class="list-group-item list-group-item-action">
 				Cras justo odio
@@ -92,6 +102,18 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			  <div class="form-group mx-sm-3 mb-2">
 				<label>Job end day</label>
 				<input type="date" class="form-control" id="endNewJob" placeholder="" required>
+			  </div>
+			  <div class="form-group mx-sm-3 mb-2">
+				<label for="classRM">Classroom</label>
+				<select class="form-control" id="classRM">
+					
+				</select>
+			  </div>
+			  <div class="form-group mx-sm-3 mb-2">
+				<label for="subCS">Subject</label>
+				<select class="form-control" id="subCS">
+					
+				</select>
 			  </div>
 			  <div class="form-group mx-sm-3 mb-2">
 				<button onClick="addNameJobToList()" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2 float-right">Add</button>

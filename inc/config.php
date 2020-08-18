@@ -32,3 +32,4 @@ class Init { //Khoi tao
 
 require_once("login.php"); //Import function login
 require_once("teacher.php"); 
+require_once("student.php"); 
