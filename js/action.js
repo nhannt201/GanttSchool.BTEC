@@ -138,7 +138,7 @@ function showJobDetaild(jobID) {
 	<div id="listChildJobClick"></div><input type="text" style="display:none;" id="idJob" value="'+jobID+'"/>\
 	<div class="form-group mx-sm-3 mb-2"><button class="btn btn-warning py-2" onClick="getReturn(\'get/getListJob.php\', \'lsJobManage\')">Change Job</button>\
 	<button class="btn btn-danger py-2" onClick="getWMD('+jobID+')" data-toggle="modal" data-target="#deleteWM" >Delete this job</button>\
-	<button onClick="Manage_AddChildJob('+jobID+')" data-toggle="modal" data-target="#addjobchild" class="btn btn-primary py-2">Add job child</button></div>';
+	<hr><button onClick="Manage_AddChildJob('+jobID+')" data-toggle="modal" data-target="#addjobchild" class="btn btn-primary py-2">Add job child</button></div>';
 	document.getElementById("listChildJobClick").innerHTML = "<p>Loading, please wait ...</p>";
 	 getReturn("get/getJobName.php?jobIDD=" + jobID, "jobNameClick", "<h3>", "</h3><hr>");
 	 getReturn("get/getChildJob.php?jobIDD=" + jobID, "listChildJobClick", '<div class="list-group" id="lsJobManage">', "</div><br>");
