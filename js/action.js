@@ -148,6 +148,7 @@ function showJobDetaild(jobID) {
 
 function getWMD(jobID) {
 	document.getElementById("title_warming_del").innerHTML = "Waring!";
+	document.getElementById("change_bt_del").innerHTML = '<button type="button" onClick="delJobName()" class="btn btn-danger" data-dismiss="modal">Sure</button>';
 	 getReturn("get/getJobName.php?jobID=" + jobID, "warming_del", "Are you sure delete '<b>", "</b>'?");
 }
 function getReturn(url_get, idget, start="", end="") {
