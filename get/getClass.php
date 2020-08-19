@@ -39,10 +39,11 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			  <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 			</div>
 			<div id="menu2" class="container tab-pane fade"><br>
-			  '.getHome::getMyUser().'
+			  '.getHome::getMyUser().'<br>'.$student->getAccountInfo($studentID).'
 			</div></div>
 		</div>';
 	}
+	
 	//Phan nay danh xu ly cho giao vien
 	public function getTeacher($name) {
 		echo '<div class="container mt-3">

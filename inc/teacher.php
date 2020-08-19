@@ -18,7 +18,8 @@ class Teacher extends Init {
 	}
 	function getNewJob($type, $inko="") {
 		//if (isset($_SESSION['teacher_user'])) {
-		$query_it = "SELECT * FROM jobs";
+			$teacherID = $_SESSION['teacher_id'];
+		$query_it = "SELECT * FROM jobs WHERE teacherID='$teacherID'";
 		$check = $this->db->query($query_it);
 		if ($check->num_rows > 0) { 
 			$congdon = "";

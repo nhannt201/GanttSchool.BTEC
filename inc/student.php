@@ -25,6 +25,21 @@ class Student extends Init {
 		$row = $check->fetch_assoc();
 		return $row['subName'];
 	}
+	
+	function getAccountInfo($studentID) {
+		$query_it = "SELECT classroom.className, student_class.studentID
+		FROM classroom
+		INNER JOIN student_class ON classroom.classID=student_class.classID
+		WHERE studentID='$studentID'";
+		$check = $this->db->query($query_it);
+		$row = $check->fetch_assoc();
+		$info = "";
+		$info .= "Your class: <b>".$row['className']."</b><br>";
+		if (isset($_SESSION['student_log'])) {
+			$info .= "Your name: <b>".$_SESSION['student_log']."</b>";
+		}
+		return $info;
+	}
 	//Cai function nay chi de test thoi.
 	function getSubjectExist($studentID) {
 		//Noi hai bang lai voi nhau
