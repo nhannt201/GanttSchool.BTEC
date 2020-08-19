@@ -16,6 +16,10 @@ class Student extends Init {
 				$congdon .= " <button type=\"button\" class=\"list-group-item list-group-item-action\">".Student::getNameSubject($row['subID'])."</button>";
 			}
 			return $congdon;
+		} else {
+			return '<div class="alert alert-warning">
+					  You have not taken any courses yet!
+					</div>';
 		}
 	}
 	
@@ -34,7 +38,9 @@ class Student extends Init {
 		$check = $this->db->query($query_it);
 		$row = $check->fetch_assoc();
 		$info = "";
-		$info .= "Your class: <b>".$row['className']."</b><br>";
+		if (isset($row['className'])) {
+			$info .= "Your class: <b>".$row['className']."</b><br>";
+		}
 		if (isset($_SESSION['student_log'])) {
 			$info .= "Your name: <b>".$_SESSION['student_log']."</b>";
 		}
