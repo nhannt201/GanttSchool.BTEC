@@ -144,10 +144,25 @@ function showJobDetaild(jobID) {
 	document.getElementById("listChildJobClick").innerHTML = "<p>Loading, please wait ...</p>";
 	 getReturn("get/getJobName.php?jobIDD=" + jobID, "jobNameClick", "<h3>", "</h3><hr>");
 	 getReturn("get/getChildJob.php?jobIDD=" + jobID, "listChildJobClick", '<div class="list-group" id="lsJobManage">', "</div><br>");
+	//Set time check if cannot load.
+	  myVar = setTimeout(checkEmptyLoadingFor_showJobDetaild, 500);
+
+}
+
+function checkEmptyLoadingFor_showJobDetaild() {
+  var lsdChild = document.getElementById("listChildJobClick").innerHTML;
+   var jobNameClick = document.getElementById("jobNameClick").value;
+  if (lsdChild == "<p>Loading, please wait ...</p>") {
+	  getReturn("get/getChildJob.php?jobIDD=" + jobID, "listChildJobClick", '<div class="list-group" id="lsJobManage">', "</div><br>");
+  }
+  if (jobNameClick == "") {
+	  getReturn("get/getJobName.php?jobIDD=" + jobID, "jobNameClick", "<h3>", "</h3><hr>");
+  }
 }
 
 function getWMD(jobID) {
 	document.getElementById("title_warming_del").innerHTML = "Waring!";
+	document.getElementById("warming_del").innerHTML = "Loading...";
 	document.getElementById("change_bt_del").innerHTML = '<button type="button" onClick="delJobName()" class="btn btn-danger" data-dismiss="modal">Sure</button>';
 	 getReturn("get/getJobName.php?jobID=" + jobID, "warming_del", "Are you sure delete '<b>", "</b>'?");
 }
@@ -167,6 +182,7 @@ function getReturn(url_get, idget, start="", end="") {
 function clickChildLS(id_child) {
 	//Thay the button xoa childName
 	document.getElementById("title_warming_del").innerHTML = "Details";
+	document.getElementById("warming_del").innerHTML = "Loading...";
 	document.getElementById("change_bt_del").innerHTML ='<button type="button" onClick="delChildJobName('+id_child+')" class="btn btn-danger" data-dismiss="modal">Delete</button>\
 	<button type="button" onClick="changeNamejobChild('+id_child+')" class="btn btn-primary" data-dismiss="modal">Change</button>';
 	getReturn("get/getChildJob.php?childName=" + id_child, "warming_del", '<label>Change child job name</label><br><input type=\"text\" class=\"form-control\" id=\"changeNameChildJob\" placeholder=\"Change name child job\" value=\"',
@@ -225,3 +241,10 @@ function delJobName() {
 	xhttp.send();
 }
 
+//Student processing
+function clickJobNameStudent(subID, classID) {
+	//Chuyen Tab
+	//  $('.nav-tabs a[href="#menu1"]').tab('show');
+	getReturn("get/getGeneral.php?num=0&subID=" +subID+ "&classID=" +classID, "lstCourseStudent");
+	//getReturn("get/getGeneral.php?num=1&subID=" +subID, "nameSubjectClick","<h3>","</h3>");
+}

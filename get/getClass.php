@@ -30,8 +30,10 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  </ul>
 		  <div class="tab-content">
 			<div id="home" class="container tab-pane active"><br>
+			<div id="lstCourseStudent">
 			 <div class="list-group">
 			  '.$student->getSubjectStudent($studentID).'
+			</div>
 			</div>
 			</div>
 			<div id="menu1" class="container tab-pane fade"><br>

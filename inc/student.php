@@ -4,7 +4,7 @@ class Student extends Init {
 	
 	function getSubjectStudent($studentID) {
 		//Lay ID lop hoc
-		$query_it = "SELECT classroom.className, student_class.studentID, teacher_class.subID
+		$query_it = "SELECT classroom.className, student_class.studentID, teacher_class.subID, student_class.classID
 		FROM classroom
 		INNER JOIN student_class ON classroom.classID=student_class.classID
 		INNER JOIN teacher_class ON classroom.classID=teacher_class.classID
@@ -13,7 +13,16 @@ class Student extends Init {
 		if ($check->num_rows > 0) { 
 		$congdon = "";
 			while($row = $check->fetch_assoc()) {
-				$congdon .= " <button type=\"button\" class=\"list-group-item list-group-item-action\">".Student::getNameSubject($row['subID'])."</button>";
+				$subID = $row['subID'];
+				$classID = $row['classID'];
+				 if (Student::getQtyJobSubject($subID, $classID) > 0) { 
+					 $congdon .= " <button type=\"button\" onClick=\"clickJobNameStudent('".$subID."', ".$classID.")\" class=\"list-group-item list-group-item-action\">".Student::getNameSubject($subID)."
+					<span class=\"badge badge-primary badge-pill\">".Student::getQtyJobSubject($subID, $classID)."</span></button>";
+				 } else {
+					  $congdon .= " <button  type=\"button\" class=\"list-group-item list-group-item-action disabled\">".Student::getNameSubject($subID)."
+					<span class=\"badge badge-primary badge-pill\">".Student::getQtyJobSubject($subID, $classID)."</span></button>";
+				 }
+				
 			}
 			return $congdon;
 		} else {
@@ -23,13 +32,40 @@ class Student extends Init {
 		}
 	}
 	
-	function getNameSubject($subID) {
-		$query_it = "SELECT * FROM subject WHERE subID='$subID'";
+	function getQtyJobSubject($subID, $classID) {
+		$query_it = "SELECT * FROM jobs WHERE subID='$subID' and classID='$classID'";
 		$check = $this->db->query($query_it);
-		$row = $check->fetch_assoc();
-		return $row['subName'];
+		return $check->num_rows;
 	}
 	
+	function getJobNameClickSubject($subID, $classID) {
+		$query_it = "SELECT * FROM jobs WHERE subID='$subID' and classID='$classID'";
+		$check = $this->db->query($query_it);
+		if ($check->num_rows > 0) {
+		$congdon = "<h3>".Student::getNameSubject($subID)."</h3><hr><div class=\"list-group\">";
+			 while($row = $check->fetch_assoc()) {
+				 $congdon .= " <button type=\"button\" onClick=\"clickChildLS(".$row['jobID'].")\" class=\"list-group-item list-group-item-action\">".($row['jobName'])."
+				 <span class=\"badge badge-primary badge-pill\">".Student::getNumChildJob($row['jobID'])."</span></button>";
+			 }
+		echo $congdon."</div>";
+		}
+	}
+	function getNumChildJob($jobID) {
+		$query = "SELECT * FROM jobs_details WHERE jobID='$jobID'";
+		$check = $this->db->query($query);
+		return $check->num_rows;
+	}
+	function getNameSubject($subID, $type="") {
+		$query_it = "SELECT * FROM subject WHERE subID='$subID'";
+		$check = $this->db->query($query_it);
+		$row = $check->fetch_assoc();	
+		if ($type == 1) {
+			echo $row['subName'];
+		} else {
+			return $row['subName'];
+		}
+	}
+
 	function getAccountInfo($studentID) {
 		$query_it = "SELECT classroom.className, student_class.studentID
 		FROM classroom
@@ -46,6 +82,9 @@ class Student extends Init {
 		}
 		return $info;
 	}
+	
+	
+	//--------------------------------------------------------------------------------------------------------------
 	//Cai function nay chi de test thoi.
 	function getSubjectExist($studentID) {
 		//Noi hai bang lai voi nhau
