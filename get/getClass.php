@@ -37,8 +37,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			</div>
 			</div>
 			<div id="menu1" class="container tab-pane fade"><br>
-			  <h3>Menu 1</h3>
-			  <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+			  '.getHome::Manage_Jobs().'
 			</div>
 			<div id="menu2" class="container tab-pane fade"><br>
 			  '.getHome::getMyUser().'<br>'.$student->getAccountInfo($studentID).'
@@ -46,6 +45,11 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		</div>';
 	}
 	
+	private function Manage_Jobs() {
+		return "<div id=\"select_manage_job\"><div class=\"alert alert-warning\">
+					  You have not selected a Job.
+					</div></div>";
+	}
 	//Phan nay danh xu ly cho giao vien
 	public function getTeacher($name) {
 		echo '<div class="container mt-3">

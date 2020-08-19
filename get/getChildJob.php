@@ -1,6 +1,7 @@
 <?php
 require_once("../inc/config.php"); //Co ket noi CSDL
 $get = new Teacher();
+$student = new Student();
 if (isset($_GET['jobID'])) {
 	$idjob = $_GET['jobID'];
 	$get->getChildJob(0, $idjob); //Cho manage
@@ -8,6 +9,10 @@ if (isset($_GET['jobID'])) {
 if (isset($_GET['jobIDD'])) {
 	$idjob = $_GET['jobIDD'];
 	$get->getChildJob(1, $idjob); //In button
+}
+if (isset($_GET['jobID_Student'])) {
+	$idjob = $_GET['jobID_Student'];
+	$student->getChildJob(1, $idjob); //In button
 }
 if (isset($_GET['childName'])) {
 	$idjob = $_GET['childName'];

@@ -17,10 +17,10 @@ class Student extends Init {
 				$classID = $row['classID'];
 				 if (Student::getQtyJobSubject($subID, $classID) > 0) { 
 					 $congdon .= " <button type=\"button\" onClick=\"clickJobNameStudent('".$subID."', ".$classID.")\" class=\"list-group-item list-group-item-action\">".Student::getNameSubject($subID)."
-					<span class=\"badge badge-primary badge-pill\">".Student::getQtyJobSubject($subID, $classID)."</span></button>";
+					<span class=\"badge badge-primary badge-pill float-right\">".Student::getQtyJobSubject($subID, $classID)."</span></button>";
 				 } else {
 					  $congdon .= " <button  type=\"button\" class=\"list-group-item list-group-item-action disabled\">".Student::getNameSubject($subID)."
-					<span class=\"badge badge-primary badge-pill\">".Student::getQtyJobSubject($subID, $classID)."</span></button>";
+					<span class=\"badge badge-primary badge-pill float-right\">".Student::getQtyJobSubject($subID, $classID)."</span></button>";
 				 }
 				
 			}
@@ -44,11 +44,17 @@ class Student extends Init {
 		if ($check->num_rows > 0) {
 		$congdon = "<h3>".Student::getNameSubject($subID)."</h3><hr><div class=\"list-group\">";
 			 while($row = $check->fetch_assoc()) {
-				 $congdon .= " <button type=\"button\" onClick=\"clickChildLS(".$row['jobID'].")\" class=\"list-group-item list-group-item-action\">".($row['jobName'])."
-				 <span class=\"badge badge-primary badge-pill\">".Student::getNumChildJob($row['jobID'])."</span></button>";
+				 $datecheck = ($row['jobEnd']);
+				 if (($datecheck == date("Y-m-d")) || ($datecheck < date("Y-m-d"))) { //disabled
+					$congdon .= " <button type=\"button\" onClick=\"clickShowJobDetails_Tab(".$row['jobID'].")\" class=\"list-group-item list-group-item-action\"><mark>Deadline</mark> ".($row['jobName'])."
+					 (".Student::getJobNameDate($row['jobID'], 1).")<span class=\"badge badge-primary badge-pill float-right\">".Student::getNumChildJob($row['jobID'])."</span></button>";
+				 } else {
+					 $congdon .= " <button type=\"button\" onClick=\"clickShowJobDetails_Tab(".$row['jobID'].")\" class=\"list-group-item list-group-item-action\">".($row['jobName'])."
+					 (".Student::getJobNameDate($row['jobID'], 1).")<span class=\"badge badge-primary badge-pill float-right\">".Student::getNumChildJob($row['jobID'])."</span></button>";
+				 }
 			 }
 		echo $congdon."</div>";
-		}
+		} 
 	}
 	function getNumChildJob($jobID) {
 		$query = "SELECT * FROM jobs_details WHERE jobID='$jobID'";
@@ -63,6 +69,59 @@ class Student extends Init {
 			echo $row['subName'];
 		} else {
 			return $row['subName'];
+		}
+	}
+	
+	function getChildJob($type, $jobID) {
+		$query_it = "SELECT * FROM jobs_details WHERE jobID='$jobID'";
+		$check = $this->db->query($query_it);
+		if ($check->num_rows > 0) { 
+			$congdon = "<h3>".Student::getJobName($jobID)."</h3>".Student::getJobNameDate($jobID, 2)."<hr><div class=\"list-group\" id=\"lsJobManageStudent\">";
+			while($row = $check->fetch_assoc()) {
+				if ($type == 0) {
+					$congdon .= '<option value="'.$row['details_id'].'">'.$row['jobChildName'].'</option>';
+				}
+				if ($type == 1) {
+					$congdon .= ' <button type="button" id="ls_childnum_'.$row['details_id'].'" onClick="clickChildLS('.$row['details_id'].')" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#check_complete">
+					'.$row['jobChildName'].'</button>';
+				}
+			}
+			echo $congdon."</div>";
+		}	else {
+			echo '<div class="alert alert-warning">
+					  No child jobs!
+					</div>';
+		}
+	}
+	
+	function getJobName($id) {
+		$query_it = "SELECT * FROM jobs WHERE jobID='$id'";
+		$check = $this->db->query($query_it);
+		if ($check->num_rows > 0) { 
+			$row = $check->fetch_assoc();
+			return '('.$row['subID'].') '.$row['jobName'];				
+		}
+	}
+	
+	function getJobNameDate($jobID, $date) {
+		$query_it = "SELECT * FROM jobs WHERE jobID='$jobID'";
+		$check = $this->db->query($query_it);
+		if ($check->num_rows > 0) { 
+			$row = $check->fetch_assoc();
+			$date1 = date("d/m/Y", strtotime($row['jobStart']));
+			$date2 = date("d/m/Y", strtotime($row['jobEnd']));
+			//echo '('.$row['subID'].') '.$row['jobName']."<h6>Start: ".$date1."<br>End: ".$date2."</h6>";	
+			switch ($date) {
+				case 0:
+				return $date1;
+				break;
+				case 1:
+				return $date2;
+				break;
+				case 2:
+				return "<h6>Start: ".$date1."<br>End: ".$date2."</h6>";
+				break;
+			}
 		}
 	}
 

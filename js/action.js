@@ -149,6 +149,7 @@ function showJobDetaild(jobID) {
 
 }
 
+
 function checkEmptyLoadingFor_showJobDetaild() {
   var lsdChild = document.getElementById("listChildJobClick").innerHTML;
    var jobNameClick = document.getElementById("jobNameClick").value;
@@ -247,4 +248,10 @@ function clickJobNameStudent(subID, classID) {
 	//  $('.nav-tabs a[href="#menu1"]').tab('show');
 	getReturn("get/getGeneral.php?num=0&subID=" +subID+ "&classID=" +classID, "lstCourseStudent");
 	//getReturn("get/getGeneral.php?num=1&subID=" +subID, "nameSubjectClick","<h3>","</h3>");
+}
+
+function clickShowJobDetails_Tab(jobID) {
+	$('.nav-tabs a[href="#menu1"]').tab('show');
+	//document.getElementById("select_manage_job").innerHTML = "";
+	 getReturn("get/getChildJob.php?jobID_Student=" + jobID, "select_manage_job");
 }
