@@ -5,6 +5,8 @@ function addNameJobToList() { //Them ten cong viec moi vao danh sach
 	var ValueNamejob = document.getElementById("nameNewJob").value;
 	var jobStart = document.getElementById("startNewJob");
 	var jobEnd = document.getElementById("endNewJob");
+	var classroom = document.getElementById("classRM").value;
+	var subject = document.getElementById("subCS").value;
 	//So sanh date
 	var xx = new Date(jobStart.value);
 	var y = new Date(jobEnd.value);
@@ -40,7 +42,7 @@ function addNameJobToList() { //Them ten cong viec moi vao danh sach
 		};
 		xhttp.open("POST", "post/teacher.php", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp.send("namejob=" + jobName.value + "&Sjob=" + jobStart.value + "&Ejob=" + jobEnd.value + "&submit=true");
+		xhttp.send("namejob=" + jobName.value + "&Sjob=" + jobStart.value + "&Ejob=" + jobEnd.value + "&class=" + classroom + "&sub=" + subject + "&submit=true");
 		//Chon tu select
 		//option.value = jobName.value;	
 		//x.value = jobName.value;
@@ -199,10 +201,10 @@ function delChildJobName(id_child) {
 function loading(num) {
 	switch (num) {
 		case 0:
-			document.getElementById("status_get").style.display = "none";
+			document.getElementById("status_get").style.visibility = "hidden";
 		break;
 		case 1:
-			document.getElementById("status_get").style.display = "block";
+			document.getElementById("status_get").style.visibility = "visible";
 		break;	
 	}
 }

@@ -43,11 +43,13 @@ function reload() {
 	location.reload();
 }
 function logout() {
+	loading(1);
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		
 	  if (this.readyState == 4 && this.status == 200) {
 		reload();
+		loading(0);
 	  }
 	};
 	xhttp.open("GET", "get/outlog.php", true);

@@ -11,7 +11,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  <h2>Gantt School</h2>
 		  <div id="welcome_to">Welcome, '.$name_student.'!
 		  </div>
-		  <div id="status_get" style="display: none;">
+		  <div id="status_get" style="visibility:hidden;">
 		   <div class="progress">
 			  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
 			</div>
@@ -30,16 +30,8 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  </ul>
 		  <div class="tab-content">
 			<div id="home" class="container tab-pane active"><br>
-			=>'.$student->getSubjectExist($studentID).'
 			 <div class="list-group">
-			  <button type="button" class="list-group-item list-group-item-action">
-				Cras justo odio
-				<span class="badge badge-primary badge-pill">14</span>
-			  </button>
-			  <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in <span class="badge badge-primary badge-pill">14</span></button>
-			  <button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
-			  <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
-			  <button type="button" class="list-group-item list-group-item-action" disabled>Vestibulum at eros</button>
+			  '.$student->getSubjectStudent($studentID).'
 			</div>
 			</div>
 			<div id="menu1" class="container tab-pane fade"><br>
@@ -57,7 +49,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 	  <h2>Gantt School</h2>
 	  <div id="welcome_to">Welcome, '.$name.'!
 	  </div>
-	  <div id="status_get" style="display: none;">
+	  <div id="status_get" style="visibility:hidden;">
 		   <div class="progress">
 			  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
 			</div>
@@ -90,6 +82,8 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 	}
 	
 	private function getNewJob() {
+		$get = new Teacher();
+		$teacherID = isset($_SESSION['teacher_id']) ? $_SESSION['teacher_id'] : '';
 		return '<h3>Create a new job</h3>
 			  <div class="form-group mx-sm-3 mb-2">
 				<label>New job name</label>
@@ -106,13 +100,13 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			  <div class="form-group mx-sm-3 mb-2">
 				<label for="classRM">Classroom</label>
 				<select class="form-control" id="classRM">
-					
+					'.$get->getClassroom(0, $teacherID).'
 				</select>
 			  </div>
 			  <div class="form-group mx-sm-3 mb-2">
 				<label for="subCS">Subject</label>
 				<select class="form-control" id="subCS">
-					
+					'.$get->getSubjects(0, $teacherID).'
 				</select>
 			  </div>
 			  <div class="form-group mx-sm-3 mb-2">

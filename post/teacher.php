@@ -6,7 +6,9 @@ if (isset($_POST['submit'])) {
 	$name = $_POST['namejob'];
 	$dtS = $_POST['Sjob'];
 	$dtE = $_POST['Ejob'];
-	$add->addNewJob($name, $dtS, $dtE);
+	$sub = $_POST['sub'];
+	$class = $_POST['class'];
+	$add->addNewJob($name, $dtS, $dtE, $class, $sub);
 }
 if (isset($_POST['submit_child'])) {
 	$name = $_POST['namejob'];
