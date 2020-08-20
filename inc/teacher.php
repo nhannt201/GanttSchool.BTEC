@@ -31,10 +31,10 @@ class Teacher extends Init {
 					$datecheck = ($row['jobEnd']);
 					if (($datecheck == date("Y-m-d")) || ($datecheck < date("Y-m-d"))) { //disabled
 						$congdon .= ' <button onClick="showJobDetaild('.$row['jobID'].')" class="list-group-item list-group-item-action ">('.$row['subID'].') <mark>Deadline</mark> '.$row['jobName'].' 
-						<span class="badge badge-primary badge-pill">'.Teacher::getNumChildJob($row['jobID']).'</span></button>';
+						<span id="get_value_'.$row['jobID'].'" class="badge badge-primary badge-pill">'.Teacher::getNumChildJob($row['jobID']).'</span></button>';
 					} else {
 						$congdon .= ' <button onClick="showJobDetaild('.$row['jobID'].')" class="list-group-item list-group-item-action">('.$row['subID'].') '.$row['jobName'].'
-						<span class="badge badge-primary badge-pill">'.Teacher::getNumChildJob($row['jobID']).'</span></button>';
+						<span id="get_value_'.$row['jobID'].'" class="badge badge-primary badge-pill">'.Teacher::getNumChildJob($row['jobID']).'</span></button>';
 					}
 				}
 			}

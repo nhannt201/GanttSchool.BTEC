@@ -213,7 +213,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  </div>
 		  <div class="modal-footer" id="change_bt_addJobChild">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary" onClick="clickAddChildJob()">Add</button>
+			<button type="button" class="btn btn-primary" id="needchangonLick" onClick="clickAddChildJob(0)">Add</button>
 		  </div>
 		</div>
 	  </div>

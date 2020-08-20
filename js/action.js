@@ -74,6 +74,7 @@ function addButtonManagerLS(xxxx, id) {
 function clickSelectJob_AddChildJob() {
 	const text_selct_name = document.getElementById("jobLSAD").selectedOptions[0].text; //get Text
 	var value_selct_name =  document.getElementById("jobLSAD").value; //job ID
+	document.getElementById("needchangonLick").setAttribute("onClick", "clickAddChildJob("+value_selct_name+")");
 	document.getElementById("select_name").innerHTML = "<label>New job name (<b>" + text_selct_name + "</b>)</label>";
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
@@ -102,7 +103,7 @@ function Manage_AddChildJob(jobID) {
 	xhttp.send();
 }
 
-function clickAddChildJob(jobID="") {
+function clickAddChildJob(jobID=0) {
 	if (jobID.length == 0) {
 		var value_selct_name =  document.getElementById("jobLSAD").value; //job ID
 	} else {
@@ -124,6 +125,7 @@ function clickAddChildJob(jobID="") {
 		  if (this.readyState == 4 && this.status == 200) {
 			option.value = this.responseText;
 			x.value = this.responseText;
+			document.getElementById("get_value_" + jobID).innerHTML = Number(document.getElementById("get_value_" + jobID).innerHTML) + 1; 
 		  }
 		};
 		xhttp.open("POST", "post/teacher.php", true);

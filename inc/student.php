@@ -99,15 +99,23 @@ class Student extends Init {
 				if ($type == 0) {
 					$congdon .= '<option value="'.$row['details_id'].'">'.$row['jobChildName'].'</option>';
 				}
-				if ($type == 1) {				
-					if (!Student::checkStatusCompleteChildJob($row['details_id'])) {
-						$congdon .= '<button type="button" id="ls_childnum_'.$row['details_id'].'" onClick="clickDoJobChild('.$row['details_id'].')" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#clickDoJobStudent">
-						'.$row['jobChildName'].'</button>';
-					} else {
-						$congdon .= '<button type="button" id="ls_childnum_'.$row['details_id'].'"  class="list-group-item list-group-item-action">
-					'.$row['jobChildName'].'<span class="badge badge-primary badge-pill float-right">Completed - '.Student::checkStatusCompleteChildJob($row['details_id'], 0).'</span></button>';
-						$soluong_jobconcomplete++;
-					}
+				if ($type == 1) {
+						$deadline = Student::getJobNameDate($jobID, 1);
+						
+							if (!Student::checkStatusCompleteChildJob($row['details_id'])) {
+								if (($deadline == date("Y-m-d")) || ($deadline < date("Y-m-d"))) {
+									$congdon .= '<button type="button" id="ls_childnum_'.$row['details_id'].'" class="list-group-item list-group-item-action">
+									'.$row['jobChildName'].'<span class="badge badge-warning badge-pill float-right">Deadline</div></button>';
+								} else {
+									$congdon .= '<button type="button" id="ls_childnum_'.$row['details_id'].'" onClick="clickDoJobChild('.$row['details_id'].')" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#clickDoJobStudent">
+									'.$row['jobChildName'].'</button>';
+								}
+							} else {
+								$congdon .= '<button type="button" id="ls_childnum_'.$row['details_id'].'"  class="list-group-item list-group-item-action">
+							'.$row['jobChildName'].'<span class="badge badge-primary badge-pill float-right">Completed - '.Student::checkStatusCompleteChildJob($row['details_id'], 0).'</span></button>';
+								$soluong_jobconcomplete++;
+							}
+						
 				}
 				$soluong_jobcon++;
 			}
