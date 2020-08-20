@@ -246,8 +246,12 @@ function delJobName() {
 function clickJobNameStudent(subID, classID) {
 	//Chuyen Tab
 	//  $('.nav-tabs a[href="#menu1"]').tab('show');
-	getReturn("get/getGeneral.php?num=0&subID=" +subID+ "&classID=" +classID, "lstCourseStudent");
+	getReturn("get/getGeneral.php?num=0&subID=" +subID+ "&classID=" +classID, "lstCourseStudent", "", "<br>\
+	<button type=\"button\"  onClick=\"clickChangeCourse()\" class=\"btn btn-primary\">Change Course</button>");
 	//getReturn("get/getGeneral.php?num=1&subID=" +subID, "nameSubjectClick","<h3>","</h3>");
+}
+function clickChangeCourse() { //Click get lai Cac khoa hoc hien co.
+	getReturn("get/getGeneral.php?num=2", "lstCourseStudent");
 }
 
 function clickShowJobDetails_Tab(jobID) {

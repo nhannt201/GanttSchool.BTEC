@@ -16,6 +16,12 @@ if (isset($_GET['num'])) {
 				$subID = $_GET['subID'];
 				$student->getNameSubject($subID, 1);
 			}		
+		break;//getSubjectStudent
+		case 2:
+			//if ((isset($_GET['studentID']))) {
+				$studentID = $_SESSION['student_id'];
+				$student->getSubjectStudent($studentID , 0);
+			//}	
 		break;
 	}
 }

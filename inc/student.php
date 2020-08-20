@@ -2,7 +2,7 @@
 class Student extends Init {
 	
 	
-	function getSubjectStudent($studentID) {
+	function getSubjectStudent($studentID, $type=1) {
 		//Lay ID lop hoc
 		$query_it = "SELECT classroom.className, student_class.studentID, teacher_class.subID, student_class.classID
 		FROM classroom
@@ -24,7 +24,12 @@ class Student extends Init {
 				 }
 				
 			}
-			return $congdon;
+			if ($type == 0) {
+				echo $congdon;
+			} else {
+				return $congdon;
+			}
+			
 		} else {
 			return '<div class="alert alert-warning">
 					  You have not taken any courses yet!
