@@ -22,7 +22,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			  <a class="nav-link active" data-toggle="tab" href="#home">Course</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link" data-toggle="tab" href="#menu1">Manage</a>
+			  <a class="nav-link" data-toggle="tab" href="#menu1">Jobs</a>
 			</li>
 			<li class="nav-item">
 			  <a class="nav-link" data-toggle="tab" href="#menu2">Account</a>
