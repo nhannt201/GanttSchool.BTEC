@@ -167,14 +167,16 @@ function getWMD(jobID) {
 	document.getElementById("change_bt_del").innerHTML = '<button type="button" onClick="delJobName()" class="btn btn-danger" data-dismiss="modal">Sure</button>';
 	 getReturn("get/getJobName.php?jobID=" + jobID, "warming_del", "Are you sure delete '<b>", "</b>'?");
 }
-function getReturn(url_get, idget, start="", end="") {
+function getReturn(url_get, idget="", start="", end="") {
 	loading(1);
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		
 	  if (this.readyState == 4 && this.status == 200) {	
-			document.getElementById(idget).innerHTML =  start + this.responseText + end;
-			loading(0);
+			if (idget.length > 0) {
+				document.getElementById(idget).innerHTML =  start + this.responseText + end;
+				loading(0);
+			} else {loading(0);}
 	  }
 	};
 	xhttp.open("GET", url_get, true);
@@ -258,4 +260,27 @@ function clickShowJobDetails_Tab(jobID) {
 	$('.nav-tabs a[href="#menu1"]').tab('show');
 	//document.getElementById("select_manage_job").innerHTML = "";
 	 getReturn("get/getChildJob.php?jobID_Student=" + jobID, "select_manage_job");
+}
+
+function clickDoJobChild(job_details_id) {
+	document.getElementById("bt_dojob").innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>\
+			<button type="button" onClick="clickConfirmCompletedChildJob('+job_details_id+')" class="btn btn-primary" data-dismiss="modal">Confirm</button>';
+	getReturn("get/getGeneral.php?num=3&detail_id=" + job_details_id, "content_dojob", "Were you sure certain completed '<b>","</b>'?<br>After you had confirmed, you cannot change status!");
+}
+
+function clickConfirmCompletedChildJob(job_details_id) { //confirm_doChildJob
+	document.getElementById("ls_childnum_"+job_details_id).className = ("list-group-item list-group-item-action");
+	document.getElementById("ls_childnum_"+job_details_id).setAttribute("onClick", "");
+	document.getElementById("ls_childnum_"+job_details_id).setAttribute("data-toggle", "");
+	document.getElementById("ls_childnum_"+job_details_id).setAttribute("data-target", "");
+	var getTextofLS = document.getElementById("ls_childnum_"+job_details_id).innerHTML;
+	getReturn("get/getGeneral.php?num=4&confirm_doChildJob=" +job_details_id, "ls_childnum_"+job_details_id, getTextofLS + "<span class=\"badge badge-primary badge-pill float-right\">Completed - ", "</span>");
+	//Xuly progress
+	var get_total_pr = Number(document.getElementById("get_total_pr").value);
+	var get_now_pr = Number(document.getElementById("get_now_pr").value) + 1; //Tang len 1 gtri
+	document.getElementById("get_now_pr").value = get_now_pr;
+	var now_prs = Math.round((get_now_pr/get_total_pr)*100);
+	document.getElementById("progressxuly").setAttribute("style", "width: "+now_prs+"%");
+	document.getElementById("progressxuly").setAttribute("aria-valuenow", get_now_pr);
+	document.getElementById("status_progress").innerHTML = "<h3>Status: "+get_now_pr+"/" +get_total_pr+" ("+now_prs+"%)</h3>";
 }

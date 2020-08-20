@@ -42,7 +42,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			<div id="menu2" class="container tab-pane fade"><br>
 			  '.getHome::getMyUser().'<br>'.$student->getAccountInfo($studentID).'
 			</div></div>
-		</div>';
+		</div>'.getHome::getMsgbox();
 	}
 	
 	private function Manage_Jobs() {
@@ -214,6 +214,27 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  <div class="modal-footer" id="change_bt_addJobChild">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			<button type="button" class="btn btn-primary" onClick="clickAddChildJob()">Add</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<!--Check_Do_SV-->
+	<div class="modal fade" id="clickDoJobStudent" tabindex="-1" role="dialog" aria-labelledby="sv_click"
+	  aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="sv_click"><div>Confirm Completed</div></h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div class="modal-body" id="content_dojob">
+			Loading...
+		  </div>
+		  <div class="modal-footer" id="bt_dojob">
+			<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+			<!--<button type="button" onClick="clickConfirmCompletedChildJob()" class="btn btn-primary" data-dismiss="modal">Confirm</button>-->
 		  </div>
 		</div>
 	  </div>

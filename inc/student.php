@@ -66,6 +66,17 @@ class Student extends Init {
 		$check = $this->db->query($query);
 		return $check->num_rows;
 	}
+	
+	function getNameChildJob($details_id, $type=1) {
+		$query = "SELECT * FROM jobs_details WHERE details_id='$details_id'";
+		$check = $this->db->query($query);
+		$row = $check->fetch_assoc();
+		if ($type == 0):
+			echo $row['jobChildName'];
+		 else:
+			return $row['jobChildName'];
+		endif;
+	}
 	function getNameSubject($subID, $type="") {
 		$query_it = "SELECT * FROM subject WHERE subID='$subID'";
 		$check = $this->db->query($query_it);
@@ -82,16 +93,29 @@ class Student extends Init {
 		$check = $this->db->query($query_it);
 		if ($check->num_rows > 0) { 
 			$congdon = "<h3>".Student::getJobName($jobID)."</h3>".Student::getJobNameDate($jobID, 2)."<hr><div class=\"list-group\" id=\"lsJobManageStudent\">";
+			$soluong_jobcon = 0;
+			$soluong_jobconcomplete = 0;
 			while($row = $check->fetch_assoc()) {
 				if ($type == 0) {
 					$congdon .= '<option value="'.$row['details_id'].'">'.$row['jobChildName'].'</option>';
 				}
-				if ($type == 1) {
-					$congdon .= ' <button type="button" id="ls_childnum_'.$row['details_id'].'" onClick="clickChildLS('.$row['details_id'].')" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#check_complete">
-					'.$row['jobChildName'].'</button>';
+				if ($type == 1) {				
+					if (!Student::checkStatusCompleteChildJob($row['details_id'])) {
+						$congdon .= '<button type="button" id="ls_childnum_'.$row['details_id'].'" onClick="clickDoJobChild('.$row['details_id'].')" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#clickDoJobStudent">
+						'.$row['jobChildName'].'</button>';
+					} else {
+						$congdon .= '<button type="button" id="ls_childnum_'.$row['details_id'].'"  class="list-group-item list-group-item-action">
+					'.$row['jobChildName'].'<span class="badge badge-primary badge-pill float-right">Completed - '.Student::checkStatusCompleteChildJob($row['details_id'], 0).'</span></button>';
+						$soluong_jobconcomplete++;
+					}
 				}
+				$soluong_jobcon++;
 			}
-			echo $congdon."</div>";
+			$status_now_progress = round($soluong_jobconcomplete/$soluong_jobcon*100);
+			echo $congdon."</div><hr><div id=\"status_progress\"><h3>Status: $soluong_jobconcomplete/$soluong_jobcon ($status_now_progress%)</h3></div><div class=\"progress\">
+			  <div id=\"progressxuly\" class=\"progress-bar progress-bar-striped progress-bar-animated\" role=\"progressbar\" aria-valuenow=\"$soluong_jobconcomplete\" aria-valuemin=\"0\" aria-valuemax=\"$soluong_jobcon\" style=\"width: $status_now_progress%\"></div>
+			</div>";
+			echo '<br><div style="visibility:hidden;"><input type="number" id="get_total_pr" value="'.$soluong_jobcon.'" /><input type="number" id="get_now_pr" value="'.$soluong_jobconcomplete.'" /></div>';
 		}	else {
 			echo '<div class="alert alert-warning">
 					  No child jobs!
@@ -127,6 +151,39 @@ class Student extends Init {
 				return "<h6>Start: ".$date1."<br>End: ".$date2."</h6>";
 				break;
 			}
+		}
+	}
+	
+	function addDetailsJobCompletedStudent($jobChildID) {
+		if (isset($_SESSION['student_id'])) {
+			$studentID =  $_SESSION['student_id'];
+			$date = date("Y/m/d");
+			$jobID = Student::getJobIDFromJobDetails($jobChildID);
+			$query_it = "INSERT INTO student_jobs (details_id, jobID, studentID, jobDateComplete, status) VALUES ('$jobChildID', '$jobID', '$studentID', '$date', 1)";
+			$this->db->query($query_it);
+			echo Student::checkStatusCompleteChildJob($jobChildID, 0);
+		}		
+	}
+	
+	private function getJobIDFromJobDetails($jobdetailsID) {
+		$query_it = "SELECT * FROM jobs_details WHERE details_id='$jobdetailsID'";
+		$check = $this->db->query($query_it);
+		if ($check->num_rows > 0) { 
+			$row = $check->fetch_assoc();
+			return $row['jobID'];
+		}
+	}
+	
+	private function checkStatusCompleteChildJob($details_id, $type=1) {
+		if (isset($_SESSION['student_id'])) {
+			$studentID =  $_SESSION['student_id'];
+			$query_it = "SELECT * FROM student_jobs WHERE details_id='$details_id' and studentID='$studentID'";
+			$check = $this->db->query($query_it);		
+			if ($type == 0): 
+				return date("d/m/Y", strtotime($check->fetch_assoc()['jobDateComplete'])); //Lay ngay thang roi doi thu tu.
+			else:
+				return ($check->num_rows > 0) ? true : false;
+			endif;
 		}
 	}
 

@@ -23,5 +23,17 @@ if (isset($_GET['num'])) {
 				$student->getSubjectStudent($studentID , 0);
 			//}	
 		break;
+		case 3:
+			if ((isset($_GET['detail_id']))) {
+				$detail_id = $_GET['detail_id'];
+				$student->getNameChildJob($detail_id , 0);
+			}	
+		break;
+		case 4:
+			if ((isset($_GET['confirm_doChildJob']))) {
+				$confirm_doChildJob = $_GET['confirm_doChildJob'];
+				$student->addDetailsJobCompletedStudent($confirm_doChildJob);
+			}	
+		break;
 	}
 }
