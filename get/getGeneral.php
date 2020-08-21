@@ -1,6 +1,7 @@
 <?php
 require_once("../inc/config.php"); //Co ket noi CSDL
 $student = new Student();
+
 if (isset($_GET['num'])) {
 	$num = trim($_GET['num']);
 	switch ($num) {
@@ -35,5 +36,6 @@ if (isset($_GET['num'])) {
 				$student->addDetailsJobCompletedStudent($confirm_doChildJob);
 			}	
 		break;
+		
 	}
 }

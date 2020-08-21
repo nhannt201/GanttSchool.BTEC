@@ -52,6 +52,8 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 	}
 	//Phan nay danh xu ly cho giao vien
 	public function getTeacher($name) {
+		$get = new Teacher();
+		$teacherID = isset($_SESSION['teacher_id']) ? $_SESSION['teacher_id'] : '';
 		echo '<div class="container mt-3">
 	  <h2>Gantt School</h2>
 	  <div id="welcome_to">Welcome, '.$name.'!
@@ -82,7 +84,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  '.getHome::getNewJob().'
 		</div>
 		<div id="menu2" class="container tab-pane fade"><br>
-		  '.getHome::getMyUser().'
+		  '.getHome::getMyUser().'<br>'.$get->getAccountInfo($teacherID).'
 		</div>
 		</div>
 	</div>'.getHome::getMsgbox();

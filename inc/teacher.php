@@ -234,4 +234,14 @@ class Teacher extends Init {
 			return $congdon;
 		}	
 	}
+	
+	//Account
+	function getAccountInfo($teachID) {
+		$query = "SELECT * FROM teacher WHERE teacherID = '$teachID'";
+		$check = $this->db->query($query);
+		if ($check->num_rows > 0){
+			$row = $check->fetch_assoc();
+			return '<p>Your name: <b>'.$row['name'].'</b><br>';
+		} 
+	}
 }
