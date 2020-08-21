@@ -19,7 +19,9 @@ class Teacher extends Init {
 	function getNewJob($type, $inko="") {
 		//if (isset($_SESSION['teacher_user'])) {
 			$teacherID = $_SESSION['teacher_id'];
-		$query_it = "SELECT * FROM jobs WHERE teacherID='$teacherID'";
+		$query_it = "SELECT jobs.jobName, jobs.jobID, jobs.subID, jobs.jobEnd, classroom.className FROM jobs
+		INNER JOIN classroom ON jobs.classID=classroom.classID
+		WHERE teacherID='$teacherID'";
 		$check = $this->db->query($query_it);
 		if ($check->num_rows > 0) { 
 			$congdon = "";
@@ -30,11 +32,11 @@ class Teacher extends Init {
 				if ($type == 1) {
 					$datecheck = ($row['jobEnd']);
 					if (($datecheck == date("Y-m-d")) || ($datecheck < date("Y-m-d"))) { //disabled
-						$congdon .= ' <button onClick="showJobDetaild('.$row['jobID'].')" class="list-group-item list-group-item-action ">('.$row['subID'].') <mark>Deadline</mark> '.$row['jobName'].' 
-						<span id="get_value_'.$row['jobID'].'" class="badge badge-primary badge-pill">'.Teacher::getNumChildJob($row['jobID']).'</span></button>';
+						$congdon .= ' <button onClick="showJobDetaild('.$row['jobID'].')" class="list-group-item list-group-item-action ">('.$row['subID'].') '.$row['jobName'].' 
+						<span id="get_value_'.$row['jobID'].'" class="badge badge-primary badge-pill float-right">'.Teacher::getNumChildJob($row['jobID']).'</span><span class="badge badge-primary badge-pill float-right">'.$row['className'].'</span><span class="badge badge-warning badge-pill float-right">Deadline</span></button>';
 					} else {
 						$congdon .= ' <button onClick="showJobDetaild('.$row['jobID'].')" class="list-group-item list-group-item-action">('.$row['subID'].') '.$row['jobName'].'
-						<span id="get_value_'.$row['jobID'].'" class="badge badge-primary badge-pill">'.Teacher::getNumChildJob($row['jobID']).'</span></button>';
+						<span id="get_value_'.$row['jobID'].'" class="badge badge-primary badge-pill float-right">'.Teacher::getNumChildJob($row['jobID']).'</span><span class="badge badge-primary badge-pill float-right">'.$row['className'].'</span></button>';
 					}
 				}
 			}
@@ -50,6 +52,13 @@ class Teacher extends Init {
 		$query = "SELECT * FROM jobs_details WHERE jobID='$jobID'";
 		$check = $this->db->query($query);
 		return $check->num_rows;
+	}
+	
+	//Kiem tra so luong jobs detail hoc sinh da hoan tat.
+	function getAnalyticStudentCompleteFollowJobDetails($jobDetails) {
+		$query_it = "SELECT * FROM student_jobs WHERE details_id='$jobDetails'";
+		$check = $this->db->query($query_it);
+		//Chi tra ve so luong da lam, khong cho biet cu the la ai. Nhung se phan loai theo lop hoc
 	}
 	
 	function getJobName($id) {

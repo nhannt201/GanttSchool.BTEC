@@ -50,12 +50,20 @@ class Student extends Init {
 		$congdon = "<h3>".Student::getNameSubject($subID)."</h3><hr><div class=\"list-group\">";
 			 while($row = $check->fetch_assoc()) {
 				 $datecheck = ($row['jobEnd']);
+				 //Check Completed
+					if (Student::getIsComplete($row['jobID'])) {
+						$span_add = "<span class=\"badge badge-success badge-pill float-right\">Completed</span>";
+					} else {$span_add ="";};
+				 //Check Deadline
 				 if (($datecheck == date("Y-m-d")) || ($datecheck < date("Y-m-d"))) { //disabled
-					$congdon .= " <button type=\"button\" onClick=\"clickShowJobDetails_Tab(".$row['jobID'].")\" class=\"list-group-item list-group-item-action\"><mark>Deadline</mark> ".($row['jobName'])."
-					 (".Student::getJobNameDate($row['jobID'], 1).")<span class=\"badge badge-primary badge-pill float-right\">".Student::getNumChildJob($row['jobID'])."</span></button>";
+					
+						$congdon .= " <button type=\"button\" onClick=\"clickShowJobDetails_Tab(".$row['jobID'].")\" class=\"list-group-item list-group-item-action\">".($row['jobName'])."
+						(".Student::getJobNameDate($row['jobID'], 1).")<span class=\"badge badge-primary badge-pill float-right\">".Student::getNumChildJob($row['jobID'])."</span>
+						<span class=\"badge badge-warning badge-pill float-right\">Deadline</span>".$span_add."</button>";
+					
 				 } else {
 					 $congdon .= " <button type=\"button\" onClick=\"clickShowJobDetails_Tab(".$row['jobID'].")\" class=\"list-group-item list-group-item-action\">".($row['jobName'])."
-					 (".Student::getJobNameDate($row['jobID'], 1).")<span class=\"badge badge-primary badge-pill float-right\">".Student::getNumChildJob($row['jobID'])."</span></button>";
+					 (".Student::getJobNameDate($row['jobID'], 1).")<span class=\"badge badge-primary badge-pill float-right\">".Student::getNumChildJob($row['jobID'])."</span>".$span_add."</button>";
 				 }
 			 }
 		echo $congdon."</div>";
@@ -105,14 +113,14 @@ class Student extends Init {
 							if (!Student::checkStatusCompleteChildJob($row['details_id'])) {
 								if (($deadline == date("Y-m-d")) || ($deadline < date("Y-m-d"))) {
 									$congdon .= '<button type="button" id="ls_childnum_'.$row['details_id'].'" class="list-group-item list-group-item-action">
-									'.$row['jobChildName'].'<span class="badge badge-warning badge-pill float-right">Deadline</div></button>';
+									'.$row['jobChildName'].'<span class="badge badge-warning badge-pill float-right">Deadline</span></button>';
 								} else {
 									$congdon .= '<button type="button" id="ls_childnum_'.$row['details_id'].'" onClick="clickDoJobChild('.$row['details_id'].')" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#clickDoJobStudent">
 									'.$row['jobChildName'].'</button>';
 								}
 							} else {
 								$congdon .= '<button type="button" id="ls_childnum_'.$row['details_id'].'"  class="list-group-item list-group-item-action">
-							'.$row['jobChildName'].'<span class="badge badge-primary badge-pill float-right">Completed - '.Student::checkStatusCompleteChildJob($row['details_id'], 0).'</span></button>';
+							'.$row['jobChildName'].'<span class="badge badge-success badge-pill float-right">Completed - '.Student::checkStatusCompleteChildJob($row['details_id'], 0).'</span></button>';
 								$soluong_jobconcomplete++;
 							}
 						
@@ -128,6 +136,29 @@ class Student extends Init {
 			echo '<div class="alert alert-warning">
 					  No child jobs!
 					</div>';
+		}
+	}
+	
+	//Check da hoan tat cong viec do hay chua!
+	function getIsComplete($jobID, $type=0) {
+		$query_it = "SELECT * FROM jobs_details WHERE jobID='$jobID'";
+		$check = $this->db->query($query_it);
+		if ($check->num_rows > 0) {
+			//$soluong_jobcon = $check->num_rows ;
+			$soluong_jobconcomplete = 0;
+			while($row = $check->fetch_assoc()) {
+				if (Student::checkStatusCompleteChildJob($row['details_id'])) {
+					$soluong_jobconcomplete++;
+				}
+			}
+			return ($soluong_jobconcomplete == $check->num_rows) ? true : false;
+			/*if ($isComplete) {
+				if ($type == 1) {
+					echo "<span class=\"badge badge-primary badge-pill float-right\">Completed</span>";
+				} else {
+					return "<span class=\"badge badge-primary badge-pill float-right\">Completed</span>";
+				}
+			}*/
 		}
 	}
 	
