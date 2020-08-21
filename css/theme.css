@@ -2,5 +2,11 @@
 	height: 400px;
 }
 #home {
-	height: 600px;
+	height: 1000px;
 }
+
+.space_free {
+	height: 400px;
+}
+
+/*Khoang cach giua cac button ml-1 => https://getbootstrap.com/docs/4.0/utilities/spacing/*/

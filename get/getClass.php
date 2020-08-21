@@ -67,7 +67,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  <a class="nav-link active" data-toggle="tab" href="#home">New Job</a>
 		</li>
 		<li class="nav-item">
-		  <a class="nav-link" data-toggle="tab" href="#menu1">Manage</a>
+		  <a class="nav-link" data-toggle="tab" onClick="getReturn(\'get/getListJob.php\', \'lsJobManage\');" href="#menu1">Manage</a>
 		</li>
 		<li class="nav-item">
 		  <a class="nav-link" data-toggle="tab" href="#menu2">Account</a>
@@ -76,7 +76,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 	  
 	  <div class="tab-content">
 		<div id="menu1" class="container tab-pane fade"><br>
-		 '.getHome::getManagerJob().'
+		 '.getHome::getManagerJob().'<div class="space_free"></div>
 		</div>
 		<div id="home" class="container tab-pane active"><br>
 		  '.getHome::getNewJob().'

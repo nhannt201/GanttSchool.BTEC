@@ -140,9 +140,9 @@ function clickAddChildJob(jobID=0) {
 function showJobDetaild(jobID) {
 	document.getElementById("lsJobManage").innerHTML = '<div id="jobNameClick"></div>\
 	<div id="listChildJobClick"></div><input type="text" style="display:none;" id="idJob" value="'+jobID+'"/>\
-	<div class="form-group mx-sm-3 mb-2"><button class="btn btn-warning py-2" onClick="getReturn(\'get/getListJob.php\', \'lsJobManage\')">Change Job</button>\
-	<button class="btn btn-danger py-2" onClick="getWMD('+jobID+')" data-toggle="modal" data-target="#deleteWM" >Delete this job</button>\
-	<hr><button onClick="Manage_AddChildJob('+jobID+')" data-toggle="modal" data-target="#addjobchild" class="btn btn-primary py-2">Add job child</button></div>';
+	<div class="form-group mx-sm-3 mb-2 "><button onClick="Manage_AddChildJob('+jobID+')" data-toggle="modal" data-target="#addjobchild" class="btn btn-primary float-right ml-1">Add job child</button>&nbsp;\
+	<button class="btn btn-warning  float-right ml-1" onClick="getReturn(\'get/getListJob.php\', \'lsJobManage\')">Change Job</button>\
+	<button class="btn btn-danger  float-right ml-1" onClick="getWMD('+jobID+')" data-toggle="modal" data-target="#deleteWM" >Delete this job</button></div>';
 	document.getElementById("listChildJobClick").innerHTML = "<p>Loading, please wait ...</p>";
 	 getReturn("get/getJobName.php?jobIDD=" + jobID, "jobNameClick", "<h3>", "</h3><hr>");
 	 getReturn("get/getChildJob.php?jobIDD=" + jobID, "listChildJobClick", '<div class="list-group" id="lsJobManage">', "</div><br>");
@@ -276,7 +276,7 @@ function clickConfirmCompletedChildJob(job_details_id) { //confirm_doChildJob
 	document.getElementById("ls_childnum_"+job_details_id).setAttribute("data-toggle", "");
 	document.getElementById("ls_childnum_"+job_details_id).setAttribute("data-target", "");
 	var getTextofLS = document.getElementById("ls_childnum_"+job_details_id).innerHTML;
-	getReturn("get/getGeneral.php?num=4&confirm_doChildJob=" +job_details_id, "ls_childnum_"+job_details_id, getTextofLS + "<span class=\"badge badge-primary badge-pill float-right\">Completed - ", "</span>");
+	getReturn("get/getGeneral.php?num=4&confirm_doChildJob=" +job_details_id, "ls_childnum_"+job_details_id, getTextofLS + "<span class=\"badge badge-success badge-pill float-right\">Completed - ", "</span>");
 	//Xuly progress
 	var get_total_pr = Number(document.getElementById("get_total_pr").value);
 	var get_now_pr = Number(document.getElementById("get_now_pr").value) + 1; //Tang len 1 gtri
