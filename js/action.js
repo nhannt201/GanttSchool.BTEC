@@ -143,7 +143,7 @@ function showJobDetaild(jobID) {
 	<div class="form-group mx-sm-3 mb-2 "><button onClick="Manage_AddChildJob('+jobID+')" data-toggle="modal" data-target="#addjobchild" class="btn btn-primary float-right ml-1">Add job child</button>&nbsp;\
 	<button class="btn btn-warning  float-right ml-1" onClick="getReturn(\'get/getListJob.php\', \'lsJobManage\')">Change Job</button>\
 	<button class="btn btn-success  float-right ml-1" onClick="getStatistT('+jobID+')" >Detailed statistics</button>\
-	<button class="btn btn-danger  float-right ml-1" onClick="getWMD('+jobID+')" data-toggle="modal" data-target="#deleteWM" >Delete this job</button></div>';
+	<button class="btn btn-danger  float-right ml-1" onClick="getWMD('+jobID+')" data-toggle="modal" data-target="#deleteWM" >Delete this job</button></div><br><div id="getDetailsStatist"></div>';
 	document.getElementById("listChildJobClick").innerHTML = "<p>Loading, please wait ...</p>";
 	 getReturn("get/getJobName.php?jobIDD=" + jobID, "jobNameClick", "<h3>", "</h3><hr>");
 	 getReturn("get/getChildJob.php?jobIDD=" + jobID, "listChildJobClick", '<div class="list-group" id="lsJobManage">', "</div><br>");
@@ -153,7 +153,13 @@ function showJobDetaild(jobID) {
 }
 
 function getStatistT(jobID) {
-	
+	getReturn("get/getGeneral.php?num=5&jobID=" + jobID,"getDetailsStatist");
+}
+
+function getJCStudentCompleted(jobID, studentID) {
+	loading(1);
+	getReturn("get/getGeneral.php?num=6&studentID=" + studentID,"thongbaone");
+	getReturn("get/getGeneral.php?num=7&studentID=" + studentID + "&jobID=" + jobID, "warming");
 }
 
 function checkEmptyLoadingFor_showJobDetaild() {

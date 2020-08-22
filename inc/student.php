@@ -243,6 +243,15 @@ class Student extends Init {
 		return $info;
 	}
 	
+	function getStudentName($studentID) {
+			$query_it = "SELECT * FROM student WHERE studentID='$studentID'";
+			$check = $this->db->query($query_it);
+			if ($check->num_rows > 0):			
+			echo $check->fetch_assoc()['name']; //Lay ten hoc sinh theo ID;
+			else:
+			echo "(unknow)";
+			endif;
+	}
 	
 	//--------------------------------------------------------------------------------------------------------------
 	//Cai function nay chi de test thoi.

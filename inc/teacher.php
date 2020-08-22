@@ -172,7 +172,7 @@ class Teacher extends Init {
 	}
 	
 
-	
+	//So luong hs trong lop
 	function getQtyStudentOfClass($jobID) {
 		$query_it = "SELECT student_class.classID FROM jobs
 		INNER JOIN student_class ON student_class.classID = jobs.classID
@@ -234,9 +234,71 @@ class Teacher extends Init {
 			return $congdon;
 		}	
 	}
+	//Thong ke
+	function getDetailsStatist($jobID) {
+		$query = "SELECT student_class.studentID, student.name
+		FROM jobs
+		INNER JOIN student_class ON jobs.classID = student_class.classID
+		INNER JOIN student ON student_class.studentID = student.studentID
+		WHERE jobID='$jobID'";
+		$check = $this->db->query($query);
+		if ($check->num_rows >0) {
+			echo '<h3>Detailed statistics</h3><hr><div class="list-group">';
+			while($row = $check->fetch_assoc()) {
+				//echo "Student: ".$row['name']."<br>";
+				if ((Teacher::checkStudentCompleted($jobID, $row['studentID'])) == Teacher::getQtyJobsChild($jobID)) {
+					$complete = '<span class="badge badge-success badge-pill float-right">Completed</span>';
+					$color = "success";
+				} else {$complete="";$color="warning";}
+				echo ' <button data-toggle="modal" data-target="#msgbox" class="list-group-item list-group-item-action" onClick="getJCStudentCompleted(\''.$jobID.'\', \''.$row['studentID'].'\')">'.$row['name'].'
+				'.$complete.'<span class="badge badge-'.$color.' badge-pill float-right">'.Teacher::checkStudentCompleted($jobID, $row['studentID']).'/'.Teacher::getQtyJobsChild($jobID).'</span></button>';
+			}
+			echo '</div>';
+		}
+			
+	}
+	//get Student Jobs Details completed and compar...
+	function getJSDCompleted($studentID, $jobID) { 
+		$student = new Student();
+		$query = "SELECT *
+		FROM jobs_details
+		WHERE jobID='$jobID'";
+		$check = $this->db->query($query);
+		if ($check->num_rows > 0) {
+			echo '<div class="list-group">';
+			while($row=$check->fetch_assoc()) {
+				if (Teacher::checkStudentCompletedWhere($row['details_id'], $studentID)) {
+					echo '<button class="list-group-item list-group-item-action">'.$row['jobChildName'].'
+					<span class="badge badge-success badge-pill float-right">Completed</span></button>';
+				} else {
+					echo '<button class="list-group-item list-group-item-action">'.$row['jobChildName'].'</button>';
+				}
+			}
+			echo '</div>';
+		}
+	}
 	
-	function getDetailsStatist() {
-		
+	//Check job child da hoan tat.
+	function checkStudentCompletedWhere($details_id, $studentID) {
+		$query = "SELECT * FROM student_jobs WHERE details_id='$details_id' and studentID = '$studentID'";
+		$check = $this->db->query($query);
+		if ($check->num_rows > 0) {
+		if (($check->fetch_assoc()['status']) == 1 ) {
+			return true;
+		} else {return false;}
+		} else {return false;}
+	}
+	//Check so luong job child da hoan tat.
+	function checkStudentCompleted($jobID, $studentID) {
+		$query = "SELECT * FROM student_jobs WHERE jobID='$jobID' and studentID = '$studentID'";
+		$check = $this->db->query($query);
+		return $check->num_rows;
+	}
+	//Lay so cong viec Job Child
+	function getQtyJobsChild($jobID) {
+		$query = "SELECT * FROM jobs_details WHERE jobID='$jobID'";
+		$check = $this->db->query($query);
+		return $check->num_rows;
 	}
 	
 	//Account
