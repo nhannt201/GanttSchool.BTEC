@@ -235,13 +235,36 @@ class Teacher extends Init {
 		}	
 	}
 	
+	function getDetailsStatist() {
+		
+	}
+	
 	//Account
 	function getAccountInfo($teachID) {
-		$query = "SELECT * FROM teacher WHERE teacherID = '$teachID'";
+		$query = "SELECT * FROM teacher WHERE teacherID = '$teachID'";	
 		$check = $this->db->query($query);
 		if ($check->num_rows > 0){
 			$row = $check->fetch_assoc();
-			return '<p>Your name: <b>'.$row['name'].'</b><br>';
+			return '<p>Your name: <b>'.$row['name'].'</b><br>Your class: <b>'.Teacher::getClassStudy($teachID)."</b>";
+		} 
+	}
+	private function getClassStudy($teachID) {
+		$query = "SELECT teacher_class.classID, classroom.className FROM teacher_class
+		INNER JOIN classroom ON teacher_class.classID = classroom.classID
+		WHERE teacherID = '$teachID'";
+		$check = $this->db->query($query);
+		if ($check->num_rows > 0){
+			$count = 0;
+			$addd = "";
+			while($row = $check->fetch_assoc()) {
+				$count++;
+				if ($count == $check->num_rows) {
+					$addd .= $row['className'];
+				} else {
+					$addd .= $row['className'].", ";
+				}						
+			}
+			return $addd;
 		} 
 	}
 }

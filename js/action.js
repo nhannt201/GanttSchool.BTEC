@@ -142,6 +142,7 @@ function showJobDetaild(jobID) {
 	<div id="listChildJobClick"></div><input type="text" style="display:none;" id="idJob" value="'+jobID+'"/>\
 	<div class="form-group mx-sm-3 mb-2 "><button onClick="Manage_AddChildJob('+jobID+')" data-toggle="modal" data-target="#addjobchild" class="btn btn-primary float-right ml-1">Add job child</button>&nbsp;\
 	<button class="btn btn-warning  float-right ml-1" onClick="getReturn(\'get/getListJob.php\', \'lsJobManage\')">Change Job</button>\
+	<button class="btn btn-success  float-right ml-1" onClick="getStatistT('+jobID+')" >Detailed statistics</button>\
 	<button class="btn btn-danger  float-right ml-1" onClick="getWMD('+jobID+')" data-toggle="modal" data-target="#deleteWM" >Delete this job</button></div>';
 	document.getElementById("listChildJobClick").innerHTML = "<p>Loading, please wait ...</p>";
 	 getReturn("get/getJobName.php?jobIDD=" + jobID, "jobNameClick", "<h3>", "</h3><hr>");
@@ -151,6 +152,9 @@ function showJobDetaild(jobID) {
 
 }
 
+function getStatistT(jobID) {
+	
+}
 
 function checkEmptyLoadingFor_showJobDetaild() {
   var lsdChild = document.getElementById("listChildJobClick").innerHTML;
