@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2020 at 05:53 AM
+-- Generation Time: Aug 22, 2020 at 05:41 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -37,7 +37,8 @@ CREATE TABLE `classroom` (
 --
 
 INSERT INTO `classroom` (`classID`, `className`) VALUES
-(1, 'CNTT-C1');
+(1, 'CNTT-C1'),
+(2, 'CNTT-P2');
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,9 @@ CREATE TABLE `jobs` (
 
 INSERT INTO `jobs` (`jobID`, `jobName`, `jobStart`, `jobEnd`, `teacherID`, `subID`, `classID`) VALUES
 (32, 'Assigment 1', '2020-08-18', '2020-08-31', '1', 'DBS', 1),
-(39, 'Summer Homework 2', '2020-08-19', '2020-08-19', '2', 'DBS', 1);
+(39, 'Summer Homework 2', '2020-08-19', '2020-08-19', '2', 'DBS', 1),
+(42, 'GV 2 Tester.', '2020-08-15', '2020-08-30', '2', 'PRG', 2),
+(43, 'New Home', '2020-08-19', '2020-08-21', '1', 'NET', 1);
 
 -- --------------------------------------------------------
 
@@ -72,20 +75,43 @@ INSERT INTO `jobs` (`jobID`, `jobName`, `jobStart`, `jobEnd`, `teacherID`, `subI
 CREATE TABLE `jobs_details` (
   `details_id` int(11) NOT NULL,
   `jobID` int(11) NOT NULL,
-  `jobChildName` text NOT NULL,
-  `jobDateComplete` date NOT NULL,
-  `status` int(11) NOT NULL
+  `jobChildName` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `jobs_details`
 --
 
-INSERT INTO `jobs_details` (`details_id`, `jobID`, `jobChildName`, `jobDateComplete`, `status`) VALUES
-(8, 32, 'P1. What is database', '0000-00-00', 0),
-(9, 32, 'P2. Definite of database ', '0000-00-00', 0),
-(10, 32, 'P3. For example', '0000-00-00', 0),
-(11, 32, 'P4. Introduce about SQL Server', '0000-00-00', 0);
+INSERT INTO `jobs_details` (`details_id`, `jobID`, `jobChildName`) VALUES
+(8, 32, 'P1. What is database?'),
+(9, 32, 'P2. Definite of database '),
+(10, 32, 'P3. For example and screenshot'),
+(11, 32, 'P4. Introduce about SQL Server'),
+(24, 39, 'Job 2'),
+(25, 39, 'Job 3'),
+(26, 39, 'Job 4'),
+(27, 42, 'Job test1'),
+(28, 42, 'Job test2'),
+(39, 40, 'Something 1'),
+(40, 40, 'Something 2'),
+(41, 40, 'Something 3'),
+(42, 40, 'Something 4'),
+(43, 40, 'Something 5'),
+(44, 40, 'Something 6'),
+(45, 40, 'Something 7'),
+(46, 40, 'Something 8'),
+(47, 40, 'Something 9'),
+(48, 40, 'Something 10'),
+(49, 43, 'Something 1'),
+(50, 43, 'Something 2'),
+(51, 0, 'Something 3'),
+(52, 0, 'Something 4'),
+(53, 0, 'Something 3'),
+(54, 0, 'Something 4'),
+(55, 0, 'Something 3'),
+(56, 43, 'Something 3'),
+(57, 43, 'Something 4'),
+(60, 32, 'P5. What are you doing?');
 
 -- --------------------------------------------------------
 
@@ -106,7 +132,9 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`studentID`, `name`, `email`, `username`, `password`) VALUES
-(1, 'Nguyen Trung Nhan', 'trungnhan21.12@gmail.com', 'bsaf190011', '123456');
+(1, 'Nguyen Trung Nhan', 'trungnhan21.12@gmail.com', 'bsaf190011', '123456'),
+(2, 'Tran Van Tai', 'taivan@gmail.com', 'vantai', '123456'),
+(3, 'Le Van A', 'van@gmail.com', 'ducminh', '123456');
 
 -- --------------------------------------------------------
 
@@ -125,7 +153,9 @@ CREATE TABLE `student_class` (
 --
 
 INSERT INTO `student_class` (`id`, `studentID`, `classID`) VALUES
-(1, 1, 1);
+(1, 1, 1),
+(2, 2, 1),
+(3, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -141,6 +171,37 @@ CREATE TABLE `student_jobs` (
   `jobDateComplete` date NOT NULL,
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `student_jobs`
+--
+
+INSERT INTO `student_jobs` (`id`, `details_id`, `jobID`, `studentID`, `jobDateComplete`, `status`) VALUES
+(4, 8, 32, 1, '2020-08-20', 1),
+(5, 9, 32, 1, '2020-08-20', 1),
+(6, 10, 32, 1, '2020-08-20', 1),
+(7, 11, 32, 1, '2020-08-20', 1),
+(18, 49, 43, 1, '2020-08-20', 1),
+(19, 50, 43, 1, '2020-08-20', 1),
+(20, 56, 43, 1, '2020-08-21', 1),
+(21, 57, 43, 1, '2020-08-21', 1),
+(23, 8, 32, 2, '2020-08-21', 1),
+(24, 9, 32, 2, '2020-08-21', 1),
+(25, 10, 32, 2, '2020-08-21', 1),
+(26, 11, 32, 2, '2020-08-21', 1),
+(27, 60, 32, 2, '2020-08-21', 1),
+(28, 60, 32, 1, '2020-08-21', 1),
+(29, 49, 43, 2, '2020-08-21', 1),
+(30, 50, 43, 2, '2020-08-21', 1),
+(31, 56, 43, 2, '2020-08-21', 1),
+(32, 57, 43, 2, '2020-08-21', 1),
+(33, 49, 43, 3, '2020-08-21', 1),
+(34, 50, 43, 3, '2020-08-21', 1),
+(35, 56, 43, 3, '2020-08-21', 1),
+(36, 57, 43, 3, '2020-08-21', 1),
+(37, 8, 32, 3, '2020-08-21', 1),
+(38, 9, 32, 3, '2020-08-21', 1),
+(39, 11, 32, 3, '2020-08-21', 1);
 
 -- --------------------------------------------------------
 
@@ -204,7 +265,8 @@ CREATE TABLE `teacher_class` (
 
 INSERT INTO `teacher_class` (`id`, `teacherID`, `classID`, `subID`) VALUES
 (1, 1, 1, 'NET'),
-(3, 2, 1, 'DBS');
+(3, 2, 1, 'DBS'),
+(4, 2, 2, 'PRG');
 
 -- --------------------------------------------------------
 
@@ -225,7 +287,8 @@ CREATE TABLE `teacher_subs` (
 INSERT INTO `teacher_subs` (`teacher_subsID`, `teacherID`, `subID`) VALUES
 (1, 1, 'DBS'),
 (2, 1, 'NET'),
-(3, 2, 'DBS');
+(3, 2, 'DBS'),
+(4, 2, 'PRG');
 
 --
 -- Indexes for dumped tables
@@ -299,37 +362,37 @@ ALTER TABLE `teacher_subs`
 -- AUTO_INCREMENT for table `classroom`
 --
 ALTER TABLE `classroom`
-  MODIFY `classID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `classID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `jobID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `jobID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `jobs_details`
 --
 ALTER TABLE `jobs_details`
-  MODIFY `details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `studentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `studentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `student_class`
 --
 ALTER TABLE `student_class`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `student_jobs`
 --
 ALTER TABLE `student_jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `teacher`
@@ -341,13 +404,13 @@ ALTER TABLE `teacher`
 -- AUTO_INCREMENT for table `teacher_class`
 --
 ALTER TABLE `teacher_class`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `teacher_subs`
 --
 ALTER TABLE `teacher_subs`
-  MODIFY `teacher_subsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `teacher_subsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
