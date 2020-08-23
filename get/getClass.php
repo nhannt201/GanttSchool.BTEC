@@ -19,7 +19,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			  <a class="nav-link active" data-toggle="tab" href="#home">Manage Account</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link" data-toggle="tab" href="#newsub">New Subject</a>
+			  <a class="nav-link" data-toggle="tab" href="#newsub">New Course</a>
 			</li>
 			<li class="nav-item">
 			  <a class="nav-link" data-toggle="tab" href="#newacc">New Account</a>
@@ -54,15 +54,77 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		</div>'.getHome::getMsgbox();
 	}
 	private function getNewSubject() {
-		
+		return '<h3>Create a new course</h3><hr>
+			<div class="form-group mx-sm-3 mb-2">
+				<label>Course name</label>
+				<input type="text" class="form-control" id="nameSubject" placeholder="NETWORKING" required>
+			  </div>
+			  <div class="form-group mx-sm-3 mb-2">
+				<label>Course ID (An abbreviation, 3 characters)</label>
+				<input type="text" class="form-control" id="subIDSubject" maxlength="3" placeholder="NET" required>
+			  </div><br>
+			  <h3>Manage Course</h3><hr>
+			  <div class="form-group mx-sm-3 mb-2">
+				<label for="CourseCourse">Course</label>
+				<select class="form-control" id="CourseCourse">
+					
+				</select>
+			  </div>';
 	}
 	
 	private function getNewAccount() {
-		
+		return '<h3>Create a new account</h3><hr>
+				<div class="form-group mx-sm-3 mb-2">
+				<label for="selectAcc">Account</label>
+				<select class="form-control" id="selectAcc">
+					<option value="0">Teacher</option>
+					<option value="1">Student</option>
+				</select>
+			  </div>
+			<div class="form-group mx-sm-3 mb-2">
+				<label>Teacher name</label>
+				<input type="text" class="form-control" id="teachName" placeholder="Le Thi A" required>
+			  </div>
+			  <div class="form-group mx-sm-3 mb-2">
+				<label>Email</label>
+				<input type="email" class="form-control" id="accEmail" maxlength="250" placeholder="studentaz@gamil.com" required>
+			  </div>
+			  <div class="form-group mx-sm-3 mb-2">
+				<label>Username</label>
+				<input type="text" class="form-control" id="accUser" maxlength="250" placeholder="studentaz" required>
+			  </div>
+			  <div class="form-group mx-sm-3 mb-2">
+				<label>Password</label>
+				<input type="password" class="form-control" id="accUser" placeholder="Default password is \'password\'" required>
+			  </div>
+			  <div class="form-group mx-sm-3 mb-2">
+				<label for="slcClass">Classroom</label>
+				<select class="form-control" id="slcClass">
+
+				</select>
+			  </div>
+			  <div class="form-group mx-sm-3 mb-2">
+				<label for="slcSub">Course</label>
+				<select class="form-control" id="slcSub">
+
+				</select>
+			  </div><br>
+			  ';
 	}
 	
 	private function getNewClass() {
-		
+		return '<h3>Create a new classroom</h3><hr>
+			<div class="form-group mx-sm-3 mb-2">
+				<label>Classroom name</label>
+				<input type="text" class="form-control" id="nameClassroom" placeholder="IT-1709" required>
+			  </div><br>
+			  <h3>Manage Classroom</h3><hr>
+			  <div class="form-group mx-sm-3 mb-2">
+				<label for="ClassroomAv">Classroom</label>
+				<select class="form-control" id="ClassroomAv">
+					
+				</select>
+			  </div>';
 	}
 	
 	//For Student
