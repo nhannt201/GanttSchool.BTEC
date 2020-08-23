@@ -83,7 +83,11 @@ function waitLog(type) {
 	   var passs = document.getElementById("password").value;
   switch (type) {
 	  case 1:
-		xhttp.send("user=" + username + "&pass=" + passs + "&teacher_log=submit");
+		if (username.includes("admin")) {
+			xhttp.send("user=" + username + "&pass=" + passs + "&admin_log=submit");
+		} else {
+			xhttp.send("user=" + username + "&pass=" + passs + "&teacher_log=submit");
+		}
 		break;
 	case 2:
 		xhttp.send("user=" + username + "&pass=" + passs + "&student_log=submit");

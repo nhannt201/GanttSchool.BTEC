@@ -1,7 +1,71 @@
 <?php
 require_once("../get/getName.php"); //Co ket noi CSDL
 class getHome extends Init{ //Thua ke ket noi CSDL
+
+	//For Admin
+	public function getAdmin($admin_user) {
+		echo '<div class="container mt-3">
+		  <h2>Gantt School</h2>
+		  <div id="welcome_to">Hello, '.$admin_user.'!
+		  </div>
+		  <div id="status_get" style="visibility:hidden;">
+		   <div class="progress">
+			  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+			</div>
+		  </div>
+		  <br>
+		  <ul class="nav nav-tabs">
+			<li class="nav-item">
+			  <a class="nav-link active" data-toggle="tab" href="#home">Manage Account</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" data-toggle="tab" href="#newsub">New Subject</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" data-toggle="tab" href="#newacc">New Account</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" data-toggle="tab" href="#newclass">New Classroom</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" data-toggle="tab" href="#myacc">My Account</a>
+			</li>
+		  </ul>
+		  <div class="tab-content">
+			<div id="home" class="container tab-pane active"><br>
+			<div id="lstCourseStudent">
+			 <div class="list-group">
+			  
+			</div>
+			</div>
+			</div>
+			<div id="newsub" class="container tab-pane fade"><br>
+			  '.getHome::getNewSubject().'
+			</div>
+			<div id="newacc" class="container tab-pane fade"><br>
+			  '.getHome::getNewAccount().'
+			</div>
+			<div id="newclass" class="container tab-pane fade"><br>
+			  '.getHome::getNewClass().'
+			</div>
+			<div id="myacc" class="container tab-pane fade"><br>
+			  '.getHome::getMyUser().'
+			</div></div>
+		</div>'.getHome::getMsgbox();
+	}
+	private function getNewSubject() {
+		
+	}
 	
+	private function getNewAccount() {
+		
+	}
+	
+	private function getNewClass() {
+		
+	}
+	
+	//For Student
 	public function getStudent($name_student) {
 		$student = new Student();
 		if (isset($_SESSION['student_id'])) {

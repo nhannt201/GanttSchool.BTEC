@@ -6,3 +6,6 @@ if (isset($_GET['student'])) {
 if (isset($_GET['teacher'])) {
 	getHome::getTeacher($name);
 }
+if (isset($_GET['admin'])) {
+	getHome::getAdmin($name);
+}

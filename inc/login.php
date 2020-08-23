@@ -1,6 +1,9 @@
 <?php //File Post chuc nang
 class Login extends Init {
 	function checklog($type, $user, $pass) {
+		if ($type == 0) { //Login with Admin
+		$check_log = $this->db->query("SELECT * FROM admin WHERE username = '$user' and password = '$pass'");
+		}
 		//Check type login (Teacher, Student, Parent)
 		if ($type == 1) { //Login with Teacher
 		$check_log = $this->db->query("SELECT * FROM teacher WHERE username = '$user' and password = '$pass'");
@@ -17,6 +20,12 @@ class Login extends Init {
 			//echo '<script> alert("Login with '.$row['name'].'!");</script>';
 			//echo '<script>document.getElementById("main_app").innerHTML =  "Hello";</script>';
 			switch ($type) {
+				case 0:
+					if (!isset($_SESSION['admin_log'])) {
+						$_SESSION['admin_log'] = $row['name'];
+						$_SESSION['admin_user'] = $row['username'];
+					}
+					break;
 				case 1:
 					if (!isset($_SESSION['teacher_log'])) {
 						$_SESSION['teacher_log'] = $row['name'];

@@ -10,3 +10,6 @@ if (isset($_SESSION['student_log'])) {
 if (isset($_SESSION['parent_log'])) {
 	$name = $_SESSION['parent_log'];
 }
+if (isset($_SESSION['admin_log'])) {
+	$name = $_SESSION['admin_log'];
+}
