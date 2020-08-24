@@ -78,12 +78,30 @@ class Student extends Init {
 	function getNameChildJob($details_id, $type=1) {
 		$query = "SELECT * FROM jobs_details WHERE details_id='$details_id'";
 		$check = $this->db->query($query);
-		$row = $check->fetch_assoc();
-		if ($type == 0):
-			echo $row['jobChildName'];
-		 else:
-			return $row['jobChildName'];
-		endif;
+		if ($check->num_rows >0) {
+			$row = $check->fetch_assoc();
+			if ($type == 0):
+				echo $row['jobChildName'];
+			 else:
+				return $row['jobChildName'];
+			endif;
+		} else {
+			if ($type == 0):
+				echo "(unkown)";
+			 else:
+				return "(unkown)";
+			endif;
+		}
+	}
+	
+	function checkDetailsExist($details_id) {
+		$query = "SELECT * FROM jobs_details WHERE details_id='$details_id'";
+		$check = $this->db->query($query);
+		if ($check->num_rows >0) {
+			echo 1;
+		} else {
+			echo 0;
+		}
 	}
 	function getNameSubject($subID, $type="") {
 		$query_it = "SELECT * FROM subject WHERE subID='$subID'";
@@ -111,7 +129,7 @@ class Student extends Init {
 						$deadline = Student::getJobNameDate($jobID, 1);
 						
 							if (!Student::checkStatusCompleteChildJob($row['details_id'])) {
-								if (($deadline == date("Y-m-d")) || ($deadline < date("Y-m-d"))) {
+								if (($deadline == date("d/m/Y")) || ($deadline < date("d/m/Y"))) {
 									$congdon .= '<button type="button" id="ls_childnum_'.$row['details_id'].'" class="list-group-item list-group-item-action">
 									'.$row['jobChildName'].'<span class="badge badge-warning badge-pill float-right">Deadline</span></button>';
 								} else {
@@ -119,7 +137,7 @@ class Student extends Init {
 									'.$row['jobChildName'].'</button>';
 								}
 							} else {
-								$congdon .= '<button type="button" id="ls_childnum_'.$row['details_id'].'"  class="list-group-item list-group-item-action">
+								$congdon .= '<button type="button" onClick="viewAnswer('.$row['details_id'].')" data-toggle="modal" data-target="#clickDoJobStudent" id="ls_childnum_'.$row['details_id'].'"  class="list-group-item list-group-item-action">
 							'.$row['jobChildName'].'<span class="badge badge-success badge-pill float-right">Completed - '.Student::checkStatusCompleteChildJob($row['details_id'], 0).'</span></button>';
 								$soluong_jobconcomplete++;
 							}
@@ -138,7 +156,17 @@ class Student extends Init {
 					</div>';
 		}
 	}
-	
+	//Get answer student
+	function getAnswerStudent($details_id) {
+		if (isset($_SESSION['student_id'])) {
+			$student_id = $_SESSION['student_id'];
+			$query_it = "SELECT * FROM student_jobs WHERE details_id='$details_id' and studentID='$student_id'";
+			$check = $this->db->query($query_it);
+			if ($check->num_rows >0) {
+				echo $check->fetch_assoc()['answer'];
+			}
+		}
+	}
 	//Check da hoan tat cong viec do hay chua!
 	function getIsComplete($jobID, $type=0) {
 		$query_it = "SELECT * FROM jobs_details WHERE jobID='$jobID'";

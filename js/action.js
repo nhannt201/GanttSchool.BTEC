@@ -74,7 +74,7 @@ function addButtonManagerLS(xxxx, id) {
 function clickSelectJob_AddChildJob() {
 	const text_selct_name = document.getElementById("jobLSAD").selectedOptions[0].text; //get Text
 	var value_selct_name =  document.getElementById("jobLSAD").value; //job ID
-	document.getElementById("needchangonLick").setAttribute("onClick", "clickAddChildJob("+value_selct_name+")");
+	document.getElementById("needchangonLick").setAttribute("onClick", "clickAddChildJob("+value_selct_name+"); getReturn('get/getChildJob.php?jobIDD="+value_selct_name+"', 'listChildJobClick','','<br>');");
 	document.getElementById("select_name").innerHTML = "<label>New job name (<b>" + text_selct_name + "</b>)</label>";
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
@@ -87,8 +87,8 @@ function clickSelectJob_AddChildJob() {
 	xhttp.send();
 }
 
-function Manage_AddChildJob(jobID) {
-	document.getElementById("change_bt_addJobChild").innerHTML = '<button type="button" onClick="getReturn(\'get/getChildJob.php?jobIDD='+jobID+'\', \'listChildJobClick\',\'\',\'<br>\');" class="btn btn-secondary" data-dismiss="modal">Close</button>\
+function Manage_AddChildJob(jobID) { //onClick="getReturn(\'get/getChildJob.php?jobIDD='+jobID+'\', \'listChildJobClick\',\'\',\'<br>\');" 
+	document.getElementById("change_bt_addJobChild").innerHTML = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>\
 			<button type="button" class="btn btn-primary" onClick="clickAddChildJob('+jobID+')">Add</button>';
 	var value_selct_name =  jobID; //job ID
 	document.getElementById("select_name").innerHTML = "<label>New job name</label>";
@@ -131,6 +131,7 @@ function clickAddChildJob(jobID=0) {
 		  if (this.readyState == 4 && this.status == 200) {
 			option.value = this.responseText;
 			x.value = this.responseText;
+			getReturn('get/getChildJob.php?jobIDD=' + jobID, 'listChildJobClick','','<br>');
 			if (document.getElementById("get_value_" + jobID)) {
 			document.getElementById("get_value_" + jobID).innerHTML = Number(document.getElementById("get_value_" + jobID).innerHTML) + 1; 
 			}
@@ -203,6 +204,7 @@ function getReturn(url_get, idget="", start="", end="") {
 	xhttp.open("GET", url_get, true);
 	xhttp.send();
 }
+
 function updateProgressTeacher(jobID) {
 	getReturn("get/getGeneral.php?num=9&jobID=" + jobID,"updateProgress");
 }
@@ -297,12 +299,31 @@ function clickShowJobDetails_Tab(jobID) {
 }
 
 function clickDoJobChild(job_details_id) {
-	document.getElementById("bt_dojob").innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>\
-			<button type="button" onClick="clickConfirmCompletedChildJob('+job_details_id+')" class="btn btn-primary">Confirm</button>';
-	getReturn("get/getGeneral.php?num=3&detail_id=" + job_details_id, "content_dojob", "<div id=\"warning_ans\"></div><div class=\"form-group\">\
-  <label for=\"answerChildJob\">Answer (Max: 1500 characters)</label>\
-  <textarea class=\"form-control\" rows=\"5\" id=\"answerChildJob\" maxlength=\"1500\"></textarea>\
-</div><hr>Were you sure certain completed '<b>","</b>'?<br>After you had confirmed, you cannot change status!");
+	var get_check;
+	loading(1);
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	  if (this.readyState == 4 && this.status == 200) {	
+				get_check = this.responseText;
+				loading(0);
+				if (get_check == 0) { //kiem tra details job nay co bi xoa khong?
+					document.getElementById("sv_click").innerHTML = "Waring";
+					document.getElementById("content_dojob").innerHTML = "This job child has been deleted by Teacher!";
+					document.getElementById("bt_dojob").innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>';	
+					document.getElementById("ls_childnum_"+job_details_id).style.display = "none";
+				} else {
+				document.getElementById("bt_dojob").innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>\
+						<button type="button" onClick="clickConfirmCompletedChildJob('+job_details_id+')" class="btn btn-primary">Confirm</button>';
+					getReturn("get/getGeneral.php?num=3&detail_id=" + job_details_id, "content_dojob", "<div id=\"warning_ans\"></div><div class=\"form-group\">\
+				  <label for=\"answerChildJob\">Answer (Max: 1500 characters)</label>\
+				  <textarea class=\"form-control\" rows=\"5\" id=\"answerChildJob\" maxlength=\"1500\"></textarea>\
+				</div><hr>Were you sure certain completed '<b>","</b>'?<br>After you had confirmed, you cannot change status!");
+				}
+	  }
+	};
+	xhttp.open("GET", "get/getGeneral.php?num=11&checkDesEx=" + job_details_id, true);
+	xhttp.send();
+	
 }
 
 function clickConfirmCompletedChildJob(job_details_id) { //confirm_doChildJob
@@ -319,12 +340,16 @@ function clickConfirmCompletedChildJob(job_details_id) { //confirm_doChildJob
 	} else {
 	//Xu ly phu
 	document.getElementById("warning_ans").innerHTML= "";
-	$('#modal').modal('hide');
+	$('#clickDoJobStudent').modal('hide');
+	//$('#myModal').on('hidden.bs.modal', function () {
+		// do something…
+	//});
 	//Phan xu ly chinh
 	document.getElementById("ls_childnum_"+job_details_id).className = ("list-group-item list-group-item-action");
-	document.getElementById("ls_childnum_"+job_details_id).setAttribute("onClick", "");
-	document.getElementById("ls_childnum_"+job_details_id).setAttribute("data-toggle", "");
-	document.getElementById("ls_childnum_"+job_details_id).setAttribute("data-target", "");
+	document.getElementById("ls_childnum_"+job_details_id).setAttribute("onClick", "viewAnswer("+job_details_id+")");
+	document.getElementById("ls_childnum_"+job_details_id).setAttribute("data-toggle", "modal");
+	document.getElementById("ls_childnum_"+job_details_id).setAttribute("data-target", "#clickDoJobStudent");
+
 	var getTextofLS = document.getElementById("ls_childnum_"+job_details_id).innerHTML;
 	getReturn("get/getGeneral.php?num=4&confirm_doChildJob=" +job_details_id + "&answer=" + get_length_content, "ls_childnum_"+job_details_id, getTextofLS + "<span class=\"badge badge-success badge-pill float-right\">Completed - ", "</span>");
 	//Xuly progress
@@ -338,3 +363,10 @@ function clickConfirmCompletedChildJob(job_details_id) { //confirm_doChildJob
 	}
 }
 
+function viewAnswer(job_details_id) {
+		//Sua li thong tin msg
+	document.getElementById("content_dojob").innerHTML = "";
+	document.getElementById("sv_click").innerHTML = "My Answer";
+	document.getElementById("bt_dojob").innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>';
+	getReturn("get/getGeneral.php?num=10&details_id=" + job_details_id, "content_dojob");
+}

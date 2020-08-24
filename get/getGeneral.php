@@ -68,5 +68,17 @@ if (isset($_GET['num'])) {
 				$teacher->getInfoProgress($jobID);
 			}
 		break;
+		case 10: //Get cau tra loi cua sv
+			if (isset($_GET['details_id'])) {
+				$details_id = $_GET['details_id'];
+				$student->getAnswerStudent($details_id);
+			}
+		break;
+		case 11: //Get cau tra loi cua sv
+			if (isset($_GET['checkDesEx'])) {
+				$checkDesEx = $_GET['checkDesEx'];
+				$student->checkDetailsExist($checkDesEx);
+			}
+		break;
 	}
 }
