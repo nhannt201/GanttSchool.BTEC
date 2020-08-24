@@ -31,9 +31,10 @@ if (isset($_GET['num'])) {
 			}	
 		break;
 		case 4:
-			if ((isset($_GET['confirm_doChildJob']))) {
+			if ((isset($_GET['confirm_doChildJob'])) && (isset($_GET['answer']))) {
 				$confirm_doChildJob = $_GET['confirm_doChildJob'];
-				$student->addDetailsJobCompletedStudent($confirm_doChildJob);
+				$content = htmlspecialchars($_GET['answer']);
+				$student->addDetailsJobCompletedStudent($confirm_doChildJob, $content);
 			}	
 		break;
 		case 5:
@@ -53,6 +54,18 @@ if (isset($_GET['num'])) {
 				$studentID = $_GET['studentID'];
 				$jobID = $_GET['jobID'];
 				$teacher->getJSDCompleted( $studentID, $jobID);
+			}
+		break;
+		case 8:
+			if (isset($_GET['details_id'])) {
+				$details_id = $_GET['details_id'];
+				$teacher->getSpanComplete($details_id);
+			}
+		break;
+		case 9:
+			if (isset($_GET['jobID'])) {
+				$jobID = $_GET['jobID'];
+				$teacher->getInfoProgress($jobID);
 			}
 		break;
 	}

@@ -193,12 +193,12 @@ class Student extends Init {
 		}
 	}
 	
-	function addDetailsJobCompletedStudent($jobChildID) {
+	function addDetailsJobCompletedStudent($jobChildID, $content) {
 		if (isset($_SESSION['student_id'])) {
 			$studentID =  $_SESSION['student_id'];
 			$date = date("Y/m/d");
 			$jobID = Student::getJobIDFromJobDetails($jobChildID);
-			$query_it = "INSERT INTO student_jobs (details_id, jobID, studentID, jobDateComplete, status) VALUES ('$jobChildID', '$jobID', '$studentID', '$date', 1)";
+			$query_it = "INSERT INTO student_jobs (details_id, jobID, studentID, jobDateComplete, answer, status) VALUES ('$jobChildID', '$jobID', '$studentID', '$date', '$content', 1)";
 			$this->db->query($query_it);
 			echo Student::checkStatusCompleteChildJob($jobChildID, 0);
 		}		

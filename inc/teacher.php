@@ -147,22 +147,69 @@ class Teacher extends Init {
 					$congdon .= '<option value="'.$row['details_id'].'">'.$row['jobChildName'].'</option>';
 				}
 				if ($type == 1) {
-					$congdon .= ' <button type="button" id="ls_childnum_'.$row['details_id'].'" onClick="clickChildLS('.$row['details_id'].')" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#deleteWM">'.$row['jobChildName'].'
+					$congdon .= ' <button type="button" id="ls_childnum_'.$row['details_id'].'" onClick="clickChildLS('.$row['details_id'].', '.$jobID.')" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#deleteWM">'.$row['jobChildName'].'
 					'.$num_complete.'</button>';
 				}
 			}
 			echo $congdon;
 			//Tinh so hoc sinh da hoan tat - De ben ngoai while moi chay dung!!!!
-			for($i = $dem; $i > 0; $i-=1) {
+			/*for($i = $dem; $i > 0; $i-=1) {
 						if ($i %  $soluong_cauhoi == 0) {
 							
 							$so_hs_ht +=1;
 						}
 			}
-			echo "<hr><h5>Statistic: $so_hs_ht/$total_student student completed</h5>";
+			echo "<hr><h5>Statistic: $so_hs_ht/$total_student student completed</h5>";*/
+			//Doi thong ke bang so thanh %
+			$status_now_progress = round($dem/$total_cauhoi_need*100);
+			echo '<div id="updateProgress"><hr><h3>Status: '.$status_now_progress.'%</h3><div id="status_progress"><div class="progress">
+			  <div id="progressxuly" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="'.$dem.'" aria-valuemin="0" aria-valuemax="'.$total_cauhoi_need.'" style="width: '.$status_now_progress.'%"></div>
+			</div></div>';
 		}	
 	}
 	
+	//Lay thong tin progress
+	function getInfoProgress($jobID) {
+		$query_it = "SELECT * FROM jobs_details WHERE jobID='$jobID'";
+		$check = $this->db->query($query_it);
+		if ($check->num_rows > 0) { 
+			$soluong_cauhoi = $check->num_rows;
+			$dem = 0;
+			$total_student = Teacher::getQtyStudentOfClass($jobID);
+			$total_cauhoi_need =  $total_student*$soluong_cauhoi;
+			while($row = $check->fetch_assoc()) {
+				$get_complete = (Teacher::getAnalyticStudentCompleteFollowJobDetails($row['details_id']) == Teacher::getQtyStudentOfClass($jobID)) ? true : false;
+				if ((Teacher::getAnalyticStudentCompleteFollowJobDetails($row['details_id'])) > 0)
+				{
+					$dem += Teacher::getAnalyticStudentCompleteFollowJobDetails($row['details_id']);
+				}
+
+			}
+			//Doi thong ke bang so thanh %
+			$status_now_progress = round($dem/$total_cauhoi_need*100);
+			echo '<hr><h3>Status: '.$status_now_progress.'%</h3><div id="status_progress"><div class="progress">
+			  <div id="progressxuly" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="'.$dem.'" aria-valuemin="0" aria-valuemax="'.$total_cauhoi_need.'" style="width: '.$status_now_progress.'%"></div>
+			</div><br>';
+		}	
+	}
+	//Phan nay chi la rieng span da chua so da hoan thanh ra
+	function getSpanComplete($details_id) {
+		$jobID = Teacher::getJobIDFromChildID($details_id);
+		$get_complete = (Teacher::getAnalyticStudentCompleteFollowJobDetails($details_id) == Teacher::getQtyStudentOfClass($jobID)) ? true : false;
+		if ($get_complete) {				
+			$num_complete = '<span class="badge badge-success badge-pill float-right">'.Teacher::getAnalyticStudentCompleteFollowJobDetails($details_id)."/".Teacher::getQtyStudentOfClass($jobID)."</span>";
+		} else {
+			$num_complete = '<span class="badge badge-warning badge-pill float-right">'.Teacher::getAnalyticStudentCompleteFollowJobDetails($details_id)."/".Teacher::getQtyStudentOfClass($jobID)."</span>";
+		}
+		echo  $num_complete;
+	}
+	
+	private function getJobIDFromChildID($jobDetails) {
+		$query_it = "SELECT * FROM jobs_details WHERE details_id='$jobDetails'";
+		$check = $this->db->query($query_it);
+		//Chi tra ve so luong da lam, khong cho biet cu the la ai. Nhung se phan loai theo lop hoc
+		return $check->fetch_assoc()['jobID'];
+	}
 	//Kiem tra so luong jobs detail hoc sinh da hoan tat.
 	function getAnalyticStudentCompleteFollowJobDetails($jobDetails) {
 		$query_it = "SELECT * FROM student_jobs WHERE details_id='$jobDetails'";
