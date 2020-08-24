@@ -15,6 +15,7 @@ function addNameJobToList() { //Them ten cong viec moi vao danh sach
 	var x = document.getElementById("jobLSAD");
 	var option = document.createElement("option");
 	var getWarming = document.getElementById("warming");
+	document.getElementById("thongbaone").innerHTML = "Notification";
 	if (jobName.value.length < 4) {
 		getWarming.innerHTML = 'The job name is too short!';
 	} else if (y < xx) { //neu ngay end > start //
