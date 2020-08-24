@@ -74,7 +74,7 @@ function addButtonManagerLS(xxxx, id) {
 function clickSelectJob_AddChildJob() {
 	const text_selct_name = document.getElementById("jobLSAD").selectedOptions[0].text; //get Text
 	var value_selct_name =  document.getElementById("jobLSAD").value; //job ID
-	document.getElementById("needchangonLick").setAttribute("onClick", "clickAddChildJob("+value_selct_name+"); getReturn('get/getChildJob.php?jobIDD="+value_selct_name+"', 'listChildJobClick','','<br>');");
+	document.getElementById("needchangonLick").setAttribute("onClick", "clickAddChildJob("+value_selct_name+");");
 	document.getElementById("select_name").innerHTML = "<label>New job name (<b>" + text_selct_name + "</b>)</label>";
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
@@ -88,7 +88,7 @@ function clickSelectJob_AddChildJob() {
 }
 
 function Manage_AddChildJob(jobID) { //onClick="getReturn(\'get/getChildJob.php?jobIDD='+jobID+'\', \'listChildJobClick\',\'\',\'<br>\');" 
-	document.getElementById("change_bt_addJobChild").innerHTML = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>\
+	document.getElementById("change_bt_addJobChild").innerHTML = '<button type="button" onClick="getReturn(\'get/getChildJob.php?jobIDD='+jobID+'\', \'listChildJobClick\',\'\',\'<br>\');"  class="btn btn-secondary" data-dismiss="modal">Close</button>\
 			<button type="button" class="btn btn-primary" onClick="clickAddChildJob('+jobID+')">Add</button>';
 	var value_selct_name =  jobID; //job ID
 	document.getElementById("select_name").innerHTML = "<label>New job name</label>";
@@ -110,11 +110,14 @@ function clickAddChildJob(jobID=0) {
 		var value_selct_name =  jobID;
 	}
 	//Tai lai thong ke neu nhu da click xem thong ke
-	var get_z = document.getElementById("getDetailsStatist").innerHTML;
-	if (get_z.length > 0) {
-		getStatistT(value_selct_name);
-	} //ket thuc update thong ke
-	updateProgressTeacher(value_selct_name);
+		if (document.getElementById("getDetailsStatist")) {
+		var get_z = document.getElementById("getDetailsStatist").innerHTML;
+		if (get_z.length > 0) {
+			getStatistT(value_selct_name);
+		} //ket thuc update thong ke
+		updateProgressTeacher(value_selct_name);
+	}
+	//getReturn('get/getChildJob.php?jobIDD="+value_selct_name+"', 'listChildJobClick','','<br>');
 	var jobChildName = document.getElementById("nameNewJobChild");
 	var x = document.getElementById("jobChildLS");
 	var option = document.createElement("option");
@@ -196,8 +199,13 @@ function getReturn(url_get, idget="", start="", end="") {
 		
 	  if (this.readyState == 4 && this.status == 200) {	
 			if (idget.length > 0) {
-				document.getElementById(idget).innerHTML =  start + this.responseText + end;
-				loading(0);
+				if (document.getElementById(idget)) { // Check xem ID co ton tai khong
+					document.getElementById(idget).innerHTML =  start + this.responseText + end;
+					loading(0);
+				}		else {
+					//Khi ma check khong thay cai ID ton tai, lam gi do o day
+					loading(0);
+				}
 			} else {loading(0);}
 	  }
 	};
