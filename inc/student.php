@@ -7,7 +7,7 @@ class Student extends Init {
 		$query_it = "SELECT classroom.className, student_class.studentID, teacher_class.subID, student_class.classID
 		FROM classroom
 		INNER JOIN student_class ON classroom.classID=student_class.classID
-		INNER JOIN teacher_class ON classroom.classID=teacher_class.classID
+		INNER JOIN teacher_class ON teacher_class.classID=student_class.classID
 		WHERE studentID='$studentID'";
 		$check = $this->db->query($query_it);
 		if ($check->num_rows > 0) { 
@@ -15,6 +15,7 @@ class Student extends Init {
 			while($row = $check->fetch_assoc()) {
 				$subID = $row['subID'];
 				$classID = $row['classID'];
+				//echo $subID;
 				 if (Student::getQtyJobSubject($subID, $classID) > 0) { 
 					 $congdon .= " <button type=\"button\" onClick=\"clickJobNameStudent('".$subID."', ".$classID.")\" class=\"list-group-item list-group-item-action\">".Student::getNameSubject($subID)."
 					<span class=\"badge badge-primary badge-pill float-right\">".Student::getQtyJobSubject($subID, $classID)."</span></button>";
