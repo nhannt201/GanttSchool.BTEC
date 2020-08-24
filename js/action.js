@@ -171,6 +171,7 @@ function getStatistT(jobID) {
 
 function getJCStudentCompleted(jobID, studentID) {
 	loading(1);
+	document.getElementById("warming").innerHTML = "Loading...";
 	getReturn("get/getGeneral.php?num=6&studentID=" + studentID,"thongbaone");
 	getReturn("get/getGeneral.php?num=7&studentID=" + studentID + "&jobID=" + jobID, "warming");
 }
@@ -307,6 +308,9 @@ function clickShowJobDetails_Tab(jobID) {
 }
 
 function clickDoJobChild(job_details_id) {
+	document.getElementById("sv_click").innerHTML = "Loading...";
+		document.getElementById("content_dojob").innerHTML = "Loading...";
+		document.getElementById("bt_dojob").innerHTML ="Loading...";
 	var get_check;
 	loading(1);
 	var xhttp = new XMLHttpRequest();
@@ -320,6 +324,8 @@ function clickDoJobChild(job_details_id) {
 					document.getElementById("bt_dojob").innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>';	
 					document.getElementById("ls_childnum_"+job_details_id).style.display = "none";
 				} else {
+					document.getElementById("sv_click").innerHTML = "Confirm Completed";
+				
 				document.getElementById("bt_dojob").innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>\
 						<button type="button" onClick="clickConfirmCompletedChildJob('+job_details_id+')" class="btn btn-primary">Confirm</button>';
 					getReturn("get/getGeneral.php?num=3&detail_id=" + job_details_id, "content_dojob", "<div id=\"warning_ans\"></div><div class=\"form-group\">\
@@ -373,7 +379,7 @@ function clickConfirmCompletedChildJob(job_details_id) { //confirm_doChildJob
 
 function viewAnswer(job_details_id) {
 		//Sua li thong tin msg
-	document.getElementById("content_dojob").innerHTML = "";
+	document.getElementById("content_dojob").innerHTML = "Loading...";
 	document.getElementById("sv_click").innerHTML = "My Answer";
 	document.getElementById("bt_dojob").innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>';
 	getReturn("get/getGeneral.php?num=10&details_id=" + job_details_id, "content_dojob");
