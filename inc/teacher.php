@@ -306,17 +306,24 @@ class Teacher extends Init {
 	}
 	//get Student Jobs Details completed and compar...
 	function getJSDCompleted($studentID, $jobID) { 
-		$student = new Student();
+		//$student = new Student();
 		$query = "SELECT *
 		FROM jobs_details
 		WHERE jobID='$jobID'";
 		$check = $this->db->query($query);
 		if ($check->num_rows > 0) {
-			echo '<div class="list-group">';
+			echo '<div class="list-group" id="accordion">';
 			while($row=$check->fetch_assoc()) {
 				if (Teacher::checkStudentCompletedWhere($row['details_id'], $studentID)) {
-					echo '<button class="list-group-item list-group-item-action">'.$row['jobChildName'].'
+					echo '<button class="list-group-item list-group-item-action" data-toggle="collapse" href="#answer_'.$row['details_id'].'">'.$row['jobChildName'].'
 					<span class="badge badge-success badge-pill float-right">Completed</span></button>';
+					echo ' <div id="answer_'.$row['details_id'].'" class="collapse" data-parent="#accordion">
+							  <div class="card">
+								<div class="card-body">
+							   '.Teacher::getAnswerStudent($row['details_id'], $studentID).'
+								</div>
+							  </div>
+							 </div>    ';
 				} else {
 					echo '<button class="list-group-item list-group-item-action">'.$row['jobChildName'].'</button>';
 				}
@@ -324,7 +331,14 @@ class Teacher extends Init {
 			echo '</div>';
 		}
 	}
-	
+	//Get answer student
+	function getAnswerStudent($details_id, $student_id) {
+			$query_it = "SELECT * FROM student_jobs WHERE details_id='$details_id' and studentID='$student_id'";
+			$check = $this->db->query($query_it);
+			if ($check->num_rows >0) {
+				return $check->fetch_assoc()['answer'];
+			}
+	}
 	//Check job child da hoan tat.
 	function checkStudentCompletedWhere($details_id, $studentID) {
 		$query = "SELECT * FROM student_jobs WHERE details_id='$details_id' and studentID = '$studentID'";
