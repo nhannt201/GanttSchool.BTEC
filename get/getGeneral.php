@@ -2,6 +2,7 @@
 require_once("../inc/config.php"); //Co ket noi CSDL
 $student = new Student();
 $teacher = new Teacher();
+$admin = new Admin();
 if (isset($_GET['num'])) {
 	$num = trim($_GET['num']);
 	switch ($num) {
@@ -78,6 +79,19 @@ if (isset($_GET['num'])) {
 			if (isset($_GET['checkDesEx'])) {
 				$checkDesEx = $_GET['checkDesEx'];
 				$student->checkDetailsExist($checkDesEx);
+			}
+		break;
+		case 12:
+			if (isset($_GET['getclassName'])) {
+				$getclassName= $_GET['getclassName'];
+				$admin->getNameClass($getclassName);
+			}
+		break;
+		case 13:
+			if ((isset($_GET['upclassName'])) && isset($_GET['classNameID'])) {
+				$upclassName= $_GET['upclassName'];
+				$classNameID = $_GET['classNameID'];
+				$admin->upNameClass($upclassName, $classNameID);
 			}
 		break;
 	}

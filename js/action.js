@@ -385,3 +385,43 @@ function viewAnswer(job_details_id) {
 	document.getElementById("bt_dojob").innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>';
 	getReturn("get/getGeneral.php?num=10&details_id=" + job_details_id, "content_dojob");
 }
+//--Admin-->
+function addNewClass() {
+	var get_name_class = document.getElementById("nameClassroom").value;
+	//document.getElementById("warming").innerHTML = ""; //Hien gi do khi add xong!
+	getReturn("post/postwhere.php?num=4&addclassName=" + get_name_class, "warming");
+	//Add option
+	var x = document.getElementById("ClassroomAv");
+	var option = document.createElement("option");
+	option.text = get_name_class;
+	x.add(option);
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		
+	  if (this.readyState == 4 && this.status == 200) {	
+				option.value = get_name_class;
+				x.value = this.responseText;
+				document.getElementById("nameClassroom").value = "";
+				document.getElementById("ClassroomAv").value = get_name_class;
+	  }
+	};
+	xhttp.open("GET", "get/getGeneral.php?num=12&getclassName=" + get_name_class, true);
+	xhttp.send();
+}
+
+function showActionEditClass() {
+	var get_slc_name_class = document.getElementById("ClassroomAv").selectedOptions[0].text;
+	var get_class_id = document.getElementById("ClassroomAv").value;
+	document.getElementById("thongbaone").innerHTML = "Action";
+	document.getElementById("warming").innerHTML = "<div class=\"form-group mx-sm-3 mb-2\">\
+				<label>New class name</label>\
+				<input type=\"text\" class=\"form-control\" id=\"newnameClassroom\" placeholder=\"New classname\" value=\""+get_slc_name_class+"\" required><br>\
+			  </div>";
+	document.getElementById("can_changeBT").innerHTML= '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>\
+	<button type="button" onCLick="changeNameClass('+get_class_id+')" class="btn btn-primary" data-dismiss="modal">Change</button>';
+}
+function changeNameClass(classID) {
+	var get_name = document.getElementById("newnameClassroom").value;
+	document.getElementById("ClassroomAv").selectedOptions[0].text = get_name;
+	getReturn("get/getGeneral.php?num=13&classNameID=" + classID + "&upclassName=" + get_name);
+}

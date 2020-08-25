@@ -2,6 +2,7 @@
 require_once("../inc/config.php"); //Co ket noi CSDL
 $teacher = new Teacher();
 $student = new Student();
+$admin = new Admin();
 if (isset($_GET['num'])) {
 	$num = trim($_GET['num']);
 	switch ($num) {
@@ -27,5 +28,13 @@ if (isset($_GET['num'])) {
 				$teacher->updateChildName($childjobID, $content);
 			}
 		break;
+		//Phan admin
+		case 4:
+			if (isset($_GET['addclassName'])) {
+				$addclassName= $_GET['addclassName'];
+				$admin->addNewClass($addclassName);
+			}
+		break;
+	
 	}
 }

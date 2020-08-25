@@ -113,18 +113,22 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 	}
 	
 	private function getNewClass() {
+		$admin  = new Admin();
 		return '<h3>Create a new classroom</h3><hr>
 			<div class="form-group mx-sm-3 mb-2">
 				<label>Classroom name</label>
-				<input type="text" class="form-control" id="nameClassroom" placeholder="IT-1709" required>
-			  </div><br>
+				<input type="text" class="form-control" id="nameClassroom" placeholder="IT-1709" required><br>
+				<button onClick="addNewClass()" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2 float-right">Add</button>
+			  </div>
+			  
 			  <h3>Manage Classroom</h3><hr>
 			  <div class="form-group mx-sm-3 mb-2">
 				<label for="ClassroomAv">Classroom</label>
 				<select class="form-control" id="ClassroomAv">
-					
-				</select>
-			  </div>';
+					'.$admin->getClassroom(0).'
+				</select><br>
+				<button onClick="showActionEditClass()" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2 float-right">Action</button>
+			  </div><div class="space_free"></div>';
 	}
 	
 	//For Student
@@ -291,7 +295,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  <div class="modal-body" id="warming">
 			Loading...
 		  </div>
-		  <div class="modal-footer">
+		  <div class="modal-footer" id="can_changeBT">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 		  </div>
 		</div>
