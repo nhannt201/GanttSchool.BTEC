@@ -147,6 +147,85 @@ class Admin extends Init {
 			echo '<option value="-1">(No student)</option>';
 		}
 	}
+	function getAllTeacher($class, $type) {
+		$query = "SELECT teacher.name, teacher.teacherID
+		FROM teacher
+		INNER JOIN teacher_class ON teacher_class.teacherID = teacher.teacherID
+		WHERE classID='$class'";
+		$check = $this->db->query($query);
+		if ($check->num_rows >0) {
+			$congdon = "";
+			$array_teach[] = null;
+			while ($row=$check->fetch_assoc()) {
+				if  (!array_key_exists($row['teacherID'], $array_teach)) {
+					array_push($array_teach, $row['teacherID']);
+					$congdon .= '<option value="'.$row['teacherID'].'">'.$row['name'].'</option>';
+				}		
+			}
+			//print_r ($array_teach);
+			if ($type == 1) {
+				echo $congdon;
+			} 
+			if ($type == 0) {
+				return $congdon;
+			}
+		} else {
+			if ($type == 1) {
+				echo '<option value="-1">No Teacher</option>';
+			} 
+			if ($type == 0) {
+				return '<option value="-1">No Teacher</option>';
+			}
+		}
+	}
+	
+	function getAllStudent($class, $type) {
+		$query = "SELECT * FROM student";
+		$check = $this->db->query($query);
+		if ($check->num_rows >0) {
+			$congdon = "";
+			while ($row=$check->fetch_assoc()) {
+				$congdon .= '<option value="'.$row['studentID'].'">'.$row['name'].'</option>';
+			}
+			if ($type == 1) {
+				echo $congdon;
+			} 
+			if ($type == 0) {
+				return $congdon;
+			}
+		} else {
+			if ($type == 1) {
+				echo '<option value="-1">No Student</option>';
+			} 
+			if ($type == 0) {
+				return '<option value="-1">No Student</option>';
+			}
+		}
+	}
+	function getAllParent($class, $type) {
+		$query = "SELECT * FROM parent";
+		$check = $this->db->query($query);
+		if ($check->num_rows >0) {
+			$congdon = "";
+			while ($row=$check->fetch_assoc()) {
+				$congdon .= '<option value="'.$row['parentID'].'">'.$row['name'].'</option>';
+			}
+			if ($type == 1) {
+				echo $congdon;
+			} 
+			if ($type == 0) {
+				return $congdon;
+			}
+		} else {
+			if ($type == 1) {
+				echo '<option value="-1">No Student</option>';
+			} 
+			if ($type == 0) {
+				return '<option value="-1">No Student</option>';
+			}
+		}
+	}
+	
 	//Update
 	function upNameClass($classname, $idClass) {
 		$query = "UPDATE classroom SET className='$classname' WHERE classID='$idClass'";

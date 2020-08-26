@@ -17,12 +17,12 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  <ul class="nav nav-tabs">
 			<li class="nav-item">
 			  <a class="nav-link active" data-toggle="tab" href="#home">Manage Account</a>
+			</li>	
+			<li class="nav-item">
+			  <a class="nav-link" data-toggle="tab" href="#newacc" onClick="reloadCreateAccount()">New Account</a>
 			</li>
 			<li class="nav-item">
 			  <a class="nav-link" data-toggle="tab" href="#newsub">New Course</a>
-			</li>
-			<li class="nav-item">
-			  <a class="nav-link" data-toggle="tab" href="#newacc" onClick="reloadCreateAccount()">New Account</a>
 			</li>
 			<li class="nav-item">
 			  <a class="nav-link" data-toggle="tab" href="#newclass">New Classroom</a>
@@ -33,11 +33,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		  </ul>
 		  <div class="tab-content">
 			<div id="home" class="container tab-pane active"><br>
-			<div id="lstCourseStudent">
-			 <div class="list-group">
-			  
-			</div>
-			</div>
+				'.getHome::getManageAcc().'
 			</div>
 			<div id="newsub" class="container tab-pane fade"><br>
 			  '.getHome::getNewSubject().'
@@ -52,6 +48,17 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			  '.getHome::getMyUser().'
 			</div></div>
 		</div>'.getHome::getMsgbox();
+	}
+	private function getManageAcc() {
+		return '<h3>Manage Account</h3><hr>
+			<div class="form-group mx-sm-3 mb-2">
+				<label for="selectAccMana">Account</label>
+				<select onClick="clickCheckManageAcc();" class="form-control" id="selectAccMana">
+					<option value="0">Teacher</option>
+					<option value="1">Student</option>
+					<option value="2">Parent</option>
+				</select>
+			  </div><div id="manage_add"></div>';
 	}
 	private function getNewSubject() {
 		$admin = new Admin();
@@ -119,7 +126,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 				<label for="slcStudent">Student</label>
 				<select class="form-control" id="slcStudent">
 				</select>
-			  </div><br><button onClick="addNewAccount()" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2 float-right">Add</button>
+			  </div><br><button id="hidden_bt_acc" onClick="addNewAccount()" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2 float-right">Add</button>
 			  <div class="space_free"></div></div>';
 	}
 	

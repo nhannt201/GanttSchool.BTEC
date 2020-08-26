@@ -128,5 +128,21 @@ if (isset($_GET['num'])) {
 				$admin->getStudentFollowClass($getStudentClass);
 			}
 		break;
+		case 20: 
+			if ((isset($_GET['getAllTeacher']))) {
+				$class = $_GET['getAllTeacher'];
+				$admin->getAllTeacher($class, 1);
+			}
+		break;
+		case 21: 
+			if ((isset($_GET['getAllStudent']))) {
+				$admin->getAllStudent(1);
+			}
+		break;
+		case 22: 
+			if ((isset($_GET['getAllParent']))) {
+				$admin->getAllParent(1);
+			}
+		break;
 	}
 }

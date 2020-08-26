@@ -478,22 +478,30 @@ function changeNameCourse(subID) {
 }
 //Check select Object
 function checkSlcAcc() {
+	loading(1);
+	document.getElementById("hidden_bt_acc").style.display = "none";
 	var get_var = document.getElementById("selectAcc").value;
 	switch (get_var) {
 		case "0": //Teacher
 			document.getElementById("div_teacher").style.display = "block";
 			document.getElementById("div_parent").style.display = "none";
 			document.getElementById("slcClass").setAttribute("onClick", "");
+			document.getElementById("hidden_bt_acc").style.display = "block";
+			loading(0);
 		break;
 		case "1": //Student
 			document.getElementById("div_teacher").style.display = "none";
 			document.getElementById("slcClass").setAttribute("onClick", "");
 			document.getElementById("div_parent").style.display = "none";
+			document.getElementById("hidden_bt_acc").style.display = "block";
+			loading(0);
 		break;
 		case "2": //Student
 			document.getElementById("div_teacher").style.display = "none";
 			document.getElementById("div_parent").style.display = "block";
 			document.getElementById("slcClass").setAttribute("onClick", "viewStudentClass();");
+			loading(0);
+			document.getElementById("hidden_bt_acc").style.display = "block";
 			viewStudentClass();
 		break;
 	}
@@ -518,7 +526,7 @@ function addNewAccount() {
 				check_true = false;
 			}
 			if (!ValidateEmail(get_email)) {
-				alert(get_email);
+				//alert(get_email);
 				document.getElementById("warming").innerHTML = "Email address is not valid!";
 				check_true = false;
 			}
@@ -603,4 +611,51 @@ function ValidateEmail(email)
 function reloadCreateAccount() {
 	getReturn("get/getGeneral.php?num=17&getClass=true","slcClass");
 	getReturn("get/getGeneral.php?num=18&getSubject=true","slcSub");
+}
+
+//Manage
+
+function clickCheckManageAcc() {
+	loading(1);
+	var get_ck = document.getElementById("selectAccMana").value;
+	var change_manage = document.getElementById("manage_add");
+	switch (get_ck) {
+		case "0":
+			change_manage.innerHTML = "<div class=\"form-group mx-sm-3 mb-2\">\
+				<label for=\"selectClassR\">Classroom</label>\
+					<select onClick=\"getTeacherFollowClass()\" class=\"form-control\" id=\"selectClassR\">\
+					</select>\
+				</div><div class=\"form-group mx-sm-3 mb-2\">\
+				<label for=\"selectTeacher\">Teacher</label>\
+					<select class=\"form-control\" id=\"selectTeacher\">\
+					</select>\
+				</div>";
+				loading(0);
+			getReturn("get/getGeneral.php?num=17&getClass=true","selectClassR");
+			
+			
+		break;
+		case "1":
+			change_manage.innerHTML = "<div class=\"form-group mx-sm-3 mb-2\">\
+				<label for=\"selectStudent\">Student</label>\
+					<select class=\"form-control\" id=\"selectStudent\">\
+					</select>\
+				</div>";
+				loading(0);
+			getReturn("get/getGeneral.php?num=21&getAllStudent=true", "selectStudent");
+		break;
+		case "2":
+			change_manage.innerHTML = "<div class=\"form-group mx-sm-3 mb-2\">\
+				<label for=\"selectParent\">Parents</label>\
+					<select class=\"form-control\" id=\"selectParent\">\
+					</select>\
+				</div>";
+				loading(0);
+			getReturn("get/getGeneral.php?num=22&getAllParent=true", "selectParent");
+		break;
+	}
+}
+function getTeacherFollowClass() {
+	var get_doc = document.getElementById("selectClassR").value;
+	getReturn("get/getGeneral.php?num=20&getAllTeacher=" + get_doc, "selectTeacher");
 }
