@@ -388,25 +388,29 @@ function viewAnswer(job_details_id) {
 //--Admin-->
 function addNewClass() {
 	var get_name_class = document.getElementById("nameClassroom").value;
-	//document.getElementById("warming").innerHTML = ""; //Hien gi do khi add xong!
-	getReturn("post/postwhere.php?num=4&addclassName=" + get_name_class, "warming");
-	//Add option
-	var x = document.getElementById("ClassroomAv");
-	var option = document.createElement("option");
-	option.text = get_name_class;
-	x.add(option);
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		
-	  if (this.readyState == 4 && this.status == 200) {	
-				option.value = get_name_class;
-				x.value = this.responseText;
-				document.getElementById("nameClassroom").value = "";
-				document.getElementById("ClassroomAv").value = get_name_class;
-	  }
-	};
-	xhttp.open("GET", "get/getGeneral.php?num=12&getclassName=" + get_name_class, true);
-	xhttp.send();
+	if ((get_name_class.length < 2) || (get_name_class.length > 200)) {
+		document.getElementById("warming").innerHTML = "Invalid classroom name!";
+	} else {
+		document.getElementById("warming").innerHTML = "Loading..."; //Hien gi do khi add xong!
+		getReturn("post/postwhere.php?num=4&addclassName=" + get_name_class, "warming");
+		//Add option
+		var x = document.getElementById("ClassroomAv");
+		var option = document.createElement("option");
+		option.text = get_name_class;
+		x.add(option);
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			
+		  if (this.readyState == 4 && this.status == 200) {	
+					option.value = get_name_class;
+					x.value = this.responseText;
+					document.getElementById("nameClassroom").value = "";
+					document.getElementById("ClassroomAv").value = get_name_class;
+		  }
+		};
+		xhttp.open("GET", "get/getGeneral.php?num=12&getclassName=" + get_name_class, true);
+		xhttp.send();
+	}
 }
 
 function showActionEditClass() {
@@ -424,4 +428,34 @@ function changeNameClass(classID) {
 	var get_name = document.getElementById("newnameClassroom").value;
 	document.getElementById("ClassroomAv").selectedOptions[0].text = get_name;
 	getReturn("get/getGeneral.php?num=13&classNameID=" + classID + "&upclassName=" + get_name);
+}
+//Add course
+function addNewSubject() {
+	var get_name_sub = document.getElementById("nameSubject").value;
+	var get_name_sub_abb = document.getElementById("subIDSubject").value;
+	if ((get_name_sub.length < 2) || (get_name_sub_abb.length < 2) || (get_name_sub.length > 200)) {
+		document.getElementById("warming").innerHTML = "Invalid Course name or Course ID!";
+	} else {
+		//document.getElementById("warming").innerHTML = ""; //Hien gi do khi add xong!
+		document.getElementById("warming").innerHTML = "Loading...";
+		getReturn("post/postwhere.php?num=5&addsubName=" + get_name_sub + "&addsubID=" + get_name_sub_abb, "warming");
+		//Add option
+		var x = document.getElementById("CourseCourse");
+		var option = document.createElement("option");
+		option.text = get_name_sub;
+		x.add(option);
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			
+		  if (this.readyState == 4 && this.status == 200) {	
+					option.value = get_name_class;
+					x.value = this.responseText;
+					document.getElementById("nameSubject").value = "";
+					document.getElementById("subIDSubject").value = "";
+					document.getElementById("CourseCourse").value = get_name_sub;
+		  }
+		};
+		xhttp.open("GET", "get/getGeneral.php?num=15&getsubIDName=" + get_name_sub, true);
+		xhttp.send();
+	}
 }

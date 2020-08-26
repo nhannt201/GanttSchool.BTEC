@@ -35,6 +35,12 @@ if (isset($_GET['num'])) {
 				$admin->addNewClass($addclassName);
 			}
 		break;
-	
+		case 5:
+			if ((isset($_GET['addsubName'])) && (isset($_GET['addsubID']))) {
+				$addsubName= $_GET['addsubName'];
+				$addsubID= $_GET['addsubID'];
+				$admin->addNewSubject($addsubID, $addsubName);
+			}
+		break;
 	}
 }

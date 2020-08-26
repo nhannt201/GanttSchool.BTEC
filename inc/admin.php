@@ -4,8 +4,16 @@ class Admin extends Init {
 	function addNewTeacher() {
 		
 	}
-	function addNewSubject() {
-		
+	function addNewSubject($subID, $subName) {
+		$qr_ck = "SELECT * FROM subject WHERE subID='$subID'";
+		$check = $this->db->query($qr_ck);
+		if ($check->num_rows > 0 ) {
+			echo 'Course ID already exists!'; //Ten lop da ton tai
+		} else {
+			$query = "INSERT INTO subject (subID, subName) VALUES ('$subID', '$subName')";
+			$check_success = $this->db->query($query);
+			echo 'Add new course success!'; //Them ten lop moi
+		}
 	}
 	function addNewStudent() {
 		
@@ -45,6 +53,31 @@ class Admin extends Init {
 		if ($check->num_rows >0) {
 			$row=$check->fetch_assoc();
 			echo $row['classID'];
+		}
+	}
+	
+	function getSubject($type) {
+		$query = "SELECT * FROM subject";
+		$check = $this->db->query($query);
+		if ($check->num_rows >0) {
+			$congdon = "";
+			while ($row=$check->fetch_assoc()) {
+				$congdon .= '<option value="'.$row['subID'].'">'.$row['subName'].'</option>';
+			}
+			if ($type == 1) {
+				echo $congdon;
+			} 
+			if ($type == 0) {
+				return $congdon;
+			}
+		}
+	}
+	function getNameSubject($subname) {
+		$query = "SELECT * FROM subject WHERE subName='$subname'";
+		$check = $this->db->query($query);
+		if ($check->num_rows >0) {
+			$row=$check->fetch_assoc();
+			echo $row['subID'];
 		}
 	}
 	//Update

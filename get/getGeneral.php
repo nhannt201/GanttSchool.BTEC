@@ -94,5 +94,16 @@ if (isset($_GET['num'])) {
 				$admin->upNameClass($upclassName, $classNameID);
 			}
 		break;
+		case 14: // get subject
+			if ((isset($_GET['getsub']))) {
+				$admin->getSubject(1);
+			}
+		break;
+		case 15: // get subject name
+			if ((isset($_GET['getsubIDName']))) {
+				$getSubName = $_GET['getsubIDName'];
+				$admin->getNameSubject($getSubName);
+			}
+		break;
 	}
 }

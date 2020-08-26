@@ -54,6 +54,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 		</div>'.getHome::getMsgbox();
 	}
 	private function getNewSubject() {
+		$admin = new Admin();
 		return '<h3>Create a new course</h3><hr>
 			<div class="form-group mx-sm-3 mb-2">
 				<label>Course name</label>
@@ -62,13 +63,16 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			  <div class="form-group mx-sm-3 mb-2">
 				<label>Course ID (An abbreviation, 3 characters)</label>
 				<input type="text" class="form-control" id="subIDSubject" maxlength="3" placeholder="NET" required>
+				<br>
+				<button onClick="addNewSubject()" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2 float-right">Add</button>
 			  </div><br>
 			  <h3>Manage Course</h3><hr>
 			  <div class="form-group mx-sm-3 mb-2">
 				<label for="CourseCourse">Course</label>
 				<select class="form-control" id="CourseCourse">
-					
-				</select>
+					'.$admin->getSubject(0).'
+				</select><br>
+				<button onClick="" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2 float-right">Action</button>
 			  </div>';
 	}
 	
