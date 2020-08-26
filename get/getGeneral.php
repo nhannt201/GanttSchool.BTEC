@@ -105,5 +105,12 @@ if (isset($_GET['num'])) {
 				$admin->getNameSubject($getSubName);
 			}
 		break;
+		case 16: // change name
+			if ((isset($_GET['getChangSubName'])) && (isset($_GET['getChangSubID']))) {
+				$getChangSubName = $_GET['getChangSubName'];
+				$getChangSubID = $_GET['getChangSubID'];
+				$admin->upNameSubject($getChangSubName, $getChangSubID);
+			}
+		break;
 	}
 }

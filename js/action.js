@@ -459,3 +459,20 @@ function addNewSubject() {
 		xhttp.send();
 	}
 }
+function showActionEditCourse() {
+	var get_slc_name_course = document.getElementById("CourseCourse").selectedOptions[0].text;
+	var get_course_id = document.getElementById("CourseCourse").value;
+	document.getElementById("thongbaone").innerHTML = "Action";
+	document.getElementById("warming").innerHTML = "<div class=\"form-group mx-sm-3 mb-2\">\
+				<label>New course name</label>\
+				<input type=\"text\" class=\"form-control\" id=\"newCourseClassroom\" placeholder=\"New Course Name\" value=\""+get_slc_name_course+"\" required><br>\
+			  </div>";
+	document.getElementById("can_changeBT").innerHTML= '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>\
+	<button type="button" onCLick="changeNameCourse(\''+get_course_id+'\')" class="btn btn-primary" data-dismiss="modal">Change</button>';
+}
+function changeNameCourse(subID) {
+	var get_name = document.getElementById("newCourseClassroom").value;
+	var getsubID = document.getElementById("CourseCourse").value;
+	document.getElementById("CourseCourse").selectedOptions[0].text = get_name;
+	getReturn("get/getGeneral.php?num=16&getChangSubID=" + getsubID + "&getChangSubName=" + get_name);
+}

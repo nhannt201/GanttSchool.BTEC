@@ -86,4 +86,9 @@ class Admin extends Init {
 		$check = $this->db->query($query);
 		Admin::getClassroom(1);
 	}
+	function upNameSubject($subName, $idSub) {
+		$query = "UPDATE subject SET subName='$subName' WHERE subID='$idSub'";
+		$check = $this->db->query($query);
+		Admin::getSubject(1);
+	}
 }

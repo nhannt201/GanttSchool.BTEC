@@ -72,8 +72,8 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 				<select class="form-control" id="CourseCourse">
 					'.$admin->getSubject(0).'
 				</select><br>
-				<button onClick="" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2 float-right">Action</button>
-			  </div>';
+				<button onClick="showActionEditCourse()" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2 float-right">Action</button>
+			  </div><div class="space_free"></div>';
 	}
 	
 	private function getNewAccount() {
@@ -112,8 +112,8 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 				<select class="form-control" id="slcSub">
 
 				</select>
-			  </div><br>
-			  ';
+			  </div>
+			  <div class="space_free"></div>';
 	}
 	
 	private function getNewClass() {
