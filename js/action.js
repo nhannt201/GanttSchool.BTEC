@@ -73,7 +73,7 @@ function addButtonManagerLS(xxxx, id) {
 
 //https://mdbootstrap.com/docs/jquery/modals/basic/ references
 function clickSelectJob_AddChildJob() {
-	const text_selct_name = document.getElementById("jobLSAD").selectedOptions[0].text; //get Text
+	var text_selct_name = document.getElementById("jobLSAD").selectedOptions[0].text; //get Text
 	var value_selct_name =  document.getElementById("jobLSAD").value; //job ID
 	document.getElementById("needchangonLick").setAttribute("onClick", "clickAddChildJob("+value_selct_name+");");
 	document.getElementById("select_name").innerHTML = "<label>New job name (<b>" + text_selct_name + "</b>)</label>";
@@ -475,4 +475,132 @@ function changeNameCourse(subID) {
 	var getsubID = document.getElementById("CourseCourse").value;
 	document.getElementById("CourseCourse").selectedOptions[0].text = get_name;
 	getReturn("get/getGeneral.php?num=16&getChangSubID=" + getsubID + "&getChangSubName=" + get_name);
+}
+//Check select Object
+function checkSlcAcc() {
+	var get_var = document.getElementById("selectAcc").value;
+	switch (get_var) {
+		case "0": //Teacher
+			document.getElementById("div_teacher").style.display = "block";
+			document.getElementById("div_parent").style.display = "none";
+			document.getElementById("slcClass").setAttribute("onClick", "");
+		break;
+		case "1": //Student
+			document.getElementById("div_teacher").style.display = "none";
+			document.getElementById("slcClass").setAttribute("onClick", "");
+			document.getElementById("div_parent").style.display = "none";
+		break;
+		case "2": //Student
+			document.getElementById("div_teacher").style.display = "none";
+			document.getElementById("div_parent").style.display = "block";
+			document.getElementById("slcClass").setAttribute("onClick", "viewStudentClass();");
+			viewStudentClass();
+		break;
+	}
+}
+
+function viewStudentClass() {
+	var getClass = document.getElementById("slcClass").value;
+	getReturn("get/getGeneral.php?num=19&getStudentClass=" + getClass, "slcStudent");
+}
+function addNewAccount() {
+	var form_create = document.getElementById("form_create").innerHTML;
+	var get_var = document.getElementById("selectAcc").value; //Type acc
+	//general
+	var get_name = document.getElementById("accName").value;
+	var get_email = document.getElementById("accEmail").value;
+	var get_user = document.getElementById("accUser").value;
+	var get_pass = document.getElementById("accPass").value;
+	var check_true= true;
+	//check
+			if ((get_name.length < 1) || (get_name.length > 150)) {
+				document.getElementById("warming").innerHTML = "Invalid name!";
+				check_true = false;
+			}
+			if (!ValidateEmail(get_email)) {
+				alert(get_email);
+				document.getElementById("warming").innerHTML = "Email address is not valid!";
+				check_true = false;
+			}
+			if ((get_user.length < 5) || (get_user.length > 150)) {
+				document.getElementById("warming").innerHTML = "Invalid username!";
+				check_true = false;
+			}
+	switch (get_var) {
+		case "0": //teacher
+			var get_class = document.getElementById("slcClass").value;
+			var get_course = document.getElementById("slcSub").value;		
+			
+			if (Number(get_class) == -1) {
+				document.getElementById("warming").innerHTML = "No student!";
+				check_true = false;
+			}
+			
+			if (check_true) { //if true
+				//post
+				postAction("post/postwhere.php","num=6&submit_teach=true&accName="+get_name+"&accEmail=" +get_email+"&accUser="+get_user+"&accPass="+get_pass+"&slcClass="+get_class+"&slcSub="+get_course, "warming");
+				document.getElementById("form_create").innerHTML = form_create;
+			}
+		break;
+		case "1": //student
+			var get_class = document.getElementById("slcClass").value;
+			
+			if (Number(get_class) == -1) {
+				document.getElementById("warming").innerHTML = "No student!";
+				check_true = false;
+			}
+			
+			if (check_true) { //if true
+				//post
+				postAction("post/postwhere.php","num=7&submit_student=true&accName="+get_name+"&accEmail=" +get_email+"&accUser="+get_user+"&accPass="+get_pass+"&slcClass="+get_class, "warming");
+				document.getElementById("form_create").innerHTML = form_create;
+			}
+		break;
+		case "2": //parent
+			var get_class = document.getElementById("slcClass").value;
+			var get_studentID = Number(document.getElementById("slcStudent").value);
+			if (get_studentID == -1) {
+				document.getElementById("warming").innerHTML = "No student!";
+				check_true = false;
+			}
+			if (check_true) { //if true
+				//post
+				postAction("post/postwhere.php","num=8&submit_parent=true&accName="+get_name+"&accEmail=" +get_email+"&accUser="+get_user+"&accPass="+get_pass+"&slcClass="+get_class+"&studentID=" + get_studentID, "warming");
+				document.getElementById("form_create").innerHTML = form_create;
+			}
+		break;
+	}
+}
+
+function postAction(postURL, postSend, idShow="") {
+	loading(1);
+	var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			if (idShow.length > 0) {
+				if (document.getElementById(idShow)) {
+					document.getElementById(idShow).innerHTML = this.responseText;
+					loading(0);
+				} else {
+					loading(0);
+				}
+				
+			} else {
+				loading(0);
+			}
+		}
+		};
+		xhttp.open("POST", postURL, true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send(postSend);
+}
+function ValidateEmail(email) 
+{
+  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
+
+function reloadCreateAccount() {
+	getReturn("get/getGeneral.php?num=17&getClass=true","slcClass");
+	getReturn("get/getGeneral.php?num=18&getSubject=true","slcSub");
 }

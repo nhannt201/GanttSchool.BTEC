@@ -68,7 +68,19 @@
 			</script>';
 		}
 		if (isset($_SESSION['parent_log'])) {
-			
+			echo '<script type="text/javascript" src="js/action.js"></script>
+			<script type="text/javascript">
+			document.getElementById("full_page").innerHTML = \'<div class="text-center"><br><br><span class="spinner-border spinner-border-sm"></span><label>Loading...</label></div>\';	
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				
+			  if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("full_page").innerHTML = this.responseText;
+			  }
+			};
+			xhttp.open("GET", "get/getHTML.php?parent=true", true);
+			xhttp.send();
+			</script>';
 		}
 		if (isset($_SESSION['admin_log'])) {
 			echo '<script type="text/javascript" src="js/action.js"></script><script type="text/javascript">

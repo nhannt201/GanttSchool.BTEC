@@ -112,5 +112,21 @@ if (isset($_GET['num'])) {
 				$admin->upNameSubject($getChangSubName, $getChangSubID);
 			}
 		break;
+		case 17: 
+			if ((isset($_GET['getClass']))) {
+				$admin->getClassroom(1);
+			}
+		break;
+		case 18: 
+			if ((isset($_GET['getSubject']))) {
+				$admin->getSubject(1);
+			}
+		break;
+		case 19: 
+			if ((isset($_GET['getStudentClass']))) {
+				$getStudentClass = $_GET['getStudentClass'];
+				$admin->getStudentFollowClass($getStudentClass);
+			}
+		break;
 	}
 }

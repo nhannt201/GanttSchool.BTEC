@@ -9,3 +9,6 @@ if (isset($_GET['teacher'])) {
 if (isset($_GET['admin'])) {
 	getHome::getAdmin($name);
 }
+if (isset($_GET['parent'])) {
+	getHome::getParent($name);
+}

@@ -22,7 +22,7 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 			  <a class="nav-link" data-toggle="tab" href="#newsub">New Course</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link" data-toggle="tab" href="#newacc">New Account</a>
+			  <a class="nav-link" data-toggle="tab" href="#newacc" onClick="reloadCreateAccount()">New Account</a>
 			</li>
 			<li class="nav-item">
 			  <a class="nav-link" data-toggle="tab" href="#newclass">New Classroom</a>
@@ -77,43 +77,50 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 	}
 	
 	private function getNewAccount() {
-		return '<h3>Create a new account</h3><hr>
+		$admin = new Admin();
+		return '<div id="form_create"><h3>Create a new account</h3><hr>
 				<div class="form-group mx-sm-3 mb-2">
 				<label for="selectAcc">Account</label>
-				<select class="form-control" id="selectAcc">
+				<select onclick="checkSlcAcc();" class="form-control" id="selectAcc">
 					<option value="0">Teacher</option>
 					<option value="1">Student</option>
+					<option value="2">Parent</option>
 				</select>
 			  </div>
 			<div class="form-group mx-sm-3 mb-2">
-				<label>Teacher name</label>
-				<input type="text" class="form-control" id="teachName" placeholder="Le Thi A" required>
+				<label>Full name</label>
+				<input type="text" class="form-control" id="accName" value="" placeholder="Le Thi A" required>
 			  </div>
 			  <div class="form-group mx-sm-3 mb-2">
 				<label>Email</label>
-				<input type="email" class="form-control" id="accEmail" maxlength="250" placeholder="studentaz@gamil.com" required>
+				<input type="email" class="form-control" id="accEmail" maxlength="250" value="" placeholder="email@gmail.com" required>
 			  </div>
 			  <div class="form-group mx-sm-3 mb-2">
 				<label>Username</label>
-				<input type="text" class="form-control" id="accUser" maxlength="250" placeholder="studentaz" required>
+				<input type="text" class="form-control" id="accUser" maxlength="250"  value="" placeholder="myusername" required>
 			  </div>
 			  <div class="form-group mx-sm-3 mb-2">
 				<label>Password</label>
-				<input type="password" class="form-control" id="accUser" placeholder="Default password is \'password\'" required>
+				<input type="password" class="form-control" id="accPass" value="" placeholder="Default password is \'password\'" required>
 			  </div>
 			  <div class="form-group mx-sm-3 mb-2">
 				<label for="slcClass">Classroom</label>
 				<select class="form-control" id="slcClass">
-
+						'.$admin->getClassroom(0).'
 				</select>
 			  </div>
-			  <div class="form-group mx-sm-3 mb-2">
+			  <div class="form-group mx-sm-3 mb-2" id="div_teacher">
 				<label for="slcSub">Course</label>
 				<select class="form-control" id="slcSub">
-
+					'.$admin->getSubject(0).'
 				</select>
 			  </div>
-			  <div class="space_free"></div>';
+			  <div class="form-group mx-sm-3 mb-2" id="div_parent" style="display: none;">
+				<label for="slcStudent">Student</label>
+				<select class="form-control" id="slcStudent">
+				</select>
+			  </div><br><button onClick="addNewAccount()" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2 float-right">Add</button>
+			  <div class="space_free"></div></div>';
 	}
 	
 	private function getNewClass() {
@@ -134,7 +141,49 @@ class getHome extends Init{ //Thua ke ket noi CSDL
 				<button onClick="showActionEditClass()" data-toggle="modal" data-target="#msgbox" class="btn btn-primary mb-2 float-right">Action</button>
 			  </div><div class="space_free"></div>';
 	}
-	
+	//For Parent
+	public function getParent($name_parent) {
+		//$student = new Student();
+		//if (isset($_SESSION['student_id'])) {
+		//	$studentID = $_SESSION['student_id'];
+		//}
+		echo '<div class="container mt-3">
+		  <h2>Gantt School</h2>
+		  <div id="welcome_to">Welcome, '.$name_parent.'!
+		  </div>
+		  <div id="status_get" style="visibility:hidden;">
+		   <div class="progress">
+			  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+			</div>
+		  </div>
+		  <br>
+		  <ul class="nav nav-tabs">
+			<li class="nav-item">
+			  <a class="nav-link active" data-toggle="tab" href="#home">Student</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" data-toggle="tab" href="#menu1">Follow</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" data-toggle="tab" href="#menu2">Account</a>
+			</li>
+		  </ul>
+		  <div class="tab-content">
+			<div id="home" class="container tab-pane active"><br>
+			<div id="lstCourseStudent">
+			 <div class="list-group">
+		
+			</div>
+			</div>
+			</div>
+			<div id="menu1" class="container tab-pane fade"><br>
+			  
+			</div>
+			<div id="menu2" class="container tab-pane fade"><br>
+			  '.getHome::getMyUser().'
+			</div></div>
+		</div>'.getHome::getMsgbox();
+	}
 	//For Student
 	public function getStudent($name_student) {
 		$student = new Student();

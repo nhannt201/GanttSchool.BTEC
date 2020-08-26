@@ -1,8 +1,53 @@
 <?php
 class Admin extends Init {
 	//Add
-	function addNewTeacher() {
-		
+	function addNewTeacher($teacherName, $teachEmail, $teachUser, $teachPass, $teachClass, $teachSub) {
+		$qr_ck = "SELECT * FROM teacher WHERE username='$teachUser'";
+		$check = $this->db->query($qr_ck);
+		if ($check->num_rows > 0 ) {
+			echo 'Username already exists!'; 
+		} else {
+			//add user
+			$query = "INSERT INTO teacher (name, email, username, password) VALUES ('$teacherName', '$teachEmail', '$teachUser', '$teachPass')";
+			$check = $this->db->query($query);
+			$teacherID = $this->db->insert_id;
+			//add class
+			$query_class = "INSERT INTO teacher_class (teacherID, classID, subID) VALUES ('$teacherID', '$teachClass', '$teachSub')";
+			$check2 = $this->db->query($query_class);
+			//add sub class
+			$query_sub = "INSERT INTO teacher_subs (teacherID, subID) VALUES ('$teacherID', '$teachSub')";
+			$check3 = $this->db->query($query_sub);
+			echo 'Add new Teacher user success!'; 
+		}
+	}
+	function addNewStudent($name, $email, $user, $pass, $class) {
+		$qr_ck = "SELECT * FROM student WHERE username='$user'";
+		$check = $this->db->query($qr_ck);
+		if ($check->num_rows > 0 ) {
+			echo 'Username already exists!'; 
+		} else {
+			//add user
+			$query = "INSERT INTO student (name, email, username, password) VALUES ('$name', '$email', '$user', '$pass')";
+			$check = $this->db->query($query);
+			$studentID = $this->db->insert_id;
+			//add class
+			$query_class = "INSERT INTO student_class (studentID, classID) VALUES ('$studentID', '$class')";
+			$check2 = $this->db->query($query_class);
+			echo 'Add new Student user success!';
+		}
+	}
+	function addNewParent($name, $email, $user, $pass, $class, $studentID) {
+		$qr_ck = "SELECT * FROM parent WHERE username='$user'";
+		$check = $this->db->query($qr_ck);
+		if ($check->num_rows > 0 ) {
+			echo 'Username already exists!'; 
+		} else {
+			//add user
+			$query = "INSERT INTO parent (name, email, username, password, studentID) VALUES ('$name', '$email', '$user', '$pass', '$studentID')";
+			$check = $this->db->query($query);
+			$studentID = $this->db->insert_id;
+			echo 'Add new Parent user success!';
+		}
 	}
 	function addNewSubject($subID, $subName) {
 		$qr_ck = "SELECT * FROM subject WHERE subID='$subID'";
@@ -15,9 +60,7 @@ class Admin extends Init {
 			echo 'Add new course success!'; //Them ten lop moi
 		}
 	}
-	function addNewStudent() {
-		
-	}
+
 	function addNewClass($classname) {
 		$qr_ck = "SELECT * FROM classroom WHERE className='$classname'";
 		$check = $this->db->query($qr_ck);
@@ -45,6 +88,14 @@ class Admin extends Init {
 			if ($type == 0) {
 				return $congdon;
 			}
+		} else {
+				
+				if ($type == 1) {
+				echo '<option value="-1">No Clasroom</option>';
+				} 
+				if ($type == 0) {
+					return '<option value="-1">No Clasroom</option>';
+				}
 		}
 	}
 	function getNameClass($classname) {
@@ -78,6 +129,22 @@ class Admin extends Init {
 		if ($check->num_rows >0) {
 			$row=$check->fetch_assoc();
 			echo $row['subID'];
+		}
+	}
+	function getStudentFollowClass($classID) {
+		$query = "SELECT student.name, student.studentID
+		FROM student_class
+		INNER JOIN student ON student_class.studentID = student.studentID
+		where classID='$classID'";
+		$check = $this->db->query($query);
+		if ($check->num_rows >0) {
+			$congdon = "";
+			while ($row=$check->fetch_assoc()) {
+				$congdon .= '<option value="'.$row['studentID'].'">'.$row['name'].'</option>';
+			}
+				echo $congdon;
+		} else {
+			echo '<option value="-1">(No student)</option>';
 		}
 	}
 	//Update

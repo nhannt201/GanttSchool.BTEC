@@ -44,6 +44,7 @@ class Login extends Init {
 					if (!isset($_SESSION['parent_log'])) {
 						$_SESSION['parent_log'] = $row['name'];
 						$_SESSION['parent_user'] = $row['username'];
+						$_SESSION['parent_student_id'] = $row['studentID'];
 					}
 					break;
 			}
