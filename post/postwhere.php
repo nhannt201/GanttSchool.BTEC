@@ -89,6 +89,14 @@ if ((isset($_GET['num'])) || (isset($_POST['num']))) {
 				$admin->addNewParent($post_name, $post_email, $post_user, $post_pass, $post_class, $post_studentID);
 			}
 		break;
+		case 9:
+			if ((isset($_GET['class'])) && (isset($_GET['teacherID'])) && (isset($_GET['subID']))) {
+				$class = $_GET['class'];
+				$teacherID = $_GET['teacherID'];
+				$subID = $_GET['subID'];
+				$admin->addMoreCourseTeacher($teacherID, $class, $subID);
+			}
+		break;
 	}
 }
 

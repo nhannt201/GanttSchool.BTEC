@@ -628,34 +628,103 @@ function clickCheckManageAcc() {
 				</div><div class=\"form-group mx-sm-3 mb-2\">\
 				<label for=\"selectTeacher\">Teacher</label>\
 					<select class=\"form-control\" id=\"selectTeacher\">\
+					<option value=\"-1\">Click classroom to show list teacher!</option>\
 					</select>\
-				</div>";
+				</div>\
+				<button onClick=\"processClickActionTeacher();\" data-toggle=\"modal\" data-target=\"#msgbox\" class=\"btn btn-primary mb-2 float-right\">Action</button>";
 				loading(0);
-			getReturn("get/getGeneral.php?num=17&getClass=true","selectClassR");
-			
-			
+				getReturn("get/getGeneral.php?num=17&getClass=true","selectClassR");
 		break;
 		case "1":
 			change_manage.innerHTML = "<div class=\"form-group mx-sm-3 mb-2\">\
+				<label for=\"selectClassR\">Classroom</label>\
+					<select onClick=\"getStudentFollowClass()\" class=\"form-control\" id=\"selectClassR\">\
+					</select>\
+				</div><div class=\"form-group mx-sm-3 mb-2\">\
 				<label for=\"selectStudent\">Student</label>\
 					<select class=\"form-control\" id=\"selectStudent\">\
+					<option value=\"-1\">Click classroom to show list student!</option>\
 					</select>\
-				</div>";
+				</div><button onClick=\"\" data-toggle=\"modal\" data-target=\"#msgbox\" class=\"btn btn-primary mb-2 float-right\">Action</button>";
 				loading(0);
-			getReturn("get/getGeneral.php?num=21&getAllStudent=true", "selectStudent");
+				getReturn("get/getGeneral.php?num=17&getClass=true","selectClassR");
+				//getReturn("get/getGeneral.php?num=21&getAllStudent=true", "selectStudent");
 		break;
 		case "2":
 			change_manage.innerHTML = "<div class=\"form-group mx-sm-3 mb-2\">\
+				<label for=\"selectClassR\">Classroom</label>\
+					<select onClick=\"getParentFollowClass()\" class=\"form-control\" id=\"selectClassR\">\
+					</select>\
+				</div><div class=\"form-group mx-sm-3 mb-2\">\
 				<label for=\"selectParent\">Parents</label>\
 					<select class=\"form-control\" id=\"selectParent\">\
+					<option value=\"-1\">Click classroom to show list parents!</option>\
 					</select>\
-				</div>";
+				</div><button onClick=\"\" data-toggle=\"modal\" data-target=\"#msgbox\" class=\"btn btn-primary mb-2 float-right\">Action</button>";
 				loading(0);
-			getReturn("get/getGeneral.php?num=22&getAllParent=true", "selectParent");
+				getReturn("get/getGeneral.php?num=17&getClass=true","selectClassR");
+				//getReturn("get/getGeneral.php?num=22&getAllParent=true", "selectParent");
 		break;
 	}
 }
+//Msgboxx general
+function msgBoxAction() {
+	document.getElementById("thongbaone").innerHTML = 'Notification';
+	document.getElementById("warming").innerHTML = 'No object selected!';
+	document.getElementById("can_changeBT").innerHTML = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
+}
+function msgBoxDelete() {
+	document.getElementById("thongbaone").innerHTML = 'Notification';
+	document.getElementById("warming").innerHTML = 'This account has been deleted!';
+	document.getElementById("can_changeBT").innerHTML = '<button type="button" class="btn btn-secondary" onClick="window.location.reload();" data-dismiss="modal">Close</button>';
+	getTeacherFollowClass();
+}
+//Pr teach
 function getTeacherFollowClass() {
 	var get_doc = document.getElementById("selectClassR").value;
 	getReturn("get/getGeneral.php?num=20&getAllTeacher=" + get_doc, "selectTeacher");
+}
+function processClickActionTeacher() {
+	var get_id = (document.getElementById("selectTeacher").value);
+	if (Number(get_id) == -1) {
+		msgBoxAction();
+	} else {
+		var get_name_class = document.getElementById("selectClassR").selectedOptions[0].text;
+		var get_id_class = document.getElementById("selectClassR").value;
+		var get_name = document.getElementById("selectTeacher").selectedOptions[0].text;
+		document.getElementById("thongbaone").innerHTML = 'Action';
+		document.getElementById("warming").innerHTML = '<div id="canhabo_action"></div><div id="tongquat1"><p>Choosing Teacher: <b>'+get_name+'</b><p>Classroom: <b>'+get_name_class+'</b></p>\
+		<div id="dangdaylop"></div>\
+					<hr><label for=\"selectCourMsg\">Add teaching course:</label>\
+						<select class=\"form-control\" id=\"selectCourMsg\">\
+						<option value=\"-1\">Select Course</option>\
+						</select><br><button type="button" onClick="ClickAddCourTeacher();" class="btn btn-primary float-right">Add</button></div>';
+		document.getElementById("can_changeBT").innerHTML = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>\
+		<button type="button" onClick = "delT(' +get_id+')" class="btn btn-danger">Delete user</button>';
+		getReturn("get/getGeneral.php?num=23&class=" + get_id_class + "&teacherID=" + get_id,"dangdaylop", "<p>Teaching: <b>", "</b></p>");
+		getReturn("get/getGeneral.php?num=18&getSubject=true","selectCourMsg");
+	}
+}
+
+function delT(get_id) {
+	getReturn('get/getGeneral.php?num=24&teacherID=' +get_id, 'canhabo_action');
+	msgBoxDelete();
+}
+
+function ClickAddCourTeacher() { //Them côurse of Teacher
+	var get_course = document.getElementById("selectCourMsg").value;
+	var get_id_class = document.getElementById("selectClassR").value;
+	var get_id_teach = (document.getElementById("selectTeacher").value);
+	getReturn("post/postwhere.php?num=9&class=" + get_id_class + "&teacherID=" + get_id_teach + "&subID=" + get_course, "canhabo_action");
+	getReturn("get/getGeneral.php?num=23&class=" + get_id_class + "&teacherID=" + get_id_teach,"dangdaylop", "<p>Teaching: <b>", "</b></p>");
+	
+}
+//Student
+function getStudentFollowClass() {
+	var get_doc = document.getElementById("selectClassR").value;
+	getReturn("get/getGeneral.php?num=21&getAllStudent=" + get_doc, "selectStudent");
+}
+function getParentFollowClass() {
+	var get_doc = document.getElementById("selectClassR").value;
+	getReturn("get/getGeneral.php?num=22&getAllParent=" + get_doc, "selectParent");
 }

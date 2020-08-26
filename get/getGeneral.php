@@ -136,12 +136,27 @@ if (isset($_GET['num'])) {
 		break;
 		case 21: 
 			if ((isset($_GET['getAllStudent']))) {
-				$admin->getAllStudent(1);
+				$class = $_GET['getAllStudent'];
+				$admin->getAllStudent($class, 1);
 			}
 		break;
 		case 22: 
 			if ((isset($_GET['getAllParent']))) {
-				$admin->getAllParent(1);
+				$class = $_GET['getAllParent'];
+				$admin->getAllParent($class, 1);
+			}
+		break;
+		case 23: 
+			if ((isset($_GET['class'])) && (isset($_GET['teacherID']))) {
+				$class = $_GET['class'];
+				$teacherID = $_GET['teacherID'];
+				$admin->getCourseTeaching($class, $teacherID);
+			}
+		break;
+		case 24: 
+			if ((isset($_GET['teacherID']))) {
+				$teacherID = $_GET['teacherID'];
+				$admin->delTeacher($teacherID);
 			}
 		break;
 	}

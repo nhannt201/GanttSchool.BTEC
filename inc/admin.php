@@ -20,6 +20,25 @@ class Admin extends Init {
 			echo 'Add new Teacher user success!'; 
 		}
 	}
+	function addMoreCourseTeacher($teacherID, $classID, $subID) {
+			$qr = "SELECT * FROM teacher_class WHERE teacherID='$teacherID' and classID='$classID' and subID='$subID'";
+			$chk = $this->db->query($qr);
+			if ($chk->num_rows >0) { //Neu nhu mon nay da co roi
+				echo '<div class="alert alert-warning">
+					  <strong>Warning!</strong> The course you are choosing is exist.
+					</div>';
+			} else {			
+				//add class
+				$query_class = "INSERT INTO teacher_class (teacherID, classID, subID) VALUES ('$teacherID', '$classID', '$subID')";
+				$check2 = $this->db->query($query_class);
+				//add sub class
+				$query_sub = "INSERT INTO teacher_subs (teacherID, subID) VALUES ('$teacherID', '$subID')";
+				$check3 = $this->db->query($query_sub);
+				echo '<div class="alert alert-success">
+					  <strong>Success!</strong> Add teaching course success!.
+					</div>';	
+			}
+	}
 	function addNewStudent($name, $email, $user, $pass, $class) {
 		$qr_ck = "SELECT * FROM student WHERE username='$user'";
 		$check = $this->db->query($qr_ck);
@@ -113,7 +132,7 @@ class Admin extends Init {
 		if ($check->num_rows >0) {
 			$congdon = "";
 			while ($row=$check->fetch_assoc()) {
-				$congdon .= '<option value="'.$row['subID'].'">'.$row['subName'].'</option>';
+				$congdon .= '<option value="'.$row['subID'].'">('.$row['subID'].') '.$row['subName'].'</option>';
 			}
 			if ($type == 1) {
 				echo $congdon;
@@ -155,14 +174,15 @@ class Admin extends Init {
 		$check = $this->db->query($query);
 		if ($check->num_rows >0) {
 			$congdon = "";
-			$array_teach[] = null;
+			$array_teach[] = array(); //Them array de tranh bi trung lap
 			while ($row=$check->fetch_assoc()) {
-				if  (!array_key_exists($row['teacherID'], $array_teach)) {
-					array_push($array_teach, $row['teacherID']);
-					$congdon .= '<option value="'.$row['teacherID'].'">'.$row['name'].'</option>';
+				$id_teach = $row['teacherID'];
+				if  (!array_key_exists($id_teach, $array_teach)) { //Them array de tranh bi trung lap		
+					$array_teach[$id_teach] = 0;
+					$congdon .= '<option value="'.$row['teacherID'].'">'.$row['name'].'</option>'; 
 				}		
 			}
-			//print_r ($array_teach);
+			print_r ($array_teach);
 			if ($type == 1) {
 				echo $congdon;
 			} 
@@ -179,13 +199,31 @@ class Admin extends Init {
 		}
 	}
 	
+	function delTeacher($teachID) {
+		$qr = "DELETE FROM teacher WHERE teacherID='$teachID'";
+		$qr2 = "DELETE FROM teacher_class WHERE teacherID='$teachID'";
+		$qr3 = "DELETE FROM teacher_subs WHERE teacherID='$teachID'";
+		$this->db->query($qr);
+		$this->db->query($qr2);
+		$this->db->query($qr3);
+		//Delete complete
+		//	echo '<script>msgBoxDelete();</script>';
+	}
+	
 	function getAllStudent($class, $type) {
-		$query = "SELECT * FROM student";
+		$query = "SELECT student.name, student.studentID
+		FROM student
+		INNER JOIN student_class ON student_class.studentID=student.studentID
+		WHERE classID='$class'";
 		$check = $this->db->query($query);
 		if ($check->num_rows >0) {
 			$congdon = "";
+			//$array_student[] = null;
 			while ($row=$check->fetch_assoc()) {
-				$congdon .= '<option value="'.$row['studentID'].'">'.$row['name'].'</option>';
+				//if  (!array_key_exists($row['studentID'], $array_student)) {
+					//array_push($array_student, $row['studentID']);
+					$congdon .= '<option value="'.$row['studentID'].'">'.$row['name'].'</option>';
+				//}
 			}
 			if ($type == 1) {
 				echo $congdon;
@@ -203,7 +241,10 @@ class Admin extends Init {
 		}
 	}
 	function getAllParent($class, $type) {
-		$query = "SELECT * FROM parent";
+		$query = "SELECT parent.name, parent.parentID, student_class.studentID
+		FROM parent
+		INNER JOIN student_class ON parent.studentID = student_class.studentID
+		WHERE classID='$class'";
 		$check = $this->db->query($query);
 		if ($check->num_rows >0) {
 			$congdon = "";
@@ -223,6 +264,28 @@ class Admin extends Init {
 			if ($type == 0) {
 				return '<option value="-1">No Student</option>';
 			}
+		}
+	}
+	
+	function getCourseTeaching($class, $teacherID) {
+		$query = "SELECT *
+		FROM teacher_class
+		WHERE teacherID='$teacherID' and classID='$class'";
+		$rs = $this->db->query($query);
+		if ($rs->num_rows >0) {
+			$congdon  = "";
+			$dem=0;
+			while($row=$rs->fetch_assoc()) {
+				$dem++;
+				if ($rs->num_rows == 1) {
+					$congdon .= $row['subID'];
+				} else if ($dem == $rs->num_rows){
+					$congdon .= $row['subID'];		
+				}	else {
+					$congdon .= $row['subID'].", ";
+				}
+			}
+			echo $congdon;
 		}
 	}
 	
