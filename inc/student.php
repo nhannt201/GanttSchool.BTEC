@@ -12,9 +12,15 @@ class Student extends Init {
 		$check = $this->db->query($query_it);
 		if ($check->num_rows > 0) { 
 		$congdon = "";
+		$array_check[] = array();
 			while($row = $check->fetch_assoc()) {
+				
 				$subID = $row['subID'];
+				if (isset($array_check[$subID])) {
+					
+				} else {
 				$classID = $row['classID'];
+				$array_check[$subID] = 0;
 				//echo $subID;
 				 if (Student::getQtyJobSubject($subID, $classID) > 0) { 
 					 $congdon .= " <button type=\"button\" onClick=\"clickJobNameStudent('".$subID."', ".$classID.")\" class=\"list-group-item list-group-item-action\">".Student::getNameSubject($subID)."
@@ -23,7 +29,7 @@ class Student extends Init {
 					  $congdon .= " <button  type=\"button\" class=\"list-group-item list-group-item-action disabled\">".Student::getNameSubject($subID)."
 					<span class=\"badge badge-primary badge-pill float-right\">".Student::getQtyJobSubject($subID, $classID)."</span></button>";
 				 }
-				
+				}
 			}
 			if ($type == 0) {
 				echo $congdon;
