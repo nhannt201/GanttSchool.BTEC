@@ -262,6 +262,7 @@ class Student extends Init {
 	}
 
 	function getAccountInfo($studentID) {
+		$admin = new Admin();
 		$query_it = "SELECT classroom.className, student_class.studentID
 		FROM classroom
 		INNER JOIN student_class ON classroom.classID=student_class.classID
@@ -270,13 +271,14 @@ class Student extends Init {
 		$row = $check->fetch_assoc();
 		$info = "";
 		if (isset($row['className'])) {
-			$info .= "Your class: <b>".$row['className']."</b><br>";
+			$info .= "Your class: <b>".$admin->getClassStudent($studentID, 0)."</b><br>";
 		}
 		if (isset($_SESSION['student_log'])) {
 			$info .= "Your name: <b>".$_SESSION['student_log']."</b>";
 		}
 		return $info;
 	}
+	
 	
 	function getStudentName($studentID) {
 			$query_it = "SELECT * FROM student WHERE studentID='$studentID'";

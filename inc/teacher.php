@@ -376,16 +376,25 @@ class Teacher extends Init {
 		INNER JOIN classroom ON teacher_class.classID = classroom.classID
 		WHERE teacherID = '$teachID'";
 		$check = $this->db->query($query);
+		$array_teach[] = array();
 		if ($check->num_rows > 0){
 			$count = 0;
 			$addd = "";
 			while($row = $check->fetch_assoc()) {
 				$count++;
-				if ($count == $check->num_rows) {
-					$addd .= $row['className'];
-				} else {
-					$addd .= $row['className'].", ";
-				}						
+				$classIDD = $row['classID'];
+				if  (!array_key_exists($classIDD, $array_teach)) {
+						$array_teach[$classIDD] = 0;
+					if ($check->num_rows == 1) {
+							$addd .= $row['className'];
+					} elseif ($count == $check->num_rows) {
+							$addd .= $row['className'];
+					} else {	
+						if (strlen(trim($row['className'])) > 0) {
+							$addd .= $row['className']." ";	
+						}							
+					}	
+			}				
 			}
 			return $addd;
 		} 

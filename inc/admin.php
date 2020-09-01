@@ -320,7 +320,7 @@ class Admin extends Init {
 		}
 	}
 	
-	function getClassStudent($studentID) {
+	function getClassStudent($studentID, $num=1) {
 		$query = "SELECT classroom.className
 		FROM student_class
 		INNER JOIN classroom ON student_class.classID = classroom.classID
@@ -339,7 +339,12 @@ class Admin extends Init {
 					$congdon .= $row['className'].", ";
 				}
 			}
+			if ($num == 0) {
+				return  $congdon;
+			}
+			else {
 			echo $congdon;
+			}
 		}
 	}
 	
