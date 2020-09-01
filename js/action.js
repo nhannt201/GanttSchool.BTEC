@@ -645,7 +645,7 @@ function clickCheckManageAcc() {
 					<select class=\"form-control\" id=\"selectStudent\">\
 					<option value=\"-1\">Click classroom to show list student!</option>\
 					</select>\
-				</div><button onClick=\"\" data-toggle=\"modal\" data-target=\"#msgbox\" class=\"btn btn-primary mb-2 float-right\">Action</button>";
+				</div><button onClick=\"processClickActionStudent();\" data-toggle=\"modal\" data-target=\"#msgbox\" class=\"btn btn-primary mb-2 float-right\">Action</button>";
 				loading(0);
 				getReturn("get/getGeneral.php?num=17&getClass=true","selectClassR");
 				//getReturn("get/getGeneral.php?num=21&getAllStudent=true", "selectStudent");
@@ -666,6 +666,39 @@ function clickCheckManageAcc() {
 				//getReturn("get/getGeneral.php?num=22&getAllParent=true", "selectParent");
 		break;
 	}
+}
+//Student admin manage 
+function processClickActionStudent() {
+	var get_id = (document.getElementById("selectStudent").value);
+	if (Number(get_id) == -1) {
+		msgBoxAction();
+	} else {
+		var get_name_class = document.getElementById("selectClassR").selectedOptions[0].text;
+		var get_id_class = document.getElementById("selectClassR").value;
+		var get_name = document.getElementById("selectStudent").selectedOptions[0].text;
+		var get_id_student = (document.getElementById("selectStudent").value);
+		document.getElementById("thongbaone").innerHTML = 'Action';
+		document.getElementById("warming").innerHTML = '<div id="canhabo_action"></div><div id="tongquat1"><p>Choosing Student: <b>'+get_name+'</b><div id="class_clt"><p>Classroom: <b>'+get_name_class+'</b></p></div>\
+		<div id="dangdaylop"></div>\
+					<hr><label for=\"selectClassMsg\">Add classroom:</label>\
+						<select class=\"form-control\" id=\"selectClassMsg\">\
+						<option value=\"-1\">Select Classroom</option>\
+						</select><br><button type="button" onClick="ClickAddClassStudent();" class="btn btn-primary float-right">Add</button></div>';
+		document.getElementById("can_changeBT").innerHTML = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>\
+		<button type="button" onClick = "delStudent(' +get_id+')" class="btn btn-danger">Delete user</button>';
+		getReturn("get/getGeneral.php?num=17&getClass=true","selectClassMsg");
+			getReturn("get/getGeneral.php?num=25&studentID=" + get_id_student,"class_clt", "<p>Classroom: <b>", "</b></p>");
+	}
+}
+function ClickAddClassStudent() {
+	var get_id_class = document.getElementById("selectClassMsg").value;
+	var get_id_student = (document.getElementById("selectStudent").value);
+	getReturn("post/postwhere.php?num=10&class=" + get_id_class + "&studentID=" + get_id_student, "canhabo_action");
+	getReturn("get/getGeneral.php?num=25&studentID=" + get_id_student,"class_clt", "<p>Classroom: <b>", "</b></p>");
+}
+function delStudent(id_student_del) {
+	getReturn('get/getGeneral.php?num=24&studentID=' +id_student_del, 'canhabo_action');
+	msgBoxDelete();
 }
 //Msgboxx general
 function msgBoxAction() {

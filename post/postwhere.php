@@ -97,6 +97,13 @@ if ((isset($_GET['num'])) || (isset($_POST['num']))) {
 				$admin->addMoreCourseTeacher($teacherID, $class, $subID);
 			}
 		break;
+		case 10:
+			if ((isset($_GET['class'])) && (isset($_GET['studentID']))) {
+				$class = $_GET['class'];
+				$studentID = $_GET['studentID'];
+				$admin->addMoreClassStudent($studentID, $class);
+			}
+		break;
 	}
 }
 

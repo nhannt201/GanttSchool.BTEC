@@ -159,5 +159,17 @@ if (isset($_GET['num'])) {
 				$admin->delTeacher($teacherID);
 			}
 		break;
+		case 25: 
+			if ((isset($_GET['studentID']))) {
+				$studentID = $_GET['studentID'];
+				$admin->getClassStudent($studentID);
+			}
+		break;
+		case 26: 
+			if ((isset($_GET['studentID']))) {
+				$studentID = $_GET['studentID'];
+				$admin->delStudent($studentID);
+			}
+		break;
 	}
 }

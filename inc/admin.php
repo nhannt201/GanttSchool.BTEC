@@ -39,6 +39,23 @@ class Admin extends Init {
 					</div>';	
 			}
 	}
+	
+	function addMoreClassStudent($studentID, $class) {
+		$qr = "SELECT * FROM student_class WHERE studentID='$studentID' and classID='$class'";
+			$chk = $this->db->query($qr);
+			if ($chk->num_rows >0) { //Neu nhu mon nay da co roi
+				echo '<div class="alert alert-warning">
+					  <strong>Warning!</strong> The classroom you are choosing is exist.
+					</div>';
+			} else {			
+				//add class
+				$query_class = "INSERT INTO student_class (studentID, classID) VALUES ('$studentID', '$class')";
+				$check2 = $this->db->query($query_class);
+				echo '<div class="alert alert-success">
+					  <strong>Success!</strong> Add classroom success!
+					</div>';	
+			}
+	}
 	function addNewStudent($name, $email, $user, $pass, $class) {
 		$qr_ck = "SELECT * FROM student WHERE username='$user'";
 		$check = $this->db->query($qr_ck);
@@ -210,6 +227,20 @@ class Admin extends Init {
 		//	echo '<script>msgBoxDelete();</script>';
 	}
 	
+	function delStudent($studentID) {
+		$qr = "DELETE FROM student WHERE studentID='$studentID'";
+		$qr2 = "DELETE FROM student_class WHERE studentID='$studentID'";
+		$qr3 = "DELETE FROM student_jobs WHERE studentID='$studentID'";	
+		$this->db->query($qr);
+		$this->db->query($qr2);
+		$this->db->query($qr3);	
+		$qr_t = "SELECT * FROM parent WHERE studentID='$studentID'";
+		$check = $this->db->query($qr_t);
+		if ($check->num_rows >0) {
+			$qr4 = "UPDATE parent SET studentID='0' WHERE studentID='$studentID'";
+			$this->db->query($qr4);
+		}
+	}
 	function getAllStudent($class, $type) {
 		$query = "SELECT student.name, student.studentID
 		FROM student
@@ -283,6 +314,29 @@ class Admin extends Init {
 					$congdon .= $row['subID'];		
 				}	else {
 					$congdon .= $row['subID'].", ";
+				}
+			}
+			echo $congdon;
+		}
+	}
+	
+	function getClassStudent($studentID) {
+		$query = "SELECT classroom.className
+		FROM student_class
+		INNER JOIN classroom ON student_class.classID = classroom.classID
+		WHERE studentID='$studentID'";
+		$rs = $this->db->query($query);
+		if ($rs->num_rows >0) {
+			$congdon  = "";
+			$dem=0;
+			while($row=$rs->fetch_assoc()) {
+				$dem++;
+				if ($rs->num_rows == 1) {
+					$congdon .= $row['className'];
+				} else if ($dem == $rs->num_rows){
+					$congdon .= $row['className'];		
+				}	else {
+					$congdon .= $row['className'].", ";
 				}
 			}
 			echo $congdon;
